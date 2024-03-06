@@ -54,7 +54,7 @@ export const BackNavAction = ({ icon, onPress, ...props }) => {
   return (
     <NavAction
       {...props}
-      icon={icon || { pack: 'app', name: 'arrow-left', width: 20, height: 20 }}
+      icon={{name: 'arrow-back-outline', width: 20, height: 20 }}
       onPress={onPress || _onPress}
     />
   );
@@ -72,7 +72,7 @@ function Toolbar(props) {
   } = props;
 
   const renderTitle = (textProps) => (
-    <Text {...textProps} style={[textProps.style, tw.pL2, tw.textXl]}>
+    <Text {...textProps} style={[textProps.style, tw.pL2, tw.textXl, tw.text3xl,tw.fontBold]}>
       {title}
     </Text>
   );
@@ -87,6 +87,7 @@ function Toolbar(props) {
     <TopNavigation
       status={status}
       title={renderTitle}
+      alignment='center'
       accessoryLeft={!hideLeftIcon && renderLeftAction}
       accessoryRight={!!renderRightActions && renderRightAction}
       {...restProps}

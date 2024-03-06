@@ -14,7 +14,8 @@ import FormikInput from "@components/FormInput/FormikInput";
 import { useFocusEffect } from "@react-navigation/native";
 import { router } from "@constants/router";
 
-export default function LoginScreen({ navigation }) {
+export default function ChangePasswordScreen({ navigation, route }) {
+    const { registerBy, values } = route.params;
 
     const [secureTextEntry, setSecureTextEntry] = React.useState(true);
     const [checked, setChecked] = React.useState(false);
@@ -23,11 +24,12 @@ export default function LoginScreen({ navigation }) {
     const toggleSecureEntry = () => {
         setSecureTextEntry(!secureTextEntry);
     };
-
     const formValues = {
-        username: '',
-        password: ''
+        [registerBy === 'phone' ? 'phone' : 'email']: values?.email || values?.phone,
+        new_password: '',
+        re_new_password: '',
     };
+
 
     const renderIcon = (props) => (
         <TouchableWithoutFeedback onPress={toggleSecureEntry}>
@@ -45,42 +47,44 @@ export default function LoginScreen({ navigation }) {
         });
 
     const Schema = Yup.object().shape({
-        username: noSpacesValidation,
-        password: noSpacesValidation,
+        phone: noSpacesValidation,
+        new_password: noSpacesValidation,
+        re_new_password: noSpacesValidation
+            .oneOf([Yup.ref('new_password'), null], 'Mật khẩu nhập lại không khớp'),
     });
+
 
     const renderForm = (formik) => (
         <Column space={4} style={tw.p4}>
-            <Column space={2}>
+            <Text style={[tw.mB4, tw.textBase, { color: '#92969A', alignSelf: 'center' }]}>
+                Số điện thoại/Email này sẽ được mặc định là tên đăng nhập nếu bạn không cài đặt tài khoản
+            </Text>
+            <Column space={4}>
                 <FormikInput
-                    name="username"
+                    name={registerBy == 'phone' ? "phone" : 'email'}
                     variant="outlined"
                     required={true}
-                    placeholder="Tên đăng nhập"
+                    placeholder={registerBy == 'phone' ? "Số điện thoại" : 'Email'}
                 />
                 <FormikInput
-                    name="password"
+                    name="new_password"
                     variant="outlined"
                     password={true}
                     accessoryRight={renderIcon}
                     secureTextEntry={secureTextEntry}
-                    placeholder="Nhập mật khẩu"
+                    placeholder="Nhập mật khẩu mới của bạn"
                 />
-                {error ? <Text style={{ fontSize: 12, color: 'red' }}>Tên đăng nhập hoặc mật khẩu không đúng</Text> : null}
+                <FormikInput
+                    name="re_new_password"
+                    variant="outlined"
+                    password={true}
+                    accessoryRight={renderIcon}
+                    secureTextEntry={secureTextEntry}
+                    placeholder="Nhập lại mật khẩu mới của bạn"
+                />
                 <View style={[tw.flexCol]}>
-                    <View>
-                        <CustomForm
-                            type={'checkBox'}
-                            style={{ marginBottom: 15 }}
-                            checked={checked}
-                            onChange={nextChecked => setChecked(nextChecked)}
-                            label={'Ghi nhớ tài khoản'}
-                        />
-                    </View>
                     <View style={{ alignItems: 'center' }}>
-                        <Button onPress={() => console.log('Forgot')} appearance="ghost">Quên mật khẩu ?</Button>
-                        <Button onPress={formik.handleSubmit} style={{ borderRadius: 100, width: 343, height: 51 }}>Đăng nhập</Button>
-                        <Button onPress={() => navigation.navigate(router.REGISTER)} appearance="ghost">Đăng ký tài khoản</Button>
+                        <Button onPress={formik.handleSubmit} style={{ borderRadius: 100, width: 343, height: 51, position: 'absolute' }}>Tiếp theo</Button>
                     </View>
                 </View>
             </Column>
@@ -96,25 +100,20 @@ export default function LoginScreen({ navigation }) {
     )
     // ---------- Action ------------
     const onFormSubmit = async (values) => {
-        if (values.password == 'a' && values.username == 'a') {
-            navigation.navigate(router.HOME)
-        }
-        else {
-            setError(true)
-        }
+        console.log(values);
     };
     return (
         <Container>
             <Header
                 status='primary'
-                title="Đăng nhập"
-                hideLeftIcon={true}
+                title="Chào mừng bạn"
+                hideLeftIcon={false}
             />
             <Content scrollEnabled={false} safeAreaEnabled={false}>
                 <Formik
                     initialValues={formValues}
                     onSubmit={onFormSubmit}
-                // validationSchema={Schema}
+                    validationSchema={Schema}
                 >
                     {renderForm}
                 </Formik>
