@@ -5,27 +5,28 @@ import * as eva from '@eva-design/eva';
 import { ApplicationProvider, IconRegistry, Layout, Text } from '@ui-kitten/components';
 import LoginScreen from './src/screens/Auth/Login';
 import SafeViewAndroid from './src/components/SafeViewAndroid';
+import * as ExpoIconsPack from '@components/IconsPack/ExpoIconsPack';
+import AppIconsPack from '@components/IconsPack/AppIconsPack';
 import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { BottomNavigationCustom } from './src/components/BottomTabs';
 import AppNavigator from './src/screens/navigation/appNavigation';
 import { NavigationContainer } from '@react-navigation/native';
-import { Navigator } from './src/screens/navigation/navigation';
+import MyStack, { Navigator } from './src/screens/navigation/navigation';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 // import { FeatherIconsPack } from './feather-icons';
 // import { MaterialIconsPack } from './material-icons';
 export default function App() {
   return (
     <>
-      <IconRegistry icons={EvaIconsPack} />
+      <IconRegistry icons={[EvaIconsPack, AppIconsPack, ...Object.values(ExpoIconsPack)]} />
       <ApplicationProvider {...eva} theme={eva.light}>
         <NavigationContainer>
-          <SafeAreaView style={SafeViewAndroid.AndroidSafeArea}>
-            <LoginScreen />
-            {/* <AppNavigator /> */}
+          <SafeAreaProvider>
+            <MyStack/>
             {/* <BottomNavigationCustom /> */}
-            {/* <Navigator /> */}
             <StatusBar style="auto" />
-          </SafeAreaView>
+          </SafeAreaProvider>
         </NavigationContainer>
       </ApplicationProvider>
     </>
