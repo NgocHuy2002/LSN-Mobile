@@ -44,7 +44,7 @@ export const NavAction = styled('TopNavigationAction')(
   },
 );
 
-export const BackNavAction = ({ icon, onPress, ...props }) => {
+export const BackNavAction = ({ color, onPress, ...props }) => {
   const navigation = useNavigation();
 
   const _onPress = () => {
@@ -54,7 +54,7 @@ export const BackNavAction = ({ icon, onPress, ...props }) => {
   return (
     <NavAction
       {...props}
-      icon={{name: 'arrow-back-outline', width: 20, height: 20 }}
+      icon={{name: 'arrow-back-outline', width: 30, height: 30, fill: color ? color : '#000000' }}
       onPress={onPress || _onPress}
     />
   );
@@ -67,18 +67,19 @@ function Toolbar(props) {
     leftIcon,
     hideLeftIcon,
     onBackPress,
+    color,
     renderRightActions,
     ...restProps
   } = props;
 
   const renderTitle = (textProps) => (
-    <Text {...textProps} style={[textProps.style, tw.pL2, tw.textXl, tw.text3xl,tw.fontBold]}>
+    <Text {...textProps} style={[textProps.style, tw.pL2, tw.textXl, tw.text3xl,tw.fontBold, {color: color ? color : '#000000'}]}>
       {title}
     </Text>
   );
 
   const renderLeftAction = () => (
-    <BackNavAction status={status} icon={leftIcon} onPress={onBackPress} />
+    <BackNavAction status={status} color={color} onPress={onBackPress} />
   );
 
   const renderRightAction = () => <Row center>{renderRightActions()}</Row>;

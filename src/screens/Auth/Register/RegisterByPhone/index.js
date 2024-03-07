@@ -8,12 +8,13 @@ import { router } from "@constants/router";
 import { Button, Text } from "@ui-kitten/components";
 import { Formik } from "formik";
 import React, { useState } from "react";
+import { View } from "react-native";
 import { tw } from "react-native-tailwindcss";
 import * as Yup from 'yup';
 
 export const RegisterBy = ({ route, navigation }) => {
 
-    const { registerBy } = route.params;
+    const { registerBy, isNew } = route.params;
 
     const [selectedIndex, setSelectedIndex] = useState('+84')
 
@@ -48,49 +49,51 @@ export const RegisterBy = ({ route, navigation }) => {
 
     const renderForm = (formik) => {
         return (
-            <Column style={[tw.p4]}>
+            <Column style={[tw.p4, {flex: 1}]}>
                 <Text style={[tw.mB4, tw.textBase, { color: '#92969A' }]}>
                     {registerBy == 'phone' ? 'Mã xác minh sẽ được gửi đến số điện thoại của bạn' :
                         'Mã xác minh sẽ được gửi đến email của bạn'
                     }
                 </Text>
-                {registerBy == 'phone' ?
-                    <Row space={2}>
-                        <FormikSelect
-                            name="country"
-                            variant="outlined"
-                            uniqueKey="key"
-                            displayKey="numb"
-                            options={countryData}
-                            selectedIndex={selectedIndex}
-                            containerStyle={tw.w32}
-                        />
-                        <FormikInput
-                            name="phone"
-                            variant="outlined"
-                            required={true}
-                            placeholder="Nhập số điện thoại của bạn"
-                            containerStyle={tw.w56}
-                        />
-                    </Row> :
-                    <Row>
-                        <FormikInput
-                            name="email"
-                            variant="outlined"
-                            required={true}
-                            placeholder="Nhập email của bạn"
-                            containerStyle={{ width: '100%' }}
-                        />
-                    </Row>
-                }
-                <Button onPress={formik.handleSubmit} style={[{ borderRadius: 100, width: 343, height: 51, top: '160%', alignSelf: 'center' }]}><Text>Gửi mã xác thực OTP</Text></Button>
+                <View style={{flex: 1, justifyContent: 'space-between'}}>
+                    {registerBy == 'phone' ?
+                        <Row space={2} style={[tw.mB4]}>
+                            <FormikSelect
+                                name="country"
+                                variant="outlined"
+                                uniqueKey="key"
+                                displayKey="numb"
+                                options={countryData}
+                                selectedIndex={selectedIndex}
+                                containerStyle={tw.w32}
+                            />
+                            <FormikInput
+                                name="phone"
+                                variant="outlined"
+                                required={true}
+                                placeholder="Nhập số điện thoại của bạn"
+                                containerStyle={tw.w56}
+                            />
+                        </Row> :
+                        <Row style={[tw.mB4]}>
+                            <FormikInput
+                                name="email"
+                                variant="outlined"
+                                required={true}
+                                placeholder="Nhập email của bạn"
+                                containerStyle={{ width: '100%' }}
+                            />
+                        </Row>
+                    }
+                    <Button onPress={formik.handleSubmit} style={[{ borderRadius: 100, width: 343, height: 51, alignSelf: 'center' }]}><Text>Gửi mã xác thực OTP</Text></Button>
+                </View>
             </Column>
         )
     }
 
     // ---------- Action ------------
     const onFormSubmit = async (values) => {
-        navigation.navigate(router.OTP, {registerBy: registerBy, values: values})
+        navigation.navigate(router.OTP, { registerBy: registerBy, values: values, isNew: isNew })
         console.log(values);
     };
     return (
@@ -100,7 +103,7 @@ export const RegisterBy = ({ route, navigation }) => {
                 title={registerBy == 'phone' ? "Nhập số điện thoại" : 'Nhập email'}
                 hideLeftIcon={false}
             />
-            <Content scrollEnabled={false} safeAreaEnabled={false} keyboardEnabled={true}>
+            <Content scrollEnabled={false} safeAreaEnabled={false}>
                 <Formik
                     initialValues={registerBy == 'phone' ? phoneValues : emailValues}
                     onSubmit={onFormSubmit}

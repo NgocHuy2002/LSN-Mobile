@@ -13,7 +13,7 @@ import { Column } from "@components/Stack";
 import FormikInput from "@components/FormInput/FormikInput";
 import { router } from "@constants/router";
 
-export default function RegisterScreen({ navigation }) {
+export default function ForgetScreen({ navigation }) {
     const renderIcon = (props) => (
         <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
             <Icon
@@ -26,15 +26,15 @@ export default function RegisterScreen({ navigation }) {
         <Container>
             <Header
                 status='primary'
-                title="Đăng ký"
+                title="Quên mật khẩu"
                 hideLeftIcon={false}
             />
             <Content scrollEnabled={false} safeAreaEnabled={false} style={[tw.flexCol, tw.m5]}>
                 <View>
-                    <Text style={[tw.mB4, tw.textBase, { color: '#92969A' }]}>Vui lòng chọn hình thức đăng ký tài khoản</Text>
+                    <Text style={[tw.mB4, tw.textBase, { color: '#92969A' }]}>Vui lòng chọn hình thức khôi phục mật khẩu</Text>
                 </View>
-                <Button style={[tw.roundedFull, tw.mB4]} appearance="outline" accessoryRight={renderIcon} onPress={() => navigation.navigate(router.REGISTER_BY, {registerBy: 'email', isNew: true})}>Đăng ký qua email</Button>
-                <Button style={[tw.roundedFull]} appearance="outline" accessoryRight={renderIcon} onPress={() => navigation.navigate(router.REGISTER_BY, {registerBy: 'phone', isNew: true})}>Đăng ký qua số điện thoại</Button>
+                <Button style={[tw.roundedFull, tw.mB4]} appearance="outline" accessoryRight={renderIcon} onPress={() => navigation.navigate(router.REGISTER_BY, { registerBy: 'email', isNew: false })}>Khôi phục mật khẩu qua email</Button>
+                <Button style={[tw.roundedFull]} appearance="outline" accessoryRight={renderIcon} onPress={() => navigation.navigate(router.REGISTER_BY, { registerBy: 'phone', isNew: false })}>Khôi phục mật khẩu qua số điện thoại</Button>
             </Content>
         </Container>
     )

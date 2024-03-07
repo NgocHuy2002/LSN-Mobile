@@ -50,38 +50,34 @@ export default function LoginScreen({ navigation }) {
     });
 
     const renderForm = (formik) => (
-        <Column space={4} style={tw.p4}>
-            <Column space={2}>
-                <FormikInput
-                    name="username"
-                    variant="outlined"
-                    required={true}
-                    placeholder="Tên đăng nhập"
-                />
-                <FormikInput
-                    name="password"
-                    variant="outlined"
-                    password={true}
-                    accessoryRight={renderIcon}
-                    secureTextEntry={secureTextEntry}
-                    placeholder="Nhập mật khẩu"
-                />
-                {error ? <Text style={{ fontSize: 12, color: 'red' }}>Tên đăng nhập hoặc mật khẩu không đúng</Text> : null}
-                <View style={[tw.flexCol]}>
-                    <View>
-                        <CustomForm
-                            type={'checkBox'}
-                            style={{ marginBottom: 15 }}
-                            checked={checked}
-                            onChange={nextChecked => setChecked(nextChecked)}
-                            label={'Ghi nhớ tài khoản'}
-                        />
-                    </View>
-                    <View style={{ alignItems: 'center' }}>
-                        <Button onPress={() => console.log('Forgot')} appearance="ghost">Quên mật khẩu ?</Button>
-                        <Button onPress={formik.handleSubmit} style={{ borderRadius: 100, width: 343, height: 51 }}>Đăng nhập</Button>
-                        <Button onPress={() => navigation.navigate(router.REGISTER)} appearance="ghost">Đăng ký tài khoản</Button>
-                    </View>
+        <Column space={4} style={[tw.p4, { flex: 1 }]}>
+            <Column space={2} style={{flex: 1,justifyContent: 'space-between'}}>
+                <View>
+                    <FormikInput
+                        name="username"
+                        variant="outlined"
+                        required={true}
+                        containerStyle={tw.mB4}
+                        placeholder="Tên đăng nhập"
+                    />
+                    <FormikInput
+                        name="password"
+                        variant="outlined"
+                        password={true}
+                        accessoryRight={renderIcon}
+                        secureTextEntry={secureTextEntry}
+                        containerStyle={tw.mB4}
+                        placeholder="Nhập mật khẩu"
+                    />
+                    {error ? <Text style={{ fontSize: 12, color: 'red' }}>Tên đăng nhập hoặc mật khẩu không đúng</Text> : null}
+                    <CheckBox checked={checked} onChange={nextChecked => setChecked(nextChecked)}>
+                        Ghi nhớ tài khoản
+                    </CheckBox>
+                </View>
+                <View style={{ alignItems: 'center' }}>
+                    <Button onPress={() => navigation.navigate(router.FORGET_PASSWORD)} appearance="ghost">Quên mật khẩu ?</Button>
+                    <Button onPress={formik.handleSubmit} style={{ borderRadius: 100, width: 343, height: 51 }}>Đăng nhập</Button>
+                    <Button onPress={() => navigation.navigate(router.REGISTER)} appearance="ghost">Đăng ký tài khoản</Button>
                 </View>
             </Column>
         </Column>
@@ -96,12 +92,14 @@ export default function LoginScreen({ navigation }) {
     )
     // ---------- Action ------------
     const onFormSubmit = async (values) => {
-        if (values.password == 'a' && values.username == 'a') {
-            navigation.navigate(router.HOME)
-        }
-        else {
-            setError(true)
-        }
+        // if (values.password == 'a' && values.username == 'a') {
+        //     navigation.navigate(router.HOME)
+        // }
+        // else {
+        //     setError(true)
+        // }
+        // console.log(values);
+        navigation.navigate(router.HOME)
     };
     return (
         <Container>
