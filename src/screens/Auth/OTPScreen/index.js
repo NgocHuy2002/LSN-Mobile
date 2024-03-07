@@ -15,7 +15,7 @@ export const OTPScreen = ({ route, navigation }) => {
     const { registerBy, values } = route.params;
 
     const otpValues = Array.from({ length: 6 }, (_, index) => ({
-        [`otp_${index}`]: '',
+        [`OTP_${index}`]: '',
     })).reduce((acc, curr) => ({ ...acc, ...curr }), {});
 
 

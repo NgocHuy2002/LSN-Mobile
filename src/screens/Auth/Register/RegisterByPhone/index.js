@@ -100,7 +100,7 @@ export const RegisterBy = ({ route, navigation }) => {
                 title={registerBy == 'phone' ? "Nhập số điện thoại" : 'Nhập email'}
                 hideLeftIcon={false}
             />
-            <Content>
+            <Content scrollEnabled={false} safeAreaEnabled={false} keyboardEnabled={true}>
                 <Formik
                     initialValues={registerBy == 'phone' ? phoneValues : emailValues}
                     onSubmit={onFormSubmit}
