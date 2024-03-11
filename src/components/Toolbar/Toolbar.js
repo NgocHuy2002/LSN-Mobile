@@ -54,7 +54,7 @@ export const BackNavAction = ({ color, onPress, ...props }) => {
   return (
     <NavAction
       {...props}
-      icon={{name: 'arrow-back-outline', width: 30, height: 30, fill: color ? color : '#000000' }}
+      icon={{name: 'arrow-back-outline', width: 20, height: 20, fill: color ? color : '#000000' }}
       onPress={onPress || _onPress}
     />
   );
@@ -73,7 +73,7 @@ function Toolbar(props) {
   } = props;
 
   const renderTitle = (textProps) => (
-    <Text {...textProps} style={[textProps.style, tw.pL2, tw.textXl, tw.text3xl,tw.fontBold, {color: color ? color : '#000000'}]}>
+    <Text {...textProps} style={[textProps.style, tw.pL2, tw.textXl, tw.textXl,tw.fontBold, {color: color ? color : '#000000'}]}>
       {title}
     </Text>
   );

@@ -15,12 +15,10 @@ import { router } from "@constants/router";
 
 export default function ForgetScreen({ navigation }) {
     const renderIcon = (props) => (
-        <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-            <Icon
-                {...props}
-                name={'arrow-forward-outline'}
-            />
-        </TouchableWithoutFeedback>
+        <Icon
+            {...props}
+            name={'arrow-forward-outline'}
+        />
     );
     return (
         <Container>

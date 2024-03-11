@@ -14,7 +14,7 @@ import FormikInput from "@components/FormInput/FormikInput";
 import { useFocusEffect } from "@react-navigation/native";
 import { router } from "@constants/router";
 
-export default function LoginScreen({ navigation }) {
+export default function ChangeOldPassword({ navigation, route }) {
 
     const [secureTextEntry, setSecureTextEntry] = React.useState(true);
     const [checked, setChecked] = React.useState(false);
@@ -23,10 +23,10 @@ export default function LoginScreen({ navigation }) {
     const toggleSecureEntry = () => {
         setSecureTextEntry(!secureTextEntry);
     };
-
-    const formValues = {
-        username: '',
-        password: ''
+    const formValuesForChangePass = {
+        old_password: '',
+        new_password: '',
+        re_new_password: '',
     };
 
     const renderIcon = (props) => (
@@ -44,40 +44,52 @@ export default function LoginScreen({ navigation }) {
             return value !== null && value !== undefined && value.trim() !== '';
         });
 
-    const Schema = Yup.object().shape({
-        username: noSpacesValidation,
-        password: noSpacesValidation,
+    const SchemaForChangePass = Yup.object().shape({
+        old_password: noSpacesValidation,
+        new_password: noSpacesValidation,
+        re_new_password: noSpacesValidation
+            .oneOf([Yup.ref('new_password'), null], 'Mật khẩu nhập lại không khớp'),
     });
+
 
     const renderForm = (formik) => (
         <Column space={4} style={[tw.p4, { flex: 1 }]}>
-            <Column space={2} style={{flex: 1,justifyContent: 'space-between'}}>
+            <Text style={[tw.textBase, { color: '#92969A', alignSelf: 'center' }]}>
+                Vui lòng nhập thông tin mật khẩu để thực hiện đổi mật khẩu
+            </Text>
+            <Column space={2} style={{ flex: 1, justifyContent: 'space-between' }}>
                 <View>
                     <FormikInput
-                        name="username"
+                        name="old_password"
                         variant="outlined"
-                        required={true}
-                        containerStyle={tw.mB4}
-                        placeholder="Tên đăng nhập"
-                    />
-                    <FormikInput
-                        name="password"
-                        variant="outlined"
+                        containerStyle={tw.mB2}
                         password={true}
                         accessoryRight={renderIcon}
                         secureTextEntry={secureTextEntry}
-                        containerStyle={tw.mB4}
-                        placeholder="Nhập mật khẩu"
+                        placeholder="Nhập mật khẩu cũ của bạn"
                     />
-                    {error ? <Text style={{ fontSize: 12, color: 'red' }}>Tên đăng nhập hoặc mật khẩu không đúng</Text> : null}
-                    <CheckBox checked={checked} onChange={nextChecked => setChecked(nextChecked)}>
-                        Ghi nhớ tài khoản
-                    </CheckBox>
+                    {error ? <Text style={[tw.mB2, { fontSize: 12, color: 'red' }]}>Mật khẩu cũ không đúng</Text> : null}
+                    <FormikInput
+                        name="new_password"
+                        variant="outlined"
+                        containerStyle={tw.mB2}
+                        password={true}
+                        accessoryRight={renderIcon}
+                        secureTextEntry={secureTextEntry}
+                        placeholder="Nhập mật khẩu mới của bạn"
+                    />
+                    <FormikInput
+                        name="re_new_password"
+                        variant="outlined"
+                        containerStyle={tw.mB2}
+                        password={true}
+                        accessoryRight={renderIcon}
+                        secureTextEntry={secureTextEntry}
+                        placeholder="Nhập lại mật khẩu mới của bạn"
+                    />
                 </View>
                 <View style={{ alignItems: 'center' }}>
-                    <Button onPress={() => navigation.navigate(router.FORGET_PASSWORD)} appearance="ghost">Quên mật khẩu ?</Button>
-                    <Button onPress={formik.handleSubmit} style={{ borderRadius: 100, width: 343, height: 51 }}>Đăng nhập</Button>
-                    <Button onPress={() => navigation.navigate(router.REGISTER)} appearance="ghost">Đăng ký tài khoản</Button>
+                    <Button onPress={formik.handleSubmit} style={{ borderRadius: 100, width: 343, height: 51 }}>Đổi mật khẩu</Button>
                 </View>
             </Column>
         </Column>
@@ -91,28 +103,26 @@ export default function LoginScreen({ navigation }) {
         }, [])
     )
     // ---------- Action ------------
-    const onFormSubmit = async (values) => {
-        // if (values.password == 'a' && values.username == 'a') {
-        //     navigation.navigate(router.HOME)
-        // }
-        // else {
-        //     setError(true)
-        // }
-        // console.log(values);
-        navigation.navigate(router.MAIN_NAVIGATOR)
+    const onFormSubmit = async (pass) => {
+        if (pass.old_password != 'a') {
+            setError(true)
+        }
+        else {
+            navigation.navigate(router.SUCCESS, { content: 'Đổi mật khẩu thành công' })
+        }
     };
     return (
         <Container>
             <Header
                 status='primary'
-                title="Đăng nhập"
-                hideLeftIcon={true}
+                title={'Đổi mật khẩu mới'}
+                hideLeftIcon={false}
             />
             <Content scrollEnabled={false} safeAreaEnabled={false}>
                 <Formik
-                    initialValues={formValues}
+                    initialValues={formValuesForChangePass}
                     onSubmit={onFormSubmit}
-                // validationSchema={Schema}
+                    validationSchema={SchemaForChangePass}
                 >
                     {renderForm}
                 </Formik>

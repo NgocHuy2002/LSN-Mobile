@@ -5,30 +5,29 @@ import { useFocusEffect } from '@react-navigation/native';
 
 import * as SplashScreen from 'expo-splash-screen';
 
-// import { selectToken } from '@containers/Auth/selectors';
 
-import * as ROUTES from '../../constants/router.js';
+import { router } from '@constants/router';
 
 export default function AppLoaderScreen(props) {
   const { navigation } = props;
 
-//   const token = useSelector(selectToken);
-const token = 'ssss'
+  const token = useSelector(state => state.router.route);
+
   React.useEffect(() => {
     if (token) {
-      navigation.replace(ROUTES.MAIN_NAVIGATOR);
+      navigation.replace(router.MAIN_NAVIGATOR);
     } else {
-      navigation.replace(ROUTES.AUTH_NAVIGATOR);
+      navigation.replace(router.AUTH_NAVIGATOR);
     }
   }, []);
 
-  useFocusEffect(
-    React.useCallback(() => {
-      return () => {
-        SplashScreen.hideAsync();
-      };
-    }, []),
-  );
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     return () => {
+  //       SplashScreen.hideAsync();
+  //     };
+  //   }, []),
+  // );
 
   return null;
 }

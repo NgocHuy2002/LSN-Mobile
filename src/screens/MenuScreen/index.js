@@ -1,0 +1,97 @@
+import { Avatar, Button, Card, CheckBox, Drawer, DrawerGroup, DrawerItem, Icon, Input, Menu, MenuGroup, MenuItem, OverflowMenu, Text } from "@ui-kitten/components";
+import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native";
+import React, { useState } from "react";
+import Container from "@components/Container/Container";
+import Header from "@components/Header/Header";
+import Content from '@components/Content/Content';
+import { tw } from 'react-native-tailwindcss';
+import ArrowRight from '@assets/icons/arrow-right-rourd.svg'
+import ArrowDown from '@assets/icons/arrow-down.svg'
+import User from '@assets/icons/user_2.svg'
+import LockIcon from '@assets/icons/padlock.svg'
+import GlobalIcon from '@assets/icons/global.svg'
+import HomeIcon from '@assets/icons/home_color.svg'
+import InfoIcon from '@assets/icons/info_color.svg'
+import PhoneIcon from '@assets/icons/phone_color.svg'
+import SettingIcon from '@assets/icons/setting_color.svg'
+import EarthIcon from '@assets/icons/earth.svg'
+import NewsPaperIcon from '@assets/icons/newspaper.svg'
+import BookIcon from '@assets/icons/book.svg'
+import { SmallCard } from "@components/SmallCard/SmallCard";
+import { router } from "@constants/router";
+
+
+export default function MenuScreen({ navigation }) {
+    const [selectedIndex, setSelectedIndex] = useState(null);
+    const [visible, setVisible] = React.useState(false);
+    const menuData = [
+        { icon: <HomeIcon />, title: 'Trang chủ' },
+        { icon: <InfoIcon />, title: 'Giới thiệu' },
+        { icon: <PhoneIcon />, title: 'Liên hệ' },
+        { icon: <SettingIcon />, title: 'Tài nguyên' },
+        { icon: <EarthIcon />, title: 'Bản đồ' },
+        { icon: <NewsPaperIcon />, title: 'Bài viết' },
+        { icon: <BookIcon />, title: 'Hướng dẫn kết nối' },
+    ]
+    const renderToggleButton = () => (
+        <>
+            {visible ? <ArrowRight /> : <ArrowDown />}
+        </>
+    );
+
+    //   ---------- Action ----------------
+    const onItemSelect = (index) => {
+        setSelectedIndex(index);
+        setVisible(false);
+    };
+    return (
+        <Container>
+            <Header
+                status='primary'
+                title="Menu"
+                hideLeftIcon={false}
+            />
+            <Content scrollEnabled={false} safeAreaEnabled={false}>
+                <View style={{ margin: 15, flex: 1, justifyContent: 'space-between' }}>
+                    <View>
+                        <Menu
+                            onSelect={() => setVisible(!visible)}
+                            style={{
+                                borderRadius: 5,
+                                borderColor: '#00000040',
+                                borderWidth: 1,
+                                borderBottomWidth: 2
+                            }}
+                        >
+                            <MenuGroup
+                                title={() => (<Text style={{ color: '#286FC3', fontSize: 12, fontWeight: 'bold' }}>User Name</Text>)}
+                                style={{
+                                    borderRadius: 5,
+                                    borderBottomWidth: visible ? 1 : 0,
+                                    borderColor: '#00000040'
+                                }}
+                                accessoryLeft={< Avatar source={require('../../assets/images/logo.png')} style={{ height: 26, width: 26 }} />}
+                                accessoryRight={renderToggleButton}
+                            >
+                                <MenuItem title='Thông tin cá nhân và tài khoản' accessoryLeft={<User />} onPress={() => navigation.navigate(router.USER_INFO)} />
+                                <MenuItem title='Đổi mật khẩu' accessoryLeft={<LockIcon />} onPress={() => navigation.navigate(router.CHANGE_OLD_PASSWORD)} />
+                                <MenuItem title='Ngôn ngữ ứng dụng' accessoryLeft={<GlobalIcon />}
+                                    onPress={() => navigation.navigate(router.CHANGE_LAUGUAGE)}
+                                    style={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5 }}
+                                />
+                            </MenuGroup>
+                        </Menu>
+                        <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20, marginTop: 15 }}>
+                            {menuData.map((item) => (
+                                <SmallCard Icon={item.icon} title={item.title} key={item.title} />
+                            ))}
+                        </View>
+                    </View>
+                    <View>
+                        <Button appearance="outline" size="tiny" status="basic" style={{ borderRadius: 50 }}>Đăng xuất</Button>
+                    </View>
+                </View>
+            </Content>
+        </Container >
+    )
+}

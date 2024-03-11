@@ -8,7 +8,7 @@ import { router } from "@constants/router";
 import { Button, Text } from "@ui-kitten/components";
 import { Field, Formik } from "formik";
 import React, { useRef, useState } from "react";
-import { View } from "react-native";
+import { Dimensions, View } from "react-native";
 import OTPTextInput from "react-native-otp-textinput";
 import { tw } from "react-native-tailwindcss";
 import * as Yup from 'yup';
@@ -17,22 +17,7 @@ export const OTPScreen = ({ route, navigation }) => {
     const { registerBy, values, isNew } = route.params;
     let otpInput = useRef(null);
     const [otp, setOtp] = useState('');
-    // const formValues = {
-    //     otp: '',
-    // };
-    // const renderForm = (formik) => {
-    //     return (
-    //         <Column style={[tw.p4]}>
-    //             <Text style={[tw.mB4, tw.textBase, { color: '#92969A', alignSelf: 'center' }]}>
-    //                 Vui lòng nhập mã số gồm 6 chữ số bao gồm:
-    //             </Text>
-    //             <Field>
-    //                 <OTPTextInput handleTextChange={(e) => setOtp(e)} inputCount={6} inputCellLength={1} textInputStyle={{ borderWidth: 1, borderColor: '#CDD3D9', borderRadius: 8 }} />
-    //             </Field>
-    //             <Button onPress={formik.handleSubmit} style={{ borderRadius: 100, width: 343, height: 51, top: '160%', alignSelf: 'center' }}><Text>Gửi mã xác thực OTP</Text></Button>
-    //         </Column>
-    //     )
-    // }
+    const screenWidth = Dimensions.get('screen').width * 0.9;
 
     // ---------- Action ------------
     const onFormSubmit = async (value) => {
@@ -47,14 +32,14 @@ export const OTPScreen = ({ route, navigation }) => {
                 hideLeftIcon={false}
             />
             <Content>
-                <Column style={[tw.p4, { flex: 1, justifyContent: 'space-between'}]}>
-                    <View>
-                        <Text style={[tw.mB4, tw.textBase, { color: '#92969A', alignSelf: 'center' }]}>
+                <Column style={[{ flex: 1, justifyContent: 'space-between' }]}>
+                    <View style={{ flex: 1, alignItems: 'center' }}>
+                        <Text style={[tw.mB4, tw.textBase, { color: '#92969A' }]}>
                             Vui lòng nhập mã số gồm 6 chữ số bao gồm:
                         </Text>
-                        <OTPTextInput handleTextChange={(e) => setOtp(e)} inputCount={6} inputCellLength={1} textInputStyle={{ borderWidth: 1, borderColor: '#CDD3D9', borderRadius: 8 }} />
+                        <OTPTextInput handleTextChange={(e) => setOtp(e)} inputCount={6} inputCellLength={1} textInputStyle={{ borderWidth: 1, borderColor: '#286FC3', borderRadius: 8, width: 40, height: 40 }} containerStyle={{ width: screenWidth }} />
                     </View>
-                    <Button onPress={() => onFormSubmit(otp)} style={{ borderRadius: 100, width: 343, height: 51, alignSelf: 'center' }}><Text>Gửi mã xác thực OTP</Text></Button>
+                    <Button onPress={() => onFormSubmit(otp)} style={{ borderRadius: 100, width: 343, height: 51, alignSelf: 'center', marginBottom: '5%' }}><Text>Gửi mã xác thực OTP</Text></Button>
                 </Column>
             </Content>
         </Container>

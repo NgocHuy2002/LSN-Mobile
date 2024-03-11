@@ -13,7 +13,9 @@ import AppNavigator from './src/screens/navigation/appNavigation';
 import { NavigationContainer } from '@react-navigation/native';
 import MyStack, { Navigator } from './src/screens/navigation/navigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-
+import { MenuProvider } from 'react-native-popup-menu';
+import { Provider } from 'react-redux';
+import store from './src/store';
 // import { FeatherIconsPack } from './feather-icons';
 // import { MaterialIconsPack } from './material-icons';
 export default function App() {
@@ -21,13 +23,17 @@ export default function App() {
     <>
       <IconRegistry icons={[EvaIconsPack, AppIconsPack, ...Object.values(ExpoIconsPack)]} />
       <ApplicationProvider {...eva} theme={eva.light}>
-        <NavigationContainer>
-          <SafeAreaProvider>
-            <MyStack/>
-            {/* <BottomNavigationCustom /> */}
-            <StatusBar style="auto" />
-          </SafeAreaProvider>
-        </NavigationContainer>
+        <Provider store={store}>
+          <NavigationContainer>
+            <MenuProvider>
+              <SafeAreaProvider>
+                <MyStack />
+                {/* <BottomNavigationCustom /> */}
+                <StatusBar style="auto" />
+              </SafeAreaProvider>
+            </MenuProvider>
+          </NavigationContainer>
+        </Provider>
       </ApplicationProvider>
     </>
   );
