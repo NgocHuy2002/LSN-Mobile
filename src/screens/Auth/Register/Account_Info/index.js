@@ -111,7 +111,7 @@ export default function AccountInfo({ navigation, route }) {
                 title="Thông tin tài khoản"
                 hideLeftIcon={false}
             />
-            <Content scrollEnabled={false} safeAreaEnabled={false}>
+            <Content scrollEnabled={true} safeAreaEnabled={false}>
                 <Formik
                     initialValues={formValues}
                     onSubmit={onFormSubmit}

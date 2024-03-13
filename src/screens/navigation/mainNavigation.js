@@ -12,6 +12,12 @@ import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Field } from '@containers/AllField';
 import { createStackNavigator } from '@react-navigation/stack';
 import { PostsScreen } from '@containers/PostsScreen';
+import { PostDetail } from '@containers/PostsScreen/PostDetail';
+import { ContactScreen } from '@containers/ContactScreen';
+import { ResourcesScreen } from '@containers/ResourcesScreen';
+import { ResourcesDetail } from '@containers/ResourcesScreen/ResourcesDetail';
+import { ResourcesList } from '@containers/ResourcesScreen/ResourcesList';
+import { DataDetail } from '@containers/ResourcesScreen/DataDetail';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -25,7 +31,10 @@ export default function MainNavigator() {
         );
     }
     return (
-        <Tab.Navigator>
+        <Tab.Navigator tabBarOptions={{
+            labelStyle: { fontSize: 10, paddingBottom: 10 },
+            style: { paddingTop: 10, height: 60 }
+        }}>
             <Tab.Screen name={router.HOME} component={HomeScreen}
                 options={{
                     tabBarLabel: 'Trang chủ',
@@ -35,7 +44,12 @@ export default function MainNavigator() {
                 }}
             />
             <Tab.Screen name={router.FIELD} component={Field} options={{ tabBarButton: () => <></> }} />
-            {/* <Tab.Screen name={'TaiNguyen'} component={null}
+            <Tab.Screen name={router.POST} component={PostDetail} options={{ tabBarButton: () => <></> }} />
+            <Tab.Screen name={router.CONTACT} component={ContactScreen} options={{ tabBarButton: () => <></> }} />
+            <Tab.Screen name={router.RESOURCES_DETAIL} component={ResourcesDetail} options={{ tabBarButton: () => <></> }} />
+            <Tab.Screen name={router.RESOURCES_LIST} component={ResourcesList} options={{ tabBarButton: () => <></> }} />
+            <Tab.Screen name={router.DATA_DETAIL} component={DataDetail} options={{ tabBarButton: () => <></> }} />
+            <Tab.Screen name={router.RESOURCES} component={ResourcesScreen}
                 options={{
                     tabBarLabel: 'Tài nguyên',
                     tabBarIcon: ({ color, size }) => (
@@ -43,6 +57,7 @@ export default function MainNavigator() {
                     ),
                 }}
             />
+            {/*
             <Tab.Screen name={'BanDo'} component={null}
                 options={{
                     tabBarLabel: 'Bản đồ',

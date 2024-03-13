@@ -27,11 +27,11 @@ export default function MenuScreen({ navigation }) {
     const menuData = [
         { icon: <HomeIcon />, title: 'Trang chủ' },
         { icon: <InfoIcon />, title: 'Giới thiệu' },
-        { icon: <PhoneIcon />, title: 'Liên hệ' },
+        { icon: <PhoneIcon />, title: 'Liên hệ', event: router.CONTACT },
         { icon: <SettingIcon />, title: 'Tài nguyên' },
         { icon: <EarthIcon />, title: 'Bản đồ' },
         { icon: <NewsPaperIcon />, title: 'Bài viết' },
-        { icon: <BookIcon />, title: 'Hướng dẫn kết nối' },
+        { icon: <BookIcon />, title: 'Hướng dẫn kết nối', event: router.GUIDE },
     ]
     const renderToggleButton = () => (
         <>
@@ -83,7 +83,7 @@ export default function MenuScreen({ navigation }) {
                         </Menu>
                         <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20, marginTop: 15 }}>
                             {menuData.map((item) => (
-                                <SmallCard Icon={item.icon} title={item.title} key={item.title} />
+                                <SmallCard Icon={item.icon} title={item.title} key={item.title} event={() => navigation.navigate(item.event)}/>
                             ))}
                         </View>
                     </View>

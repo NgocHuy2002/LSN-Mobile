@@ -21,6 +21,7 @@ import ChangeOldPassword from "@containers/Auth/ChangePassword/changePassword";
 import UserInfo from "@containers/UserInfo";
 import { LanguageScreen } from "@containers/ChangeLanguage";
 import { Field } from "@containers/AllField";
+import { GuideScreen } from "@containers/GuideScreen";
 
 const Stack = createStackNavigator();
 
@@ -44,6 +45,7 @@ function MyStack() {
             <Stack.Screen name={router.CHANGE_LAUGUAGE} component={LanguageScreen} />
             <Stack.Screen name={router.SUCCESS} component={SuccessScreen} />
             <Stack.Screen name={router.FORGET_PASSWORD} component={ForgetScreen} />
+            <Stack.Screen name={router.GUIDE} component={GuideScreen} />
             {/* <Stack.Screen name="Map" component={MapScreen} />  */}
             {/* <Stack.Screen name="Settings" component={Setting} /> */}
         </Stack.Navigator>
