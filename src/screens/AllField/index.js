@@ -62,6 +62,8 @@ export const Field = ({ navigation, route }) => {
     return (
         <Container>
             <Header
+                style={{ backgroundColor: '#286FC3' }}
+                color='#FFFFFF'
                 status='primary'
                 title={title}
                 hideLeftIcon={false}

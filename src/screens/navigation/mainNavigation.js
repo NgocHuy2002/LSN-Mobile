@@ -11,6 +11,7 @@ import ThemIcon from '@assets/icons/them.svg'
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Field } from '@containers/AllField';
 import { createStackNavigator } from '@react-navigation/stack';
+import { PostsScreen } from '@containers/PostsScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -18,11 +19,11 @@ const Stack = createStackNavigator();
 export default function MainNavigator() {
     function HomeStack() {
         return (
-          <Stack.Navigator>
-            <Stack.Screen name={router.FIELD} component={Field} />
-          </Stack.Navigator>
+            <Stack.Navigator>
+                <Stack.Screen name={router.FIELD} component={Field} />
+            </Stack.Navigator>
         );
-      }
+    }
     return (
         <Tab.Navigator>
             <Tab.Screen name={router.HOME} component={HomeScreen}
@@ -33,7 +34,7 @@ export default function MainNavigator() {
                     ),
                 }}
             />
-            <Tab.Screen name={router.FIELD} component={Field} options={{tabBarButton: () => <></>}}/>
+            <Tab.Screen name={router.FIELD} component={Field} options={{ tabBarButton: () => <></> }} />
             {/* <Tab.Screen name={'TaiNguyen'} component={null}
                 options={{
                     tabBarLabel: 'Tài nguyên',
@@ -49,15 +50,15 @@ export default function MainNavigator() {
                         <MaterialCommunityIcons name="map" color={color} size={size} />
                     ),
                 }}
-            />
-            <Tab.Screen name={router.HOME} component={null}
+            />*/}
+            <Tab.Screen name={router.POSTS} component={PostsScreen}
                 options={{
                     tabBarLabel: 'Bài viết',
                     tabBarIcon: ({ color, size }) => (
                         <MaterialCommunityIcons name="newspaper-variant-multiple" size={size} color={color} />
                     ),
                 }}
-            /> */}
+            />
             <Tab.Screen name={router.MENU} component={MenuScreen}
                 options={{
                     tabBarLabel: 'Thêm',

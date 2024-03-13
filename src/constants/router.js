@@ -19,6 +19,7 @@ export const router = {
     ACCOUNT_INFO: 'ACCOUNT_INFO',
     USER_INFO: 'USER_INFO',
     SUCCESS: 'SUCCESS',
+    POSTS: 'POSTS',
     OTP: 'OTP',
     MENU: 'MENU',
     MAIN: 'MAIN',

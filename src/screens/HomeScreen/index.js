@@ -103,17 +103,17 @@ export const HomeScreen = ({ navigation }) => {
     const renderCard = ({ item, index }) => (
         <View style={{
             borderRadius: 5,
-            width: 240,
-            height: 184,
+            width: Dimensions.get('screen').width * 0.7,
+            height: Dimensions.get('screen').height * 0.2 + 20,
         }}>
             {/* <Text style={{ fontSize: 30 }}>{item.title}</Text> */}
-            <Image source={require('../../assets/images/image_demo.png')} style={{ width: 239, height: 115 }} />
-            <Text>{item.text}</Text>
+            <Image source={require('../../assets/images/image_demo.png')} style={{ width: Dimensions.get('screen').width * 0.7, height: 115 }} />
+            <Text style={{ textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: Dimensions.get('screen').width * 0.7 }}>{item.text}</Text>
         </View>
     )
 
     const Item = ({ title, icon }) => (
-        <TouchableOpacity onPress={() => navigation.navigate(router.FIELD, {title: title})}>
+        <TouchableOpacity onPress={() => navigation.navigate(router.FIELD, { title: title })}>
             <View style={{ width: 70, height: 80, flex: 1, alignItems: 'center', marginRight: 5 }}>
                 {icon}
                 <Text style={{ fontSize: 10, marginTop: 5, textAlign: 'center', display: 'flex', flexWrap: 'wrap' }}>{title}</Text>
@@ -246,7 +246,7 @@ export const HomeScreen = ({ navigation }) => {
                             renderItem={renderCard}
                             layout={'default'}
                             sliderWidth={Dimensions.get('screen').width}
-                            itemWidth={result}
+                            itemWidth={Dimensions.get('screen').width * 0.7}
                             autoplayDelay={2000}
                             autoplayInterval={3000}
                             scrollEnabled={true}
@@ -270,7 +270,7 @@ export const HomeScreen = ({ navigation }) => {
                             renderItem={renderCard}
                             layout={'default'}
                             sliderWidth={Dimensions.get('screen').width}
-                            itemWidth={result}
+                            itemWidth={Dimensions.get('screen').width * 0.7}
                             autoplayDelay={2000}
                             autoplayInterval={3000}
                             scrollEnabled={true}
