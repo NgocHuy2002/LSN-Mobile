@@ -8,7 +8,7 @@ import { TouchableOpacity, View } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from "moment";
-import { router } from "@constants/router";
+import { ROUTER } from "@constants/router";
 
 export const ResourcesDetail = ({ route, navigation }) => {
   const { title } = route.params;
@@ -98,7 +98,7 @@ export const ResourcesDetail = ({ route, navigation }) => {
   }
   const renderItem = ({ item, index }) => (
     <Card
-      onPress={() => navigation.navigate(router.RESOURCES_LIST)}
+      onPress={() => navigation.navigate(ROUTER.RESOURCES_LIST)}
       style={{ marginVertical: 10 }}
       header={<RenderHeader title={item.title} />}
       footer={<RenderFooter number={item.number} seen={item?.seen} download={item?.download} />}

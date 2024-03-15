@@ -12,7 +12,7 @@ import { tw } from 'react-native-tailwindcss';
 import { Column } from "@components/Stack";
 import FormikInput from "@components/FormInput/FormikInput";
 import { useFocusEffect } from "@react-navigation/native";
-import { router } from "@constants/router";
+import { ROUTER } from "@constants/router";
 
 export default function ChangeOldPassword({ navigation, route }) {
 
@@ -108,14 +108,15 @@ export default function ChangeOldPassword({ navigation, route }) {
             setError(true)
         }
         else {
-            navigation.navigate(router.SUCCESS, { content: 'Đổi mật khẩu thành công' })
+            navigation.navigate(ROUTER.SUCCESS, { content: 'Đổi mật khẩu thành công' })
         }
     };
     return (
         <Container>
             <Header
-                status='primary'
+                // status='primary'
                 title={'Đổi mật khẩu mới'}
+                color={'#286FC3'}
                 hideLeftIcon={false}
             />
             <Content scrollEnabled={false} safeAreaEnabled={false}>

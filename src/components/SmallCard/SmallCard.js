@@ -21,7 +21,7 @@ export const SmallCard = ({ Icon, title, event, navigation }) => {
             onPress={event}
         >
             {/* <TouchableOpacity onPress={event}> */}
-            <View style={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center' }}>
+            <View style={{ display: 'flex', flexDirection: 'row', gap: 10, alignItems: 'center',paddingTop: 7 }}>
                 {Icon}<Text style={{ fontSize: 12 }}>{title}</Text>
             </View>
             {/* </TouchableOpacity> */}

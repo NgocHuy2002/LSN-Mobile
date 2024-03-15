@@ -5,13 +5,14 @@ import React from "react";
 import { Radio, RadioGroup } from "@ui-kitten/components";
 import { StyleSheet, View } from "react-native";
 
-export const LanguageScreen = () => {
+export const LanguageScreen = ({ navigation }) => {
     const [selectedIndex, setSelectedIndex] = React.useState(0);
     return (
         <Container>
             <Header
-                status='primary'
+                // status='primary'
                 title="Ngôn ngữ ứng dụng"
+                color={'#286FC3'}
                 hideLeftIcon={false}
                 onBackPress={() => navigation.goBack()}
             />

@@ -11,7 +11,7 @@ import { tw } from 'react-native-tailwindcss';
 import { Column } from "@components/Stack";
 import FormikInput from "@components/FormInput/FormikInput";
 import { useFocusEffect } from "@react-navigation/native";
-import { router } from "@constants/router";
+import { ROUTER } from "@constants/router";
 import UserIcon from '@assets/icons/user-edit.svg'
 import FormikSelect from "@components/FormSelect/FormikSelect";
 import FormikDatePicker from "@components/FormDatePicker/FormikDatePicker";
@@ -129,14 +129,15 @@ export default function UserInfo({ navigation, route }) {
     // ---------- Action ------------
     const onFormSubmit = async (values) => {
 
-        // navigation.navigate(router.SUCCESS, { content: 'Tài khoản đã được tạo thành công' })
+        // navigation.navigate(ROUTER.SUCCESS, { content: 'Tài khoản đã được tạo thành công' })
         // console.log(values);
     };
     return (
         <Container>
             <Header
-                status='primary'
+                // status='primary'
                 title="Thông tin tài khoản"
+                color={'#286FC3'}
                 hideLeftIcon={false}
             />
             <Content scrollEnabled={true} safeAreaEnabled={true}>

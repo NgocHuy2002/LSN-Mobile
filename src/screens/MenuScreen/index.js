@@ -1,5 +1,5 @@
-import { Avatar, Button, Card, CheckBox, Drawer, DrawerGroup, DrawerItem, Icon, Input, Menu, MenuGroup, MenuItem, OverflowMenu, Text } from "@ui-kitten/components";
-import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native";
+import { Avatar, Button, Menu, MenuGroup, MenuItem, Text } from "@ui-kitten/components";
+import { View, ImageBackground } from "react-native";
 import React, { useState } from "react";
 import Container from "@components/Container/Container";
 import Header from "@components/Header/Header";
@@ -18,36 +18,51 @@ import EarthIcon from '@assets/icons/earth.svg'
 import NewsPaperIcon from '@assets/icons/newspaper.svg'
 import BookIcon from '@assets/icons/book.svg'
 import { SmallCard } from "@components/SmallCard/SmallCard";
-import { router } from "@constants/router";
+import { ROUTER } from "@constants/router";
+import { useDispatch } from "react-redux";
+import { userLogoutRoutine } from "@containers/Auth/saga/routines";
 
 
 export default function MenuScreen({ navigation }) {
+    const dispatch = useDispatch();
+
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [visible, setVisible] = React.useState(false);
     const menuData = [
         { icon: <HomeIcon />, title: 'Trang chủ' },
         { icon: <InfoIcon />, title: 'Giới thiệu' },
-        { icon: <PhoneIcon />, title: 'Liên hệ', event: router.CONTACT },
+        { icon: <PhoneIcon />, title: 'Liên hệ', event: ROUTER.CONTACT },
         { icon: <SettingIcon />, title: 'Tài nguyên' },
         { icon: <EarthIcon />, title: 'Bản đồ' },
         { icon: <NewsPaperIcon />, title: 'Bài viết' },
-        { icon: <BookIcon />, title: 'Hướng dẫn kết nối', event: router.GUIDE },
+        { icon: <BookIcon />, title: 'Hướng dẫn kết nối', event: ROUTER.GUIDE },
     ]
     const renderToggleButton = () => (
         <>
             {visible ? <ArrowRight /> : <ArrowDown />}
         </>
     );
-
+    const AvatarImageComponentShowcase = () => (
+        <Avatar
+          source={require('../../assets/images/logo.png')}
+          ImageComponent={ImageBackground}
+        />
+      );
     //   ---------- Action ----------------
     const onItemSelect = (index) => {
         setSelectedIndex(index);
         setVisible(false);
     };
+    
+    const handleLogout = () => {
+        console.log('logout');
+        dispatch(userLogoutRoutine.trigger())
+    }
     return (
         <Container>
             <Header
-                status='primary'
+                // status='primary'
+                color='#286FC3'
                 title="Menu"
                 hideLeftIcon={false}
             />
@@ -70,13 +85,13 @@ export default function MenuScreen({ navigation }) {
                                     borderBottomWidth: visible ? 1 : 0,
                                     borderColor: '#00000040'
                                 }}
-                                accessoryLeft={< Avatar source={require('../../assets/images/logo.png')} style={{ height: 26, width: 26 }} />}
+                                accessoryLeft={AvatarImageComponentShowcase}
                                 accessoryRight={renderToggleButton}
                             >
-                                <MenuItem title='Thông tin cá nhân và tài khoản' accessoryLeft={<User />} onPress={() => navigation.navigate(router.USER_INFO)} />
-                                <MenuItem title='Đổi mật khẩu' accessoryLeft={<LockIcon />} onPress={() => navigation.navigate(router.CHANGE_OLD_PASSWORD)} />
+                                <MenuItem title='Thông tin cá nhân và tài khoản' accessoryLeft={<User />} onPress={() => navigation.navigate(ROUTER.USER_INFO)} />
+                                <MenuItem title='Đổi mật khẩu' accessoryLeft={<LockIcon />} onPress={() => navigation.navigate(ROUTER.CHANGE_OLD_PASSWORD)} />
                                 <MenuItem title='Ngôn ngữ ứng dụng' accessoryLeft={<GlobalIcon />}
-                                    onPress={() => navigation.navigate(router.CHANGE_LAUGUAGE)}
+                                    onPress={() => navigation.navigate(ROUTER.CHANGE_LAUGUAGE)}
                                     style={{ borderBottomLeftRadius: 5, borderBottomRightRadius: 5 }}
                                 />
                             </MenuGroup>
@@ -88,7 +103,7 @@ export default function MenuScreen({ navigation }) {
                         </View>
                     </View>
                     <View>
-                        <Button appearance="outline" size="tiny" status="basic" style={{ borderRadius: 50 }}>Đăng xuất</Button>
+                        <Button appearance="outline" size="tiny" status="basic" style={{ borderRadius: 50 }} onPress={handleLogout}>Đăng xuất</Button>
                     </View>
                 </View>
             </Content>

@@ -13,9 +13,11 @@ import {
 } from '@react-navigation/native';
 import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
 import { AntDesign } from '@expo/vector-icons';
+import { ROUTER } from "@constants/router";
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
-{/* <Tab.Screen name={router.HOME} component={HomeScreen}
+{/* <Tab.Screen name={ROUTER.HOME} component={HomeScreen}
 options={{
     tabBarLabel: 'Trang chủ',
     tabBarIcon: ({ color, size }) => (
@@ -23,13 +25,13 @@ options={{
     ),
 }}
 />
-<Tab.Screen name={router.FIELD} component={Field} options={{ tabBarButton: () => <></> }} />
-<Tab.Screen name={router.POST} component={PostDetail} options={{ tabBarButton: () => <></> }} />
-<Tab.Screen name={router.CONTACT} component={ContactScreen} options={{ tabBarButton: () => <></> }} />
-<Tab.Screen name={router.RESOURCES_DETAIL} component={ResourcesDetail} options={{ tabBarButton: () => <></> }} />
-<Tab.Screen name={router.RESOURCES_LIST} component={ResourcesList} options={{ tabBarButton: () => <></> }} />
-<Tab.Screen name={router.DATA_DETAIL} component={DataDetail} options={{ tabBarButton: () => <></> }} />
-<Tab.Screen name={router.RESOURCES} component={ResourcesScreen}
+<Tab.Screen name={ROUTER.FIELD} component={Field} options={{ tabBarButton: () => <></> }} />
+<Tab.Screen name={ROUTER.POST} component={PostDetail} options={{ tabBarButton: () => <></> }} />
+<Tab.Screen name={ROUTER.CONTACT} component={ContactScreen} options={{ tabBarButton: () => <></> }} />
+<Tab.Screen name={ROUTER.RESOURCES_DETAIL} component={ResourcesDetail} options={{ tabBarButton: () => <></> }} />
+<Tab.Screen name={ROUTER.RESOURCES_LIST} component={ResourcesList} options={{ tabBarButton: () => <></> }} />
+<Tab.Screen name={ROUTER.DATA_DETAIL} component={DataDetail} options={{ tabBarButton: () => <></> }} />
+<Tab.Screen name={ROUTER.RESOURCES} component={ResourcesScreen}
 options={{
     tabBarLabel: 'Tài nguyên',
     tabBarIcon: ({ color, size }) => (
@@ -37,7 +39,7 @@ options={{
     ),
 }}
 />
-<Tab.Screen name={router.POSTS} component={PostsScreen}
+<Tab.Screen name={ROUTER.POSTS} component={PostsScreen}
 options={{
     tabBarLabel: 'Bài viết',
     tabBarIcon: ({ color, size }) => (
@@ -45,7 +47,7 @@ options={{
     ),
 }}
 />
-<Tab.Screen name={router.MENU} component={MenuScreen}
+<Tab.Screen name={ROUTER.MENU} component={MenuScreen}
 options={{
     tabBarLabel: 'Thêm',
     tabBarIcon: ({ color, size }) => (
@@ -54,10 +56,16 @@ options={{
 }}
 /> */}
 export const routes = {
-  home: { name: {router.}, icon: 'home' },
-  feed: { name: 'Feed', icon: 'bars' },
-  profile: { name: 'Profile', icon: 'user' },
-  settings: { name: 'Settings', icon: 'setting' },
+  home: { name: ROUTER.HOME, icon: 'home' },
+  field: { name: ROUTER.FIELD },
+  post: { name: ROUTER.POST },
+  contact: { name: ROUTER.CONTACT },
+  resources_detail: { name: ROUTER.RESOURCES_DETAIL },
+  resources_list: { name: ROUTER.RESOURCES_LIST },
+  data_detail: { name: ROUTER.DATA_DETAIL },
+  resources: { name: ROUTER.RESOURCES, icon: 'database' },
+  posts: { name: ROUTER.POSTS, icon: 'newspaper-variant-multiple' },
+  settings: { name: ROUTER.MENU, icon: 'menu' },
 };
 
 const { width } = Dimensions.get('window');
@@ -94,8 +102,8 @@ const TabBarComponent = ({ state, navigation, descriptors }) => {
           options.tabBarLabel !== undefined
             ? options.tabBarLabel
             : options.title !== undefined
-            ? options.title
-            : route.name;
+              ? options.title
+              : route.name;
 
         const isFocused = state.index === index;
 
@@ -134,7 +142,7 @@ const TabBarComponent = ({ state, navigation, descriptors }) => {
             onLongPress={onLongPress}
             style={styles.item}
           >
-            <AntDesign
+            <MaterialCommunityIcons
               name={icon}
               size={24}
               color={isFocused ? '#A9A9A9' : 'black'}

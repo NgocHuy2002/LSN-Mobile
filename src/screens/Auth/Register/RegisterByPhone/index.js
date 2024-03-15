@@ -4,13 +4,15 @@ import FormikInput from "@components/FormInput/FormikInput";
 import FormikSelect from "@components/FormSelect/FormikSelect";
 import Header from "@components/Header/Header";
 import { Column, Row } from "@components/Stack";
-import { router } from "@constants/router";
+import { ROUTER } from "@constants/router";
 import { Button, Text } from "@ui-kitten/components";
 import { Formik } from "formik";
 import React, { useState } from "react";
 import { View } from "react-native";
 import { tw } from "react-native-tailwindcss";
+import request from '@services/request';
 import * as Yup from 'yup';
+import { API } from "@constants/api";
 
 export const RegisterBy = ({ route, navigation }) => {
 
@@ -49,13 +51,13 @@ export const RegisterBy = ({ route, navigation }) => {
 
     const renderForm = (formik) => {
         return (
-            <Column style={[tw.p4, {flex: 1}]}>
+            <Column style={[tw.p4, { flex: 1 }]}>
                 <Text style={[tw.mB4, tw.textBase, { color: '#92969A' }]}>
                     {registerBy == 'phone' ? 'Mã xác minh sẽ được gửi đến số điện thoại của bạn' :
                         'Mã xác minh sẽ được gửi đến email của bạn'
                     }
                 </Text>
-                <View style={{flex: 1, justifyContent: 'space-between'}}>
+                <View style={{ flex: 1, justifyContent: 'space-between' }}>
                     {registerBy == 'phone' ?
                         <Row space={2} style={[tw.mB4]}>
                             <FormikSelect
@@ -93,13 +95,20 @@ export const RegisterBy = ({ route, navigation }) => {
 
     // ---------- Action ------------
     const onFormSubmit = async (values) => {
-        navigation.navigate(router.OTP, { registerBy: registerBy, values: values, isNew: isNew })
-        console.log(values);
+        request.post(API.SEND_OTP_EMAIL, values).then((response) => {
+            if (response.data) {
+                console.log(response.data.data, '- sendOtpForEmail');
+                if (response.data.data == true) {
+                    navigation.navigate(ROUTER.OTP, { registerBy: registerBy, values: values, isNew: isNew })
+                }
+            }
+            return null;
+        });
     };
     return (
         <Container>
             <Header
-                status='primary'
+                // status='primary'
                 title={registerBy == 'phone' ? "Nhập số điện thoại" : 'Nhập email'}
                 hideLeftIcon={false}
             />

@@ -1,7 +1,7 @@
 import { Button, CheckBox, Icon, Input, Text } from "@ui-kitten/components";
-import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, SafeAreaView, TouchableWithoutFeedback, View } from "react-native";
 import TopNavigationCustom from "../../../components/TopNavigation";
-import React from "react";
+import React, { useEffect } from "react";
 import { CustomForm } from "@components/Form/form";
 import * as Yup from 'yup';
 import { Formik } from "formik";
@@ -11,10 +11,16 @@ import Content from '@components/Content/Content';
 import { tw } from 'react-native-tailwindcss';
 import { Column } from "@components/Stack";
 import FormikInput from "@components/FormInput/FormikInput";
-import { useFocusEffect } from "@react-navigation/native";
-import { router } from "@constants/router";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { ROUTER } from "@constants/router";
+import { useDispatch, useSelector } from "react-redux";
+import { userLoginRoutine } from "../saga/routines";
+import axios from "axios";
+import { API } from "@constants/api";
+import { selectToken } from "../saga/selectors";
 
 export default function LoginScreen({ navigation }) {
+  const dispatch = useDispatch();
 
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
   const [checked, setChecked] = React.useState(false);
@@ -25,8 +31,8 @@ export default function LoginScreen({ navigation }) {
   };
 
   const formValues = {
-    username: '',
-    password: ''
+    username: 'su',
+    password: '9876543A@a'
   };
 
   const renderIcon = (props) => (
@@ -75,9 +81,9 @@ export default function LoginScreen({ navigation }) {
           </CheckBox>
         </View>
         <View style={{ alignItems: 'center' }}>
-          <Button onPress={() => navigation.navigate(router.FORGET_PASSWORD)} appearance="ghost">Quên mật khẩu ?</Button>
+          <Button onPress={() => navigation.navigate(ROUTER.FORGET_PASSWORD)} appearance="ghost">Quên mật khẩu ?</Button>
           <Button onPress={formik.handleSubmit} style={{ borderRadius: 100, width: 343, height: 51 }}>Đăng nhập</Button>
-          <Button onPress={() => navigation.navigate(router.REGISTER)} appearance="ghost">Đăng ký tài khoản</Button>
+          <Button onPress={() => navigation.navigate(ROUTER.REGISTER)} appearance="ghost">Đăng ký tài khoản</Button>
         </View>
       </Column>
     </Column>
@@ -90,23 +96,25 @@ export default function LoginScreen({ navigation }) {
       setError(false)
     }, [])
   )
+
   // ---------- Action ------------
   const onFormSubmit = async (values) => {
-    // if (values.password == 'a' && values.username == 'a') {
-    //     navigation.navigate(router.HOME)
-    // }
-    // else {
-    //     setError(true)
-    // }
-    // console.log(values);
-    navigation.navigate(router.MAIN_NAVIGATOR)
+    values = {
+      grant_type: 'password',
+      username: values.username,
+      password: values.password,//'9876543A@a'
+      client_id: 'vilis-mobile-client',
+      client_secret: 'n)3b^Q7g]Jd6T&$^',
+    }
+    await dispatch(userLoginRoutine(values))
   };
   return (
     <Container>
       <Header
-        status='primary'
+        // status='primary'
         title="Đăng nhập"
         hideLeftIcon={true}
+      // color='#FFFFFF'
       />
       <Content scrollEnabled={false} safeAreaEnabled={false}>
         <Formik

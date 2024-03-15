@@ -11,13 +11,20 @@ import { tw } from 'react-native-tailwindcss';
 import { Column } from "@components/Stack";
 import FormikInput from "@components/FormInput/FormikInput";
 import { useFocusEffect } from "@react-navigation/native";
-import { router } from "@constants/router";
+import { ROUTER } from "@constants/router";
 import UserIcon from '@assets/icons/user.svg'
 import FormikSelect from "@components/FormSelect/FormikSelect";
 import FormikDatePicker from "@components/FormDatePicker/FormikDatePicker";
+import { useDispatch } from "react-redux";
+import { userRegisterRoutine } from "@containers/Auth/saga/routines";
+import axios from "axios";
+import request from '@services/request';
+import { API } from "@constants/api";
+import { APP_CODE } from "@constants/app";
 
 export default function AccountInfo({ navigation, route }) {
     const { registerBy, values, pass } = route.params;
+    const dispatch = useDispatch();
 
     const [error, setError] = React.useState(false);
 
@@ -47,7 +54,7 @@ export default function AccountInfo({ navigation, route }) {
             <Text style={[tw.mB4, tw.textBase, { color: '#92969A', alignSelf: 'center' }]}>
                 Vui lòng nhập thông tin tài khoản
             </Text>
-            <UserIcon style={{alignSelf: 'center'}}/>
+            <UserIcon style={{ alignSelf: 'center' }} />
             {/* <Icon name={'person-outline'} style={{ width: 115, height: 116.86, alignSelf: 'center' }} fill='#286FC3' /> */}
             <Column space={4} style={{ flex: 1, justifyContent: 'space-between' }}>
                 <View>
@@ -55,14 +62,12 @@ export default function AccountInfo({ navigation, route }) {
                         name={'name'}
                         variant="outlined"
                         containerStyle={tw.mB4}
-                        required={true}
                         placeholder={'Họ và tên'}
                     />
                     <FormikSelect
                         name="gender"
                         variant='outlined'
                         containerStyle={tw.mB4}
-                        required={true}
                         uniqueKey="value"
                         displayKey="label"
                         options={[
@@ -86,7 +91,7 @@ export default function AccountInfo({ navigation, route }) {
                 </View>
                 <View style={{ alignItems: 'center' }}>
                     <Button onPress={formik.handleSubmit} style={{ borderRadius: 100, width: 343, height: 51 }}>Tiếp theo</Button>
-                    <Button onPress={() => console.log('skip')} appearance="ghost">Bỏ qua</Button>
+                    <Button onPress={handleSkip} appearance="ghost">Bỏ qua</Button>
                 </View>
             </Column>
         </Column>
@@ -100,14 +105,35 @@ export default function AccountInfo({ navigation, route }) {
         }, [])
     )
     // ---------- Action ------------
-    const onFormSubmit = async (values) => {
-        navigation.navigate(router.SUCCESS, { content: 'Tài khoản đã được tạo thành công' })
-        console.log(values);
+    const onFormSubmit = async (value) => {
+        // navigation.navigate(ROUTER.SUCCESS, { content: 'Tài khoản đã được tạo thành công' })
+        const data = {
+            "sex": value.gender,
+            "fullName": value.name,
+            "dateOfBirth": value.birth,
+            "address": value.address
+          }
+        console.log(data);
+        request.put(API.UPDATE_USER_INFO, data).then((response) => {
+            if (response.data) {
+                if (response.data.data == true) {
+                    console.log(response.data);
+                    navigation.navigate(ROUTER.SUCCESS, { content: 'Tài khoản đã được tạo thành công' })
+                }
+            }
+            return null;
+        })
+        .catch((error) => { console.log(error) });
+        // console.log(value);
     };
+
+    const handleSkip = () => {
+        navigation.navigate(ROUTER.SUCCESS, { content: 'Tài khoản đã được tạo thành công' })
+    }
     return (
         <Container>
             <Header
-                status='primary'
+                // status='primary'
                 title="Thông tin tài khoản"
                 hideLeftIcon={false}
             />

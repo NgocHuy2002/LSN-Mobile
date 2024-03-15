@@ -8,7 +8,7 @@ import { Image, TouchableOpacity, View } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from "moment";
-import { router } from "@constants/router";
+import { ROUTER } from "@constants/router";
 
 export const DataDetail = ({ route, navigation }) => {
   // const { title } = route.params;

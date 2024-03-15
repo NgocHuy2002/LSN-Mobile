@@ -13,7 +13,7 @@ import FormikInput from "@components/FormInput/FormikInput";
 import FormikSelect from "@components/FormSelect/FormikSelect";
 import { Formik } from "formik";
 import { tw } from "react-native-tailwindcss";
-import { router } from "@constants/router";
+import { ROUTER } from "@constants/router";
 
 export const ResourcesList = ({ route, navigation }) => {
   const [visible, setVisible] = useState(false);
@@ -37,7 +37,7 @@ export const ResourcesList = ({ route, navigation }) => {
   // ----------- Render --------------------
   const renderItem = ({ item, index }) => {
     return (
-      <TouchableOpacity onPress={() => navigation.navigate(router.DATA_DETAIL)}>
+      <TouchableOpacity onPress={() => navigation.navigate(ROUTER.DATA_DETAIL)}>
         <Row
           space={4}
           style={{ height: 77, borderTopWidth: 1, borderColor: '#E8E8E8', alignItems: 'center', borderBottomWidth: index == data.length - 1 ? 1 : 0, justifyContent: 'space-between', backgroundColor: 'transparent' }}

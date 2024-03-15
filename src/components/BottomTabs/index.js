@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 export const BottomNavigationCustom = () => {
 
   const [selectedIndex, setSelectedIndex] = React.useState(0);
-  const route = useSelector(state => state.router.route);
+  // const route = useSelector(state => state.router.route);
   // console.log(route);
   return (
     <BottomNavigation

@@ -1,87 +1,175 @@
-import { router } from '@constants/router';
-import { HomeScreen } from '@containers/HomeScreen';
-import MenuScreen from '@containers/MenuScreen';
+import React from 'react';
+import { useSelector } from 'react-redux';
+
+import { tw } from 'react-native-tailwindcss';
+import { View, Text } from 'react-native';
+import {
+  createStackNavigator,
+  TransitionPresets,
+} from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Icon } from '@ui-kitten/components';
-import TrangChuIcon from '@assets/icons/trang_chu.svg'
-import TaiNguyenIcon from '@assets/icons/tai_nguyen.svg'
-import BanDoIcon from '@assets/icons/ban_do.svg'
-import BaiVietIcon from '@assets/icons/bai_viet.svg'
-import ThemIcon from '@assets/icons/them.svg'
+
+import {
+  Icon,
+  Divider,
+  BottomNavigation,
+  BottomNavigationTab,
+} from '@ui-kitten/components';
+
+import { ROUTER } from '@constants/router';
+
+import Footer from '@components/Footer/Footer';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Field } from '@containers/AllField';
-import { createStackNavigator } from '@react-navigation/stack';
+
+// import { selectUnreadNotification } from '@containers/Notification/saga/selectors';
+import { HomeScreen } from '@containers/HomeScreen';
+import { ResourcesScreen } from '@containers/ResourcesScreen';
 import { PostsScreen } from '@containers/PostsScreen';
+import MenuScreen from '@containers/MenuScreen';
+import { Field } from '@containers/AllField';
 import { PostDetail } from '@containers/PostsScreen/PostDetail';
 import { ContactScreen } from '@containers/ContactScreen';
-import { ResourcesScreen } from '@containers/ResourcesScreen';
 import { ResourcesDetail } from '@containers/ResourcesScreen/ResourcesDetail';
 import { ResourcesList } from '@containers/ResourcesScreen/ResourcesList';
 import { DataDetail } from '@containers/ResourcesScreen/DataDetail';
+import { LanguageScreen } from '@containers/ChangeLanguage';
+import UserInfo from '@containers/UserInfo';
+import ChangeOldPassword from '@containers/Auth/ChangePassword/changePassword';
+import { GuideScreen } from '@containers/GuideScreen';
 
-const Tab = createBottomTabNavigator();
+// import { TYPE_USER } from '@constants/app';
+
 const Stack = createStackNavigator();
+const BottomTab = createBottomTabNavigator();
+
+const MainTabBar = () => {
+  // const PERMISSIONS = useUserPermissions();
+
+  return (
+    <BottomTab.Navigator tabBar={BottomTabBar}>
+      <BottomTab.Screen
+        name={ROUTER.HOME}
+        options={{
+          tabBarLabel: 'Trang chủ',
+          tabBarIcon: (iconProps) => (
+            <Icon
+              {...iconProps}
+              pack="app"
+              name="home"
+              width={16}
+              height={16}
+            />
+          ),
+        }}
+        component={HomeScreen}
+      />
+      <BottomTab.Screen
+        name={ROUTER.RESOURCES}
+        options={{
+          tabBarLabel: 'Tài nguyên',
+          tabBarIcon: (iconProps) => (
+            <Icon
+              {...iconProps}
+              pack="app"
+              name="database"
+              width={18}
+              height={18}
+            />
+          ),
+        }}
+        component={ResourcesScreen}
+      />
+      <BottomTab.Screen
+        name={ROUTER.POSTS}
+        options={{
+          tabBarLabel: 'Bài viết',
+          tabBarIcon: (iconProps) => (
+            <Icon
+              {...iconProps}
+              pack="app"
+              name="news"
+              width={18}
+              height={18}
+            />
+          ),
+        }}
+        component={PostsScreen}
+      />
+      <BottomTab.Screen
+        name={ROUTER.MENU}
+        options={{
+          tabBarLabel: 'Thêm',
+          tabBarIcon: (iconProps) => (
+            <Icon
+              {...iconProps}
+              pack="app"
+              name="bars"
+              width={16}
+              height={16}
+            />
+          ),
+        }}
+        component={MenuScreen}
+      />
+    </BottomTab.Navigator>
+  );
+};
+
+const BottomTabBar = (props) => {
+  const { state, navigation, descriptors } = props;
+
+  const onTabSelect = (tabIndex) => {
+    const tabSelected = state.routeNames[tabIndex];
+    navigation.navigate(tabSelected);
+  };
+
+  const renderTab = (route) => {
+    const { options } = descriptors[route.key];
+
+    return (
+      <BottomNavigationTab
+        key={route.key}
+        icon={options.tabBarIcon}
+        title={options.tabBarLabel}
+      />
+    );
+  };
+
+  return (
+    <Footer>
+      <Divider />
+      <BottomNavigation
+        indicatorStyle={{ height: 1 }}
+        selectedIndex={state.index}
+        onSelect={onTabSelect}
+      >
+        {state.routes.map(renderTab)}
+      </BottomNavigation>
+    </Footer>
+  );
+};
 
 export default function MainNavigator() {
-    function HomeStack() {
-        return (
-            <Stack.Navigator>
-                <Stack.Screen name={router.FIELD} component={Field} />
-            </Stack.Navigator>
-        );
-    }
-    return (
-        <Tab.Navigator tabBarOptions={{
-            labelStyle: { fontSize: 10, paddingBottom: 10 },
-            style: { paddingTop: 10, height: 60 }
-        }}>
-            <Tab.Screen name={router.HOME} component={HomeScreen}
-                options={{
-                    tabBarLabel: 'Trang chủ',
-                    tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons name="home" color={color} size={size} />
-                    ),
-                }}
-            />
-            <Tab.Screen name={router.FIELD} component={Field} options={{ tabBarButton: () => <></> }} />
-            <Tab.Screen name={router.POST} component={PostDetail} options={{ tabBarButton: () => <></> }} />
-            <Tab.Screen name={router.CONTACT} component={ContactScreen} options={{ tabBarButton: () => <></> }} />
-            <Tab.Screen name={router.RESOURCES_DETAIL} component={ResourcesDetail} options={{ tabBarButton: () => <></> }} />
-            <Tab.Screen name={router.RESOURCES_LIST} component={ResourcesList} options={{ tabBarButton: () => <></> }} />
-            <Tab.Screen name={router.DATA_DETAIL} component={DataDetail} options={{ tabBarButton: () => <></> }} />
-            <Tab.Screen name={router.RESOURCES} component={ResourcesScreen}
-                options={{
-                    tabBarLabel: 'Tài nguyên',
-                    tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons name="database" color={color} size={size} />
-                    ),
-                }}
-            />
-            {/*
-            <Tab.Screen name={'BanDo'} component={null}
-                options={{
-                    tabBarLabel: 'Bản đồ',
-                    tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons name="map" color={color} size={size} />
-                    ),
-                }}
-            />*/}
-            <Tab.Screen name={router.POSTS} component={PostsScreen}
-                options={{
-                    tabBarLabel: 'Bài viết',
-                    tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons name="newspaper-variant-multiple" size={size} color={color} />
-                    ),
-                }}
-            />
-            <Tab.Screen name={router.MENU} component={MenuScreen}
-                options={{
-                    tabBarLabel: 'Thêm',
-                    tabBarIcon: ({ color, size }) => (
-                        <MaterialCommunityIcons name="menu" color={color} size={size} />
-                    ),
-                }}
-            />
-        </Tab.Navigator>
-    )
-};
+  return (
+    <Stack.Navigator
+      headerMode="none"
+      screenOptions={{
+        gestureEnabled: true,
+        ...TransitionPresets.SlideFromRightIOS,
+      }}
+    >
+      <Stack.Screen name={ROUTER.MAIN} component={MainTabBar} />
+      <Stack.Screen name={ROUTER.HOME} component={HomeScreen} />
+      <Stack.Screen name={ROUTER.FIELD} component={Field} />
+      <Stack.Screen name={ROUTER.POST} component={PostDetail} />
+      <Stack.Screen name={ROUTER.CONTACT} component={ContactScreen} />
+      <Stack.Screen name={ROUTER.RESOURCES_DETAIL} component={ResourcesDetail} />
+      <Stack.Screen name={ROUTER.RESOURCES_LIST} component={ResourcesList} />
+      <Stack.Screen name={ROUTER.DATA_DETAIL} component={DataDetail} />
+      <Stack.Screen name={ROUTER.CHANGE_LAUGUAGE} component={LanguageScreen} />
+      <Stack.Screen name={ROUTER.USER_INFO} component={UserInfo} />
+      <Stack.Screen name={ROUTER.CHANGE_OLD_PASSWORD} component={ChangeOldPassword} />
+      <Stack.Screen name={ROUTER.GUIDE} component={GuideScreen} /> 
+    </Stack.Navigator>
+  );
+}

@@ -12,7 +12,10 @@ import { tw } from 'react-native-tailwindcss';
 import { Column } from "@components/Stack";
 import FormikInput from "@components/FormInput/FormikInput";
 import { useFocusEffect } from "@react-navigation/native";
-import { router } from "@constants/router";
+import { ROUTER } from "@constants/router";
+import request from '@services/request';
+import { API } from "@constants/api";
+import { APP_CODE } from "@constants/app";
 
 export default function ChangePasswordForNew({ navigation, route }) {
     const { registerBy, values, isNew } = route.params;
@@ -115,18 +118,35 @@ export default function ChangePasswordForNew({ navigation, route }) {
     // ---------- Action ------------
     const onFormSubmit = async (pass) => {
         if (isNew) {
-            navigation.navigate(router.ACCOUNT_INFO, { registerBy: registerBy, values: values, pass: pass })
+            let body = {
+                userName: pass.new_password,
+                email: pass.email,
+                password: pass.new_password,
+                phone: 'string',
+                appCode: APP_CODE
+            }
+            console.log(body)
+            request.post(API.REGISTER, body).then((response) => {
+                if (response.data) {
+                    if (response.data.data) {
+                        console.log(response.data.data);
+                        navigation.navigate(ROUTER.ACCOUNT_INFO, { registerBy: registerBy, values: response.data.data, pass: pass })
+                    }
+                }
+                return null;
+            })
+            .catch((error) => { console.log(error) });
         }
-        else{
-            navigation.navigate(router.SUCCESS, { content: 'Mật khẩu đã được khôi phục thành công' })
+        else {
+            navigation.navigate(ROUTER.SUCCESS, { content: 'Mật khẩu đã được khôi phục thành công' })
         }
-        
+
         console.log(pass);
     };
     return (
         <Container>
             <Header
-                status='primary'
+                // status='primary'
                 title={isNew ? "Chào mừng bạn" : "Nhập mật khẩu mới"}
                 hideLeftIcon={false}
             />

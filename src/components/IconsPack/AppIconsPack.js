@@ -22,6 +22,10 @@ import RecordsIcon from '../../assets/icons/records.svg';
 import SalineIcon from '../../assets/icons/saline.svg';
 import SearchIcon from '../../assets/icons/search.svg';
 import StatisticsIcon from '../../assets/icons/statistics.svg';
+import TrangChuIcon from '@assets/icons/trang_chu.svg'
+import Bars from '@assets/icons/bars.svg'
+import Database from '@assets/icons/database.svg'
+import News from '@assets/icons/news.svg'
 
 import ManageIcon from '../../assets/icons/manager.svg';
 import NotifitionIcon from '../../assets/icons/notification.svg';
@@ -64,6 +68,9 @@ const AppIconsPack = {
     'eye-close': SvgProvider(EyeCloseIcon),
     help: SvgProvider(HelpIcon),
     home: SvgProvider(HomeIcon),
+    bars: SvgProvider(Bars),
+    database: SvgProvider(Database),
+    news: SvgProvider(News),
     'medical-history': SvgProvider(MedicalHistoryIcon),
     'phone-call': SvgProvider(PhoneCallIcon),
     'phone-call-outline': SvgProvider(PhoneCallOutlineIcon),

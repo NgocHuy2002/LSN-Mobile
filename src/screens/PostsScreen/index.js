@@ -7,7 +7,7 @@ import { Button, Icon, Text } from "@ui-kitten/components";
 import Carousel from "react-native-snap-carousel";
 import { tw } from "react-native-tailwindcss";
 import { PaginationCustom } from "@components/Pagination/Pagination";
-import { router } from "@constants/router";
+import { ROUTER } from "@constants/router";
 
 export const PostsScreen = ({ navigation, route }) => {
 	const data = [
@@ -32,7 +32,7 @@ export const PostsScreen = ({ navigation, route }) => {
 			height: Dimensions.get('screen').height * 0.2 + 20,
 		}} 
 		key={item.title}
-		onPress={() => navigation.navigate(router.POST)}
+		onPress={() => navigation.navigate(ROUTER.POST)}
 		>
 			{/* <Text style={{ fontSize: 30 }}>{item.title}</Text> */}
 			<Image source={require('../../assets/images/image_demo.png')} style={{ width: Dimensions.get('screen').width * 0.7, height: 115 }} />

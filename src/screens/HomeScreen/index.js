@@ -14,7 +14,7 @@ import { tw } from "react-native-tailwindcss";
 import Carousel, { Pagination } from "react-native-snap-carousel";
 import React, { useEffect, useState } from "react";
 import { BottomNavigationCustom } from "@components/BottomTabs";
-import { router } from "@constants/router";
+import { ROUTER } from "@constants/router";
 // import Menu, { MenuDivider, MenuItem } from "react-native-material-menu";
 import {
     Menu,
@@ -24,10 +24,20 @@ import {
 } from 'react-native-popup-menu';
 import { renderers } from 'react-native-popup-menu';
 import { useFocusEffect } from "@react-navigation/native";
+import { useDispatch, useSelector } from "react-redux";
+import { selectToken } from "@containers/Auth/saga/selectors";
+import { getHottestPostsRoutine, getLatestPostsRoutine, getLinhVucRoutine } from "./saga/routines";
+import { selectPosts } from "./saga/selectors";
+import { API } from "@constants/api";
 // import Modal from "@components/Modal/Modal";
 const { SlideInMenu } = renderers;
+import request from '@services/request';
+
 
 export const HomeScreen = ({ navigation }) => {
+    const dispatch = useDispatch();
+    const [latest, setLatest] = useState({});
+    const [hottest, setHottest] = useState({});
     const [paginationNew, setPaginationNew] = useState(0)
     const [paginationHot, setPaginationHot] = useState(0)
     const screenWidth = Dimensions.get('screen').width;
@@ -104,16 +114,15 @@ export const HomeScreen = ({ navigation }) => {
         <View style={{
             borderRadius: 5,
             width: Dimensions.get('screen').width * 0.7,
-            height: Dimensions.get('screen').height * 0.2 + 20,
+            height: Dimensions.get('screen').height * 0.2,
         }}>
-            {/* <Text style={{ fontSize: 30 }}>{item.title}</Text> */}
-            <Image source={require('../../assets/images/image_demo.png')} style={{ width: Dimensions.get('screen').width * 0.7, height: 115 }} />
-            <Text style={{ textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: Dimensions.get('screen').width * 0.7 }}>{item.text}</Text>
+            <Image source={require('../../assets/images/image_demo.png')} />
+            <Text style={{ textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: Dimensions.get('screen').width * 0.7 }}>{item.tieude}</Text>
         </View>
     )
 
     const Item = ({ title, icon }) => (
-        <TouchableOpacity onPress={() => navigation.navigate(router.FIELD, { title: title })}>
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTER.FIELD, { title: title })}>
             <View style={{ width: 70, height: 80, flex: 1, alignItems: 'center', marginRight: 5 }}>
                 {icon}
                 <Text style={{ fontSize: 10, marginTop: 5, textAlign: 'center', display: 'flex', flexWrap: 'wrap' }}>{title}</Text>
@@ -124,20 +133,22 @@ export const HomeScreen = ({ navigation }) => {
     function PaginationView(props) {
         const { items, activeSlide } = props;
         return (
-            <Pagination
-                dotsLength={items.length}
-                activeDotIndex={activeSlide}
-                containerStyle={{ backgroundColor: "transparent" }}
-                dotStyle={{
-                    width: 7,
-                    height: 7,
-                    borderRadius: 5,
-                }}
-                dotColor='#286FC3'
-                inactiveDotColor='#757575'
-                inactiveDotOpacity={0.4}
-                inactiveDotScale={0.6}
-            />
+            <View style={{ height: 65 }}>
+                <Pagination
+                    dotsLength={items.length}
+                    activeDotIndex={activeSlide}
+                    containerStyle={{ backgroundColor: "transparent", }}
+                    dotStyle={{
+                        width: 5,
+                        height: 5,
+                        borderRadius: 5,
+                    }}
+                    dotColor='#286FC3'
+                    inactiveDotColor='#757575'
+                    inactiveDotOpacity={0.4}
+                    inactiveDotScale={0.6}
+                />
+            </View>
         );
     }
     const renderMenu = ({ items }) => {
@@ -156,59 +167,34 @@ export const HomeScreen = ({ navigation }) => {
 
     // ------- ----- --------------------
     // ---------- useEffect --------------
-    // useEffect(() => {
-    //     handleBackButton = () => {
-    //         Alert.alert(
-    //             'Thoát ứng dụng',
-    //             'Thoát khỏi ứng dụng?', [{
-    //                 text: 'Hủy',
-    //                 onPress: () => console.log('Cancel Pressed'),
-    //                 style: 'cancel'
-    //             }, {
-    //                 text: 'Đồng ý',
-    //                 onPress: () => BackHandler.exitApp()
-    //             },], {
-    //             cancelable: false
-    //         }
-    //         )
-    //         return true;
-    //     }
-    //     BackHandler.addEventListener("hardwareBackPress", handleBackButton);
-    //     return () => {
-    //         BackHandler.addEventListener(
-    //             "hardwareBackPress",
-    //             handleBackButton
-    //         );
-    //     };
-    // }, []);
-
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //         handleBackButton = () => {
-    //             Alert.alert(
-    //                 'Thoát ứng dụng',
-    //                 'Thoát khỏi ứng dụng?', [{
-    //                     text: 'Hủy',
-    //                     onPress: () => console.log('Cancel Pressed'),
-    //                     style: 'cancel'
-    //                 }, {
-    //                     text: 'Đồng ý',
-    //                     onPress: () => BackHandler.exitApp()
-    //                 },], {
-    //                 cancelable: false
-    //             }
-    //             )
-    //             return true;
-    //         }
-    //         BackHandler.addEventListener("hardwareBackPress", handleBackButton);
-    //         return () => {
-    //             BackHandler.addEventListener(
-    //                 "hardwareBackPress",
-    //                 handleBackButton
-    //             );
-    //         };
-    //     }, [])
-    // );
+    useEffect(() => {
+        // dispatch(getLinhVucRoutine.trigger())
+        // dispatch(getLatestPostsRoutine.trigger())
+        // dispatch(getHottestPostsRoutine.trigger())
+        handleCallLatestPostsApi()
+        handleCallHottestPostsApi()
+    }, [])
+    // ------------------------------------
+    // --------------- Action --------------
+    const handleCallLatestPostsApi = () => {
+        request.get(API.GET_LATEST_POSTS).then((response) => {
+            if (response.data) {
+                setLatest(response.data.slice(0, 5))
+                return response.data;
+            }
+            return null;
+        }).catch((error) => console.log(error));
+    }
+    const handleCallHottestPostsApi = () => {
+        request.get(API.GET_HOTTEST_POSTS).then((response) => {
+            if (response.data) {
+                setHottest(response.data.slice(0, 5))
+                return response.data;
+            }
+            return null;
+        }).catch((error) => console.log(error));
+    }
+    
     // ------------------------------------
     return (
         <Container>
@@ -222,7 +208,7 @@ export const HomeScreen = ({ navigation }) => {
             />
             <Content scrollEnabled={true} safeAreaEnabled={true}>
                 <View>
-                    <View style={[tw.p2, { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }]}>
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
                         <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Lĩnh vực</Text>
                         <Button appearance="ghost" accessoryLeft={renderIcon} onPress={() => setVisible(true)}>Xem tất cả</Button>
                     </View>
@@ -236,15 +222,16 @@ export const HomeScreen = ({ navigation }) => {
                     </View>
                 </View>
                 <View>
-                    <View style={[tw.p2, { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }]}>
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
                         <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Bài viết mới nhất</Text>
                         <Button appearance="ghost" accessoryLeft={renderIcon}>Xem tất cả</Button>
                     </View>
                     <View>
                         <Carousel
-                            data={carouselItems}
+                            data={latest}
                             renderItem={renderCard}
                             layout={'default'}
+                            loop={true}
                             sliderWidth={Dimensions.get('screen').width}
                             itemWidth={Dimensions.get('screen').width * 0.7}
                             autoplayDelay={2000}
@@ -254,20 +241,21 @@ export const HomeScreen = ({ navigation }) => {
                             onSnapToItem={(index) => setPaginationNew(index)}
                         />
                         <PaginationView
-                            items={carouselItems}
+                            items={latest}
                             activeSlide={paginationNew}
                         />
                     </View>
                 </View>
                 <View>
-                    <View style={[tw.p2, { display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }]}>
+                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
                         <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Bài viết nổi bật</Text>
                         <Button appearance="ghost" accessoryLeft={renderIcon}>Xem tất cả</Button>
                     </View>
                     <View style={{ alignItems: 'center' }}>
                         <Carousel
-                            data={carouselItems}
+                            data={hottest}
                             renderItem={renderCard}
+                            loop={true}
                             layout={'default'}
                             sliderWidth={Dimensions.get('screen').width}
                             itemWidth={Dimensions.get('screen').width * 0.7}
@@ -278,7 +266,7 @@ export const HomeScreen = ({ navigation }) => {
                             onSnapToItem={(index) => setPaginationHot(index)}
                         />
                         <PaginationView
-                            items={carouselItems}
+                            items={hottest}
                             activeSlide={paginationHot}
                         />
                     </View>

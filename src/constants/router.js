@@ -3,10 +3,11 @@ export const APP_LOADER = 'APP_LOADER';
 export const AUTH_NAVIGATOR = 'AUTH_NAVIGATOR';
 
 export const MAIN_NAVIGATOR = 'MAIN_NAVIGATOR';
-export const router = {
+export const ROUTER = {
     APP_LOADER: 'APP_LOADER',
     AUTH_NAVIGATOR: 'AUTH_NAVIGATOR',
     MAIN_NAVIGATOR: 'MAIN_NAVIGATOR',
+    MAIN: 'MAIN',
     LOGIN: 'LOGIN',
     REGISTER: 'REGISTER',
     REGISTER_BY: 'REGISTER_BY',
