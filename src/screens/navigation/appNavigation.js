@@ -4,26 +4,33 @@ import { createStackNavigator, TransitionPresets } from '@react-navigation/stack
 
 import AppLoaderScreen from './appLoaderScreen';
 
-import * as ROUTES from '../../constants/router.js';
+import { ROUTER } from '@constants/router';
+import { HomeScreen } from '@containers/HomeScreen';
+import MenuScreen from '@containers/MenuScreen';
+import { PostsScreen } from '@containers/PostsScreen';
+import { useSelector } from 'react-redux';
+import { selectToken } from '@containers/Auth/saga/selectors';
 
-import AuthNavigator from './authNavigation.js';
-import MainNavigator from './mainNavigation.js';
 
 const Stack = createStackNavigator();
 
-export default function AppNavigator() {
+export default function SubMainNavigator({ navigation }) {
+  const token = useSelector(selectToken);
+
+  React.useEffect(() => {
+    if (token) {
+      navigation.replace(ROUTER.MAIN_NAVIGATOR);
+    } else {
+      navigation.replace(ROUTER.AUTH_NAVIGATOR);
+    }
+  }, []);
   return (
     <Stack.Navigator
-      // headerMode="none"
-      screenOptions={{
-        headerShown: false,
-        gestureEnabled: false,
-        ...TransitionPresets.SlideFromRightIOS,
-      }}
+      headerMode="none"
     >
-      <Stack.Screen name={ROUTES.APP_LOADER} component={AppLoaderScreen} />
-      <Stack.Screen name={ROUTES.AUTH_NAVIGATOR} component={AuthNavigator} />
-      <Stack.Screen name={ROUTES.MAIN_NAVIGATOR} component={MainNavigator} />
+      <Stack.Screen name={ROUTER.HOME} component={HomeScreen} />
+      <Stack.Screen name={ROUTER.MENU} component={MenuScreen} />
+      <Stack.Screen name={ROUTER.POSTS} component={PostsScreen} />
     </Stack.Navigator>
   );
 }

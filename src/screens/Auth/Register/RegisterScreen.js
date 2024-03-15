@@ -11,21 +11,19 @@ import Content from '@components/Content/Content';
 import { tw } from 'react-native-tailwindcss';
 import { Column } from "@components/Stack";
 import FormikInput from "@components/FormInput/FormikInput";
-import { router } from "@constants/router";
+import { ROUTER } from "@constants/router";
 
 export default function RegisterScreen({ navigation }) {
     const renderIcon = (props) => (
-        <TouchableWithoutFeedback onPress={() => navigation.goBack()}>
-            <Icon
-                {...props}
-                name={'arrow-forward-outline'}
-            />
-        </TouchableWithoutFeedback>
+        <Icon
+            {...props}
+            name={'arrow-forward-outline'}
+        />
     );
     return (
         <Container>
             <Header
-                status='primary'
+                // status='primary'
                 title="Đăng ký"
                 hideLeftIcon={false}
             />
@@ -33,8 +31,8 @@ export default function RegisterScreen({ navigation }) {
                 <View>
                     <Text style={[tw.mB4, tw.textBase, { color: '#92969A' }]}>Vui lòng chọn hình thức đăng ký tài khoản</Text>
                 </View>
-                <Button style={[tw.roundedFull, tw.mB4]} appearance="outline" accessoryRight={renderIcon} onPress={() => navigation.navigate(router.REGISTER_BY_PHONE, {registerBy: 'email'})}>Đăng ký qua email</Button>
-                <Button style={[tw.roundedFull]} appearance="outline" accessoryRight={renderIcon} onPress={() => navigation.navigate(router.REGISTER_BY_PHONE, {registerBy: 'phone'})}>Đăng ký qua số điện thoại</Button>
+                <Button style={[tw.roundedFull, tw.mB4]} appearance="outline" accessoryRight={renderIcon} onPress={() => navigation.navigate(ROUTER.REGISTER_BY, { registerBy: 'email', isNew: true })}>Đăng ký qua email</Button>
+                <Button style={[tw.roundedFull]} appearance="outline" accessoryRight={renderIcon} onPress={() => navigation.navigate(ROUTER.REGISTER_BY, { registerBy: 'phone', isNew: true })}>Đăng ký qua số điện thoại</Button>
             </Content>
         </Container>
     )

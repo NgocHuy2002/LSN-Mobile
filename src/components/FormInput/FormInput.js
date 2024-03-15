@@ -17,6 +17,7 @@ const FormInput = forwardRef((props, ref) => {
     onIconPress,
     accessoryRight,
     secureTextEntry,
+    onSubmitEditing,
     textStyle,
     containerStyle,
     ...inputProps
@@ -95,13 +96,14 @@ const FormInput = forwardRef((props, ref) => {
         ref={ref}
         {...fcs}
         // accessoryRight={icon ? renderIcon : password && renderEyeIcon}
-        accessoryRight={password ? accessoryRight : null}
+        accessoryRight={accessoryRight}
         // secureTextEntry={password ? secureTextEntry : null}
         {...(password && {
           autoCapitalize: 'none',
           secureTextEntry: secureTextEntry,
         })}
         {...inputProps}
+        onSubmitEditing={onSubmitEditing}
         textStyle={[inputProps.multiline && [tw.pT0, tw.h10], textStyle]}
         captionIcon={captionIcon && renderCaptionIcon}
         textAlignVertical={inputProps.multiline && 'top'}

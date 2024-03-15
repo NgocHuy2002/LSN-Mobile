@@ -1,0 +1,55 @@
+import request from '@services/request';
+import { API, API_URL_34, API_URL_35 } from '@constants/api';
+import { formatString } from '@helpers/formatString';
+import axios from 'axios';
+
+export function requestLogin(data) {
+  var formBody = [];
+  for (var property in data) {
+    var encodedKey = encodeURIComponent(property);
+    var encodedValue = encodeURIComponent(data[property]);
+    formBody.push(encodedKey + "=" + encodedValue);
+  }
+  formBody = formBody.join("&");
+  const myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+  return request.post(API.LOGIN, formBody, myHeaders).then((response) => {
+    if (response?.data) {
+      return response.data.access_token;
+    }
+    return null;
+  });
+}
+
+export function requestRegister(data) {
+  console.log('here >>>', data);
+  axios.post(API.REGISTER, data).then((response) => {
+    if (response) {
+      console.log(response, '- requestRegister');
+      return response;
+    }
+    return null;
+  });
+}
+
+export function sendOtpForEmail(data) {
+  console.log('here >>>', data);
+  axios.post(API.SEND_OTP_EMAIL, data).then((response) => {
+    if (response) {
+      console.log(response, '- sendOtpForEmail');
+      return response;
+    }
+    return null;
+  });
+}
+
+export function verifyOtpForEmail(data) {
+  console.log('here >>>', data);
+  axios.post(API.VERIFY_OTP_EMAIL, data).then((response) => {
+    if (response) {
+      console.log(response, '- verifyOtpForEmail');
+      return response;
+    }
+    return null;
+  });
+}
