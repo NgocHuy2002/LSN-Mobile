@@ -33,7 +33,7 @@ const authSlice = createSlice({
     },
     [userLoginRoutine.SUCCESS]: (state, action) => {
       state.token = action.payload;
-      tokenService.setToken(action.payload.token);
+      tokenService.setToken(action.payload);
     },
     // [userInfo.SUCCESS]: (state, action) => {
     //   state.user = action.payload;

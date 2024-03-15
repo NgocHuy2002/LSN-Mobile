@@ -36,15 +36,13 @@ import request from '@services/request';
 
 export const HomeScreen = ({ navigation }) => {
     const dispatch = useDispatch();
-    const [latest, setLatest] = useState({});
-    const [hottest, setHottest] = useState({});
+    const [latest, setLatest] = useState([]);
+    const [hottest, setHottest] = useState([]);
     const [paginationNew, setPaginationNew] = useState(0)
     const [paginationHot, setPaginationHot] = useState(0)
     const screenWidth = Dimensions.get('screen').width;
     const screenHeight = Dimensions.get('screen').height * 0.3;
-    // Calculate 30% of the screen width
     const thirtyPercentOfScreenWidth = screenWidth * 0.3;
-    // Calculate the result by subtracting 30% of screen width from screen width
     const result = screenWidth - thirtyPercentOfScreenWidth;
     const [visible, setVisible] = useState(false);
     const DATA = [
@@ -135,7 +133,7 @@ export const HomeScreen = ({ navigation }) => {
         return (
             <View style={{ height: 65 }}>
                 <Pagination
-                    dotsLength={items.length}
+                    dotsLength={items.length || 5}
                     activeDotIndex={activeSlide}
                     containerStyle={{ backgroundColor: "transparent", }}
                     dotStyle={{
