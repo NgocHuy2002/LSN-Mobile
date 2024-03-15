@@ -1,6 +1,6 @@
 import Container from '@components/Container/Container';
 import React, { useState } from 'react';
-import { FlatList, TouchableWithoutFeedback, View, useWindowDimensions } from 'react-native';
+import { FlatList, ImageBackground, TouchableWithoutFeedback, View, useWindowDimensions } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 import Content from '@components/Content/Content';
 import Header from '@components/Header/Header';
@@ -25,11 +25,7 @@ const comments = [
 ]
 const source = {
   html:
-    `<p style="color: #286FC3; font-size: 12px; font-weight: 700; padding: 10px">
-  <span style="text-align: justify;">
-    ${title}
-  </span>
-</p>`
+    `<p style=\"margin: 15px 0px; padding: 0px; font-size: 15px; line-height: 24px; color: rgb(37, 37, 37); font-family: Roboto-Regular, sans-serif; font-style: normal; font-weight: 400; text-align: start; text-indent: 0px; white-space: normal;\">Mới đây, trên mạng xã Facebook chia sẻ đoạn clip ghi lại khoảnh khắc hài hước của một người đàn ông khi đang tham gia giải chạy việt dã.</p><p style=\"margin: 15px 0px; padding: 0px; font-size: 15px; line-height: 24px; color: rgb(37, 37, 37); font-family: Roboto-Regular, sans-serif; font-style: normal; font-weight: 400; text-align: start; text-indent: 0px; white-space: normal;\">Theo đó, khi đang chạy qua khu vực dân cư, người đàn ông này vẫn còn cách khá xa người dẫn đầu. Lúc này, một chú chó bất ngờ lao ra từ căn nhà bên đường khiến người đàn ông phải tăng tốc bỏ chạy. Cuối cùng, chân chạy trên đã giành chiến thắng.</p><p style=\"margin: 15px 0px; padding: 0px; font-size: 15px; line-height: 24px; color: rgb(37, 37, 37); font-family: Roboto-Regular, sans-serif; font-style: normal; font-weight: 400; text-align: start; text-indent: 0px; white-space: normal;\">Clip trên đã thu hút sự quan tâm của cộng đồng mạng. Ai nấy đều phải bật cười trước chiến thắng có phần hài hước này.</p><p style=\"margin: 15px 0px; padding: 0px; font-size: 15px; line-height: 24px; color: rgb(37, 37, 37); font-family: Roboto-Regular, sans-serif; font-style: normal; font-weight: 400; text-align: start; text-indent: 0px; white-space: normal;\">Theo tìm hiểu của phóng viên, người đàn ông trong clip trên là vận động viên Nguyễn Trung Cường (24 tuổi) của đội tuyển điền kinh quốc gia.</p>`
 };
 export const PostDetail = () => {
   const { width } = useWindowDimensions();
@@ -56,10 +52,20 @@ export const PostDetail = () => {
       </TouchableWithoutFeedback>
     )
   };
+  const AvatarImageComponentShowcase = () => (
+    <Avatar
+      source={require('@assets/images/logo.png')}
+      ImageComponent={ImageBackground}
+    />
+  );
   const Item = ({ items }) => (
     <Row space={4} style={{ justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10 }}>
-      <Row style={{ alignItems: 'center' }}>
-        < Avatar source={require('@assets/images/logo.png')} style={{ height: 22.1, width: 25, marginRight: 10 }} />
+      <Row style={{ alignItems: 'center', gap: 10 }}>
+        <Avatar
+          source={require('@assets/images/logo.png')}
+          ImageComponent={ImageBackground}
+          size='small'
+        />
         <Column style={{ alignItems: 'left' }}>
           <Text style={{ fontSize: 12, color: '#2C384A', fontWeight: 'bold' }}>
             {items.name}

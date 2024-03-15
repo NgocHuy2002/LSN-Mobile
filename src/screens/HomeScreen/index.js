@@ -108,6 +108,13 @@ export const HomeScreen = ({ navigation }) => {
         />
     );
     // ------- Render --------------------
+    const truncateString = (str, maxLength) => { 
+        if (str.length > maxLength) { 
+            return str.slice(0, maxLength - 3) + '...'; 
+        } 
+        return str; 
+    } 
+
     const renderCard = ({ item, index }) => (
         <View style={{
             borderRadius: 5,
@@ -115,7 +122,7 @@ export const HomeScreen = ({ navigation }) => {
             height: Dimensions.get('screen').height * 0.2,
         }}>
             <Image source={require('../../assets/images/image_demo.png')} />
-            <Text style={{ textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: Dimensions.get('screen').width * 0.7 }}>{item.tieude}</Text>
+            <Text style={{ textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: Dimensions.get('screen').width * 0.7 }}>{truncateString(item.tieude, 80)}</Text>
         </View>
     )
 
@@ -169,11 +176,22 @@ export const HomeScreen = ({ navigation }) => {
         // dispatch(getLinhVucRoutine.trigger())
         // dispatch(getLatestPostsRoutine.trigger())
         // dispatch(getHottestPostsRoutine.trigger())
+        handleCallLinhVucApi()
         handleCallLatestPostsApi()
         handleCallHottestPostsApi()
     }, [])
     // ------------------------------------
     // --------------- Action --------------
+    const handleCallLinhVucApi = () => {
+        request.get(API.GET_LINH_VUC).then((response) => {
+            if (response.data) {
+                // setLatest(response.data.slice(0, 5))
+                console.log(response.data);
+                return response.data;
+            }
+            return null;
+        }).catch((error) => console.log(error));
+    }
     const handleCallLatestPostsApi = () => {
         request.get(API.GET_LATEST_POSTS).then((response) => {
             if (response.data) {

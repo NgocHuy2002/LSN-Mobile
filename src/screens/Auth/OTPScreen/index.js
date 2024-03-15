@@ -7,7 +7,7 @@ import { Column, Row } from "@components/Stack";
 import { ROUTER } from "@constants/router";
 import { Button, Text } from "@ui-kitten/components";
 import { Field, Formik } from "formik";
-import React, { useCallback, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Dimensions, View } from "react-native";
 import OTPTextInput from "react-native-otp-textinput";
 import { tw } from "react-native-tailwindcss";
@@ -22,6 +22,8 @@ export const OTPScreen = ({ route, navigation }) => {
     const [otp, setOtp] = useState('');
     const [error, setError] = useState(false);
     const screenWidth = Dimensions.get('screen').width * 0.9;
+    const [time, setTime] = useState(59);
+    const timerRef = useRef(time);
 
     // ---------- useEffect ------------
     useFocusEffect(
@@ -29,6 +31,28 @@ export const OTPScreen = ({ route, navigation }) => {
             setError(false)
         }, [])
     )
+    useEffect(() => {
+        const timerId = setInterval(() => {
+            timerRef.current -= 1;
+            if (timerRef.current < 0) {
+                clearInterval(timerId);
+                // request.post(API.SEND_OTP_EMAIL, values).then((response) => {
+                //     if (response.data) {
+                //         if (response.data.data == true) {
+                //             setTime(59)
+                //         }
+                //     }
+                //     return null;
+                // });
+            } else {
+                setTime(timerRef.current);
+            }
+        }, 1000);
+        return () => {
+            clearInterval(timerId);
+        };
+    }, []);
+
     // ---------- Action ------------
     const clearText = () => {
         otpInput.current.clear();
@@ -38,12 +62,11 @@ export const OTPScreen = ({ route, navigation }) => {
             "email": registerBy == 'email' ? values.email : values.phone,
             "otp": data
         }
-        console.log(body);
         request.post(API.VERIFY_OTP_EMAIL, body).then((response) => {
             if (response?.data) {
                 console.log(response.data?.data, '- VERIFY_OTP_EMAIL');
                 if (response.data.data == true) {
-                    navigation.navigate(ROUTER.CHANGE_PASSWORD, { registerBy: registerBy, values: values, isNew: isNew })
+                    navigation.navigate(ROUTER.CHANGE_PASSWORD, { registerBy: registerBy, values: body, isNew: isNew })
                 }
                 else {
                     setError(true)
@@ -71,6 +94,7 @@ export const OTPScreen = ({ route, navigation }) => {
                         {error ? <Text style={{ fontSize: 15, color: '#DD4066' }}>Mã xác thực không đúng</Text> : null}
                     </View>
                     <Button onPress={() => onFormSubmit(otp)} style={{ borderRadius: 100, width: 343, height: 51, alignSelf: 'center', marginBottom: '5%' }}><Text>Gửi mã xác thực OTP</Text></Button>
+                    <Text style={{ alignSelf: 'center', marginBottom: '5%', fontSize: 16, color: '#286FC3' }}>{`Gửi lại mã `}<Text style={{ fontSize: 16, color: 'red' }}>{`${time}`}</Text><Text style={{ fontSize: 16, color: '#286FC3' }}>s</Text></Text>
                 </Column>
             </Content>
         </Container>
