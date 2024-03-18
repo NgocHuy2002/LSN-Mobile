@@ -16,6 +16,7 @@ import UserIcon from '@assets/icons/user-edit.svg'
 import FormikSelect from "@components/FormSelect/FormikSelect";
 import FormikDatePicker from "@components/FormDatePicker/FormikDatePicker";
 import { WarningModal } from "@components/WarningModal";
+import { updateUserInfoApi } from "@services/UserServive/UserService";
 
 export default function UserInfo({ navigation, route }) {
 
@@ -23,12 +24,12 @@ export default function UserInfo({ navigation, route }) {
     const [visible, setVisible] = React.useState(false);
 
     const formValues = {
-        name: '',
-        username: '',
+        fullName: '',
+        userName: '',
         phone: '',
         email: '',
-        gender: '',
-        birth: '',
+        sex: '',
+        dateOfBirth: '',
         address: '',
     };
 
@@ -39,12 +40,12 @@ export default function UserInfo({ navigation, route }) {
         });
 
     const Schema = Yup.object().shape({
-        name: noSpacesValidation,
-        username: noSpacesValidation,
+        fullName: noSpacesValidation,
+        userName: noSpacesValidation,
         phone: noSpacesValidation,
         email: noSpacesValidation,
-        gender: noSpacesValidation,
-        birth: noSpacesValidation,
+        sex: noSpacesValidation,
+        dateOfBirth: noSpacesValidation,
         address: noSpacesValidation,
     });
 
@@ -58,14 +59,14 @@ export default function UserInfo({ navigation, route }) {
             <Column space={4} style={{ flex: 1, justifyContent: 'space-between' }}>
                 <View>
                     <FormikInput
-                        name={'name'}
+                        name={'fullName'}
                         variant="outlined"
                         containerStyle={tw.mB4}
-                        required={true}
+                        // required={true}
                         placeholder={'Họ và tên'}
                     />
                     <FormikInput
-                        name={'username'}
+                        name={'userName'}
                         variant="outlined"
                         containerStyle={tw.mB4}
                         required={true}
@@ -75,21 +76,21 @@ export default function UserInfo({ navigation, route }) {
                         name={'phone'}
                         variant="outlined"
                         containerStyle={tw.mB4}
-                        required={true}
+                        // required={true}
                         placeholder={'Số điện thoại'}
                     />
                     <FormikInput
                         name={'email'}
                         variant="outlined"
                         containerStyle={tw.mB4}
-                        required={true}
+                        // required={true}
                         placeholder={'Email'}
                     />
                     <FormikSelect
-                        name="gender"
+                        name="sex"
                         variant='outlined'
                         containerStyle={tw.mB4}
-                        required={true}
+                        // required={true}
                         uniqueKey="value"
                         displayKey="label"
                         options={[
@@ -99,7 +100,7 @@ export default function UserInfo({ navigation, route }) {
                         placeholder={'Nhập giới tính'}
                     />
                     <FormikDatePicker
-                        name="birth"
+                        name="dateOfBirth"
                         containerStyle={tw.mB4}
                         variant="outlined"
                         placeholder="Chọn ngày sinh"
@@ -128,9 +129,17 @@ export default function UserInfo({ navigation, route }) {
     )
     // ---------- Action ------------
     const onFormSubmit = async (values) => {
-
+        const dataForm = {
+            // userName: values.userName,
+            sex: values.sex,
+            "fullName": values.fullName,
+            "dateOfBirth": values.dateOfBirth,
+            "address": values.address
+        }
+        const data = await updateUserInfoApi(dataForm)
         // navigation.navigate(ROUTER.SUCCESS, { content: 'Tài khoản đã được tạo thành công' })
         // console.log(values);
+        console.log(data);
     };
     return (
         <Container>
@@ -144,7 +153,7 @@ export default function UserInfo({ navigation, route }) {
                 <Formik
                     initialValues={formValues}
                     onSubmit={onFormSubmit}
-                    validationSchema={Schema}
+                    // validationSchema={Schema}
                 >
                     {renderForm}
                 </Formik>

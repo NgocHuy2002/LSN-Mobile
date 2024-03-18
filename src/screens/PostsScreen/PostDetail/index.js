@@ -1,6 +1,6 @@
 import Container from '@components/Container/Container';
-import React, { useState } from 'react';
-import { FlatList, ImageBackground, TouchableWithoutFeedback, View, useWindowDimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, FlatList, ImageBackground, TouchableWithoutFeedback, View, useWindowDimensions } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 import Content from '@components/Content/Content';
 import Header from '@components/Header/Header';
@@ -13,6 +13,9 @@ import { Formik } from 'formik';
 import FormikInput from '@components/FormInput/FormikInput';
 import { tw } from 'react-native-tailwindcss';
 import * as Yup from 'yup';
+import { getBaiVietTheoIdApi } from '@services/PostsService/PostsService';
+import { WebView } from 'react-native-webview';
+import Loading from '@components/Loading/Loading';
 
 const title = 'Thủ tướng Phạm Minh Chính: Nỗ lực của ngành TN&MT giúp giải phóng, phát huy các nguồn lực tài nguyên cho phát triển kinh tế, xã hội'
 const author = 'Trần Đức Hiếu'
@@ -23,15 +26,17 @@ const comments = [
   { name: 'Trần Đức Hiếu', comment: 'Bài viết rất hữu ích.. like like', date: '', key: 4 },
   { name: 'Trần Đức Hiếu', comment: 'Bài viết rất hữu ích.. like like', date: '', key: 5 },
 ]
-const source = {
-  html:
-    `<p style=\"margin: 15px 0px; padding: 0px; font-size: 15px; line-height: 24px; color: rgb(37, 37, 37); font-family: Roboto-Regular, sans-serif; font-style: normal; font-weight: 400; text-align: start; text-indent: 0px; white-space: normal;\">Mới đây, trên mạng xã Facebook chia sẻ đoạn clip ghi lại khoảnh khắc hài hước của một người đàn ông khi đang tham gia giải chạy việt dã.</p><p style=\"margin: 15px 0px; padding: 0px; font-size: 15px; line-height: 24px; color: rgb(37, 37, 37); font-family: Roboto-Regular, sans-serif; font-style: normal; font-weight: 400; text-align: start; text-indent: 0px; white-space: normal;\">Theo đó, khi đang chạy qua khu vực dân cư, người đàn ông này vẫn còn cách khá xa người dẫn đầu. Lúc này, một chú chó bất ngờ lao ra từ căn nhà bên đường khiến người đàn ông phải tăng tốc bỏ chạy. Cuối cùng, chân chạy trên đã giành chiến thắng.</p><p style=\"margin: 15px 0px; padding: 0px; font-size: 15px; line-height: 24px; color: rgb(37, 37, 37); font-family: Roboto-Regular, sans-serif; font-style: normal; font-weight: 400; text-align: start; text-indent: 0px; white-space: normal;\">Clip trên đã thu hút sự quan tâm của cộng đồng mạng. Ai nấy đều phải bật cười trước chiến thắng có phần hài hước này.</p><p style=\"margin: 15px 0px; padding: 0px; font-size: 15px; line-height: 24px; color: rgb(37, 37, 37); font-family: Roboto-Regular, sans-serif; font-style: normal; font-weight: 400; text-align: start; text-indent: 0px; white-space: normal;\">Theo tìm hiểu của phóng viên, người đàn ông trong clip trên là vận động viên Nguyễn Trung Cường (24 tuổi) của đội tuyển điền kinh quốc gia.</p>`
-};
-export const PostDetail = () => {
+
+export const PostDetail = ({ navigation, route }) => {
+  const { id } = route.params;
   const { width } = useWindowDimensions();
+  const [source, setSource] = useState()
   const formValues = {
     comment: '',
   };
+  // const source = {
+  //   html: content
+  // };
   const noSpacesValidation = Yup.string()
     .required('Thông tin này không được bỏ trống')
     .test('no-spaces', 'Không được chỉ nhập khoảng trắng', (value) => {
@@ -90,7 +95,15 @@ export const PostDetail = () => {
     />
   )
   // --------------- useEffect --------------------
+  useEffect(() => {
+    handleGetBaiViet()
+  }, [])
   // ----------------------------------------------
+  const handleGetBaiViet = async () => {
+    const data = await getBaiVietTheoIdApi(id)
+    // console.log(data.noidung);
+    setSource({ html: data.noidung })
+  }
   // --------------- Action -----------------------
   const onFormSubmit = (values) => {
     console.log(values);
@@ -105,11 +118,29 @@ export const PostDetail = () => {
         title='Bài viết'
         hideLeftIcon={false}
       />
+      {/* <View style={{ height: 500, width: Dimensions.get('screen').width,backgroundColor: "#EEF2FA", }}>
+        <WebView
+          originWhitelist={['*']}
+          scalesPageToFit={true}
+          bounces={false}
+          scrollEnabled
+          source={source ? source : { html: `<p></p>` }}
+          automaticallyAdjustContentInsets={false}
+          containerStyle={{ flex: 1, backgroundColor: '#EEF2FA' }}
+          renderLoading={() => (
+              <View style={[tw.flex1]}>
+                  <Loading />
+              </View>
+          )}
+          javaScriptEnabled={true}
+          startInLoadingState={true}
+        />
+      </View> */}
       <Content scrollEnabled={true} safeAreaEnabled={true}>
-        <Column space={4} style={{ paddingBottom: 25 }}>
+        <Column space={4} style={{ paddingBottom: 25, paddingHorizontal: 10 }}>
           <RenderHtml
             contentWidth={width}
-            source={source}
+            source={source ? source : { html: `<p></p>` }}
           />
         </Column>
         {/* Comment */}

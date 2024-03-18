@@ -12,9 +12,20 @@ export const API = {
   FORGOT_PASSWORD: 'http://10.168.4.231:5034/api/user-mobile/forgot-password',
   // FORGOT_PASSWORD: 'http://10.168.4.231:5023/api/MobileAPI/get-list-linh-vuc',
   UPDATE_USER_INFO: 'http://10.168.4.231:5034/api/user-mobile/update',
+
+  GET_CONTACT_CONTENTS: 'http://10.168.4.231:5023/api/MobileAPI/get-list-noi-dung-lien-he?PageNumber={0}',
+  POST_CONTACT_CONTENTS: 'http://10.168.4.231:5023/api/MobileAPI/create-thong-tin-lien-he',
+
+  // -------- BAI VIET API ----------------------------
   GET_LINH_VUC: 'http://10.168.4.231:5023/api/MobileAPI/get-list-linh-vuc',
   GET_LATEST_POSTS: 'http://10.168.4.231:5023/api/MobileAPI/get-list-bai-viet-gan-nhat',
   GET_HOTTEST_POSTS: 'http://10.168.4.231:5023/api/MobileAPI/get-list-bai-viet-noi-bat',
-  GET_CONTACT_CONTENTS: 'http://10.168.4.231:5023/api/MobileAPI/get-list-noi-dung-lien-he?PageNumber={0}',
-  POST_CONTACT_CONTENTS: 'http://10.168.4.231:5023/api/MobileAPI/create-thong-tin-lien-he',
+
+  GET_BAI_VIET_ID: 'http://10.168.4.231:5023/api/MobileAPI/{0}',
+  GET_LIST_CHUYEN_MUC: 'http://10.168.4.231:5023/api/MobileAPI/get-list-chuyen-muc',
+  GET_BAI_VIET_CHUYEN_MUC: 'http://10.168.4.231:5023/api/MobileAPI/get-list-bai-viet-theo-chuyen-muc?Take={0}',
+  GET_BAI_VIET_CHUYEN_MUC_ID: 'http://10.168.4.231:5023/api/MobileAPI/get-list-bai-viet-theo-chuyen-muc-id?ChuyenMucId={0}&PageNumber={1}&PageSize={2}',
+
+  // --------- FILE API -----------------------------
+  GET_IMAGE: 'http://10.168.4.231:5017/api/file-manager/GetImage?path={0}',
 };

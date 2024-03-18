@@ -26,6 +26,7 @@ export const ROUTER = {
     USER_INFO: 'USER_INFO',
     SUCCESS: 'SUCCESS',
     POSTS: 'POSTS',
+    POSTS_BY_CATEGORY: 'POSTS_BY_CATEGORY',
     POST: 'POST',
     CONTACT: 'CONTACT',
     OTP: 'OTP',

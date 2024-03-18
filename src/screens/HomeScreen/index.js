@@ -32,6 +32,7 @@ import { API } from "@constants/api";
 // import Modal from "@components/Modal/Modal";
 const { SlideInMenu } = renderers;
 import request from '@services/request';
+import { getHottestPostsApi, getLatestPostsApi } from "@services/PostsService/PostsService";
 
 
 export const HomeScreen = ({ navigation }) => {
@@ -108,26 +109,30 @@ export const HomeScreen = ({ navigation }) => {
         />
     );
     // ------- Render --------------------
-    const truncateString = (str, maxLength) => { 
-        if (str.length > maxLength) { 
-            return str.slice(0, maxLength - 3) + '...'; 
-        } 
-        return str; 
-    } 
+    const truncateString = (str, maxLength) => {
+        if (str?.length > maxLength) {
+            return str.slice(0, maxLength - 3) + '...';
+        }
+        return str;
+    }
 
     const renderCard = ({ item, index }) => (
-        <View style={{
-            borderRadius: 5,
-            width: Dimensions.get('screen').width * 0.7,
-            height: Dimensions.get('screen').height * 0.2,
-        }}>
-            <Image source={require('../../assets/images/image_demo.png')} />
-            <Text style={{ textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: Dimensions.get('screen').width * 0.7 }}>{truncateString(item.tieude, 80)}</Text>
-        </View>
+        <TouchableWithoutFeedback onPress={() => navigation.navigate(ROUTER.POST, { id: item.id })}>
+            <View style={{
+                borderRadius: 5,
+                width: Dimensions.get('screen').width * 0.8,
+                height: Dimensions.get('screen').height * 0.2,
+                justifyContent: 'center',
+                alignItems: 'flex-start'
+            }}>
+                <Image source={require('../../assets/images/image_demo.png')} style={{ resizeMode: 'cover', width: '100%' }} />
+                <Text style={{ textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: '100%', height: 50 }}>{truncateString(item.tieude, 100)}</Text>
+            </View>
+        </TouchableWithoutFeedback>
     )
 
     const Item = ({ title, icon }) => (
-        <TouchableOpacity onPress={() => navigation.navigate(ROUTER.FIELD, { title: title })}>
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTER.FIELD, { title: title, id_nganh: 2 })}>
             <View style={{ width: 70, height: 80, flex: 1, alignItems: 'center', marginRight: 5 }}>
                 {icon}
                 <Text style={{ fontSize: 10, marginTop: 5, textAlign: 'center', display: 'flex', flexWrap: 'wrap' }}>{title}</Text>
@@ -138,14 +143,14 @@ export const HomeScreen = ({ navigation }) => {
     function PaginationView(props) {
         const { items, activeSlide } = props;
         return (
-            <View style={{ height: 65 }}>
+            <View>
                 <Pagination
-                    dotsLength={items.length || 5}
+                    dotsLength={items?.length || 5}
                     activeDotIndex={activeSlide}
-                    containerStyle={{ backgroundColor: "transparent", }}
+                    containerStyle={{ backgroundColor: "transparent", paddingVertical: 10 }}
                     dotStyle={{
-                        width: 5,
-                        height: 5,
+                        width: 7,
+                        height: 7,
                         borderRadius: 5,
                     }}
                     dotColor='#286FC3'
@@ -176,7 +181,8 @@ export const HomeScreen = ({ navigation }) => {
         // dispatch(getLinhVucRoutine.trigger())
         // dispatch(getLatestPostsRoutine.trigger())
         // dispatch(getHottestPostsRoutine.trigger())
-        handleCallLinhVucApi()
+
+        // handleCallLinhVucApi()
         handleCallLatestPostsApi()
         handleCallHottestPostsApi()
     }, [])
@@ -192,25 +198,15 @@ export const HomeScreen = ({ navigation }) => {
             return null;
         }).catch((error) => console.log(error));
     }
-    const handleCallLatestPostsApi = () => {
-        request.get(API.GET_LATEST_POSTS).then((response) => {
-            if (response.data) {
-                setLatest(response.data.slice(0, 5))
-                return response.data;
-            }
-            return null;
-        }).catch((error) => console.log(error));
+    const handleCallLatestPostsApi = async () => {
+        const data = await getLatestPostsApi()
+        setLatest(data)
     }
-    const handleCallHottestPostsApi = () => {
-        request.get(API.GET_HOTTEST_POSTS).then((response) => {
-            if (response.data) {
-                setHottest(response.data.slice(0, 5))
-                return response.data;
-            }
-            return null;
-        }).catch((error) => console.log(error));
+    const handleCallHottestPostsApi = async () => {
+        const data = await getHottestPostsApi()
+        setHottest(data)
     }
-    
+
     // ------------------------------------
     return (
         <Container>
@@ -220,12 +216,11 @@ export const HomeScreen = ({ navigation }) => {
                 status='primary'
                 title="Trang chủ"
                 hideLeftIcon={true}
-                onBackPress={() => console.log('test')}
             />
             <Content scrollEnabled={true} safeAreaEnabled={true}>
                 <View>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
-                        <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Lĩnh vực</Text>
+                        <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Ngành</Text>
                         <Button appearance="ghost" accessoryLeft={renderIcon} onPress={() => setVisible(true)}>Xem tất cả</Button>
                     </View>
                     <View style={{ alignItems: 'center' }}>
@@ -240,24 +235,33 @@ export const HomeScreen = ({ navigation }) => {
                 <View>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
                         <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Bài viết mới nhất</Text>
-                        <Button appearance="ghost" accessoryLeft={renderIcon}>Xem tất cả</Button>
+                        <Button
+                            appearance="ghost"
+                            accessoryLeft={renderIcon}
+                            onPress={() => navigation.navigate(ROUTER.FIELD, { title: 'Bài viết mới nhất', data: latest, id_nganh: null })}
+                        >
+                            Xem tất cả
+                        </Button>
                     </View>
                     <View>
                         <Carousel
-                            data={latest}
+                            data={latest?.slice(0, 5)}
                             renderItem={renderCard}
                             layout={'default'}
-                            loop={true}
+                            // loop={true}
                             sliderWidth={Dimensions.get('screen').width}
-                            itemWidth={Dimensions.get('screen').width * 0.7}
+                            itemWidth={Dimensions.get('screen').width - 40}
                             autoplayDelay={2000}
+                            inactiveSlideScale={1}
+                            inactiveSlideShift={0}
+                            loop={true}
                             autoplayInterval={3000}
                             scrollEnabled={true}
                             useScrollView={true}
                             onSnapToItem={(index) => setPaginationNew(index)}
                         />
                         <PaginationView
-                            items={latest}
+                            items={latest?.slice(0, 5)}
                             activeSlide={paginationNew}
                         />
                     </View>
@@ -265,24 +269,32 @@ export const HomeScreen = ({ navigation }) => {
                 <View>
                     <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
                         <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Bài viết nổi bật</Text>
-                        <Button appearance="ghost" accessoryLeft={renderIcon}>Xem tất cả</Button>
+                        <Button
+                            appearance="ghost"
+                            accessoryLeft={renderIcon}
+                            onPress={() => navigation.navigate(ROUTER.FIELD, {title: 'Bài viết nổi bật', data: hottest, id_nganh: null})}
+                        >
+                            Xem tất cả
+                        </Button>
                     </View>
                     <View style={{ alignItems: 'center' }}>
                         <Carousel
-                            data={hottest}
+                            data={hottest?.slice(0, 5)}
                             renderItem={renderCard}
                             loop={true}
                             layout={'default'}
                             sliderWidth={Dimensions.get('screen').width}
-                            itemWidth={Dimensions.get('screen').width * 0.7}
+                            itemWidth={Dimensions.get('screen').width - 40}
                             autoplayDelay={2000}
                             autoplayInterval={3000}
                             scrollEnabled={true}
+                            inactiveSlideScale={1}
+                            inactiveSlideShift={0}
                             useScrollView={true}
                             onSnapToItem={(index) => setPaginationHot(index)}
                         />
                         <PaginationView
-                            items={hottest}
+                            items={hottest?.slice(0, 5)}
                             activeSlide={paginationHot}
                         />
                     </View>
@@ -296,7 +308,7 @@ export const HomeScreen = ({ navigation }) => {
                     <TouchableWithoutFeedback onPress={() => setVisible(false)} style={{ zIndex: 1 }}>
                         <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, zIndex: 100 }}>
                             <Card disabled={true} style={{ position: 'absolute', top: '60%', height: '40%', borderTopRightRadius: 25, borderTopLeftRadius: 25 }}>
-                                <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>Lĩnh vực</Text>
+                                <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>Ngành</Text>
                                 <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
                                     {renderMenu({ items: DATA })}
                                 </ScrollView>

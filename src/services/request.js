@@ -3,14 +3,16 @@ import axios from 'axios';
 import Toast from '@modules/Toast/Toast';
 
 import { API_URL_35 } from '@constants/api';
-import ROUTER from '@constants/router';
+import { ROUTER } from '@constants/router';
 
 // import { authActions } from '@containers/Auth/slice';
 
 import LoadingService from '@components/Loading/LoadingService';
-// import * as navigationService from '@services/navigationService';
+import * as navigationService from '@services/navigationService';
 import { getStore } from '../store';
 import { authActions } from '@containers/Auth/saga/slice';
+import { userLogoutRoutine } from '@containers/Auth/saga/routines';
+import { useDispatch } from 'react-redux';
 
 let requestsCount = 0;
 
@@ -40,6 +42,8 @@ axios.interceptors.response.use(
     return response;
   },
   function onResponseError(error) {
+    const dispatch = useDispatch();
+
     requestsCount = requestsCount - 1;
     updateActivityLoading();
 
@@ -51,9 +55,11 @@ axios.interceptors.response.use(
       const { token } = getStore().getState().auth;
 
       if (error.response.status === 401 && token) {
+        console.log('token timeout');
         errorText = 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại';
         getStore().dispatch(authActions.clear());
-        // navigationService.replace(ROUTER.AUTH_NAVIGATOR);
+        dispatch(userLogoutRoutine.trigger())
+        navigationService.replace(ROUTER.AUTH_NAVIGATOR);
       }
 
       if (error.response.data?.message) {
