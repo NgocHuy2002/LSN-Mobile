@@ -32,14 +32,15 @@ export const PostByCategory = ({ navigation, route }) => {
         <View style={{
           borderRadius: 15,
           width: screenWidth,
-          height: screenWidth,
+          height: 150,
           margin: 5
         }}>
           <Image
-            // src={item.imageLink}
-            source={require('@assets/images/image_demo.png')}
-            style={{ width: screenWidth, resizeMode: 'cover' }} />
-          <Text style={{ width: screenWidth, height: screenWidth * 0.5, textAlign: 'justify' }}>{truncateString(item.tieude, 85)}</Text>
+            source={{
+							uri: item.imageLink ? formatString(API.GET_IMAGE, item.imageLink) : 'https://developers.google.com/static/maps/documentation/maps-static/images/error-image-generic.png'
+						}}
+            style={{ width: screenWidth, resizeMode: 'cover', height: 100 }} />
+          <Text style={{ width: screenWidth, height: 50, textAlign: 'justify' }}>{truncateString(item.tieude, 75)}</Text>
         </View>
       </TouchableWithoutFeedback>
     )
