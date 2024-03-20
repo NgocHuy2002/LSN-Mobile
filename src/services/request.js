@@ -18,10 +18,11 @@ let requestsCount = 0;
 
 // axios.defaults.baseURL = API_URL_35;
 
-axios.defaults.timeout = 30000;
+axios.defaults.timeout = 10000;
 
 axios.interceptors.request.use(
   function onRequest(config) {
+    console.log('--- request ---');
     requestsCount = requestsCount + 1;
     if (!config?.hideLoading) {
       startActivityLoading()
@@ -29,6 +30,7 @@ axios.interceptors.request.use(
     return config;
   },
   function onRequestError(error) {
+    console.log('--- error ---');
     requestsCount = requestsCount - 1;
     return Promise.reject(error);
   },
@@ -42,7 +44,7 @@ axios.interceptors.response.use(
     return response;
   },
   function onResponseError(error) {
-    const dispatch = useDispatch();
+    console.log(error);
 
     requestsCount = requestsCount - 1;
     updateActivityLoading();
@@ -55,10 +57,9 @@ axios.interceptors.response.use(
       const { token } = getStore().getState().auth;
 
       if (error.response.status === 401 && token) {
-        console.log('token timeout');
+        console.log('--- token timeout ---');
         errorText = 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại';
         getStore().dispatch(authActions.clear());
-        dispatch(userLogoutRoutine.trigger())
         navigationService.replace(ROUTER.AUTH_NAVIGATOR);
       }
 

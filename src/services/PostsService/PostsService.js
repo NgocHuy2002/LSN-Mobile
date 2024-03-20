@@ -3,16 +3,6 @@ import { API, API_URL_34, API_URL_35 } from '@constants/api';
 import { formatString } from '@helpers/formatString';
 import axios from 'axios';
 
-
-export function getLinhVucApi(data) {
-  return request.get(API.GET_LINH_VUC).then((response) => {
-    if (response.data) {
-      return response.data;
-    }
-    return null;
-  }).catch((error) => console.log(error));
-}
-
 export function getLatestPostsApi(data) {
   return request.get(API.GET_LATEST_POSTS).then((response) => {
     if (response.data) {
@@ -56,6 +46,17 @@ export function getBaiVietTheoChuyenMucApi(size) {
 export function getBaiVietTheoIdApi(id) {
   return request
     .get(formatString(API.GET_BAI_VIET_ID, id))
+    .then((response) => {
+      if (response.data) {
+        return response.data;
+      }
+      return null;
+    })
+}
+
+export function getLinhVucApi(type, page, size) {
+  return request
+    .get(formatString(API.GET_LINH_VUC, type, page, size))
     .then((response) => {
       if (response.data) {
         return response.data;

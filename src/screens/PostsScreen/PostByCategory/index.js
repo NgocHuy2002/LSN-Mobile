@@ -19,11 +19,13 @@ export const PostByCategory = ({ navigation, route }) => {
   const screenWidth = Dimensions.get('screen').width * 0.5 - 10
   const numberCol = 2;
   const [data, setData] = useState()
-  const [formValues, setFormValues] = useState({
-    name: '',
-    code: '',
-    procedure: '',
-  });
+
+  const truncateString = (str, maxLength) => {
+		if (str.length > maxLength) {
+			return str.slice(0, maxLength - 3) + '...';
+		}
+		return str;
+	}
   const renderItem = ({ item, index }) => {
     return (
       <TouchableWithoutFeedback onPress={() => navigation.navigate(ROUTER.POST, { id: item.id })}>
@@ -37,7 +39,7 @@ export const PostByCategory = ({ navigation, route }) => {
             // src={item.imageLink}
             source={require('@assets/images/image_demo.png')}
             style={{ width: screenWidth, resizeMode: 'cover' }} />
-          <Text style={{ width: screenWidth, height: screenWidth * 0.5 }}>{item.tieude}</Text>
+          <Text style={{ width: screenWidth, height: screenWidth * 0.5, textAlign: 'justify' }}>{truncateString(item.tieude, 85)}</Text>
         </View>
       </TouchableWithoutFeedback>
     )

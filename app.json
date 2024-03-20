@@ -15,16 +15,48 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+      "bundleIdentifier": "com.dnhuy2012.LSNMobile",
+      "buildNumber": "2",
+      "icon": "./assets/app-icon-ios.png",
+      "supportsTablet": true,
+      "requireFullScreen": true,
+      "usesIcloudStorage": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Cho phép $(PRODUCT_NAME) truy cập camera để thêm ảnh chụp sản phẩm",
+        "NSPhotoLibraryUsageDescription": "Cho phép $(PRODUCT_NAME) truy cập thư viện ảnh để thêm ảnh sản phẩm"
       }
+    },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ],
+    "android": {
+      "icon": "./assets/app-icon-android-legacy.png",
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/app-icon-android-adaptive-foreground.png",
+        "backgroundImage": "./assets/app-icon-android-adaptive-background.png"
+      },
+      "permissions": [
+        "CAMERA",
+        "NOTIFICATIONS",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "package": "com.dnhuy2012.LSNMobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "285b11b1-253c-4791-ae6c-9d155bdbffde"
+      }
     }
   }
 }

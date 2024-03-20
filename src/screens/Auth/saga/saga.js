@@ -9,7 +9,7 @@ import {
   userLogoutRoutine,
   userRegisterRoutine,
 } from './routines';
-import { requestLogin, requestRegister, sendOtpForEmail } from '@services/AuthService/authService';
+import { requestLogin, requestLogout, requestRegister, sendOtpForEmail } from '@services/AuthService/authService';
 import { ROUTER } from '@constants/router';
 
 export function* userLogin(action) {
@@ -59,6 +59,7 @@ export function* userRegister(action) {
 
 export function* userLogout(action) {
   console.log('Logout saga');
+  yield call(requestLogout); // Call to api
   yield put(userLogoutRoutine.success());
   navigationService.replace(ROUTER.AUTH_NAVIGATOR);
 }

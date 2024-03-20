@@ -17,7 +17,7 @@ export const API = {
   POST_CONTACT_CONTENTS: 'http://10.168.4.231:5023/api/MobileAPI/create-thong-tin-lien-he',
 
   // -------- BAI VIET API ----------------------------
-  GET_LINH_VUC: 'http://10.168.4.231:5023/api/MobileAPI/get-list-linh-vuc',
+  GET_LINH_VUC: 'http://10.168.4.231:5023/api/MobileAPI/get-list-linh-vuc?Type={0}&PageNumber={1}&PageSize={2}',
   GET_LATEST_POSTS: 'http://10.168.4.231:5023/api/MobileAPI/get-list-bai-viet-gan-nhat',
   GET_HOTTEST_POSTS: 'http://10.168.4.231:5023/api/MobileAPI/get-list-bai-viet-noi-bat',
 
@@ -27,5 +27,12 @@ export const API = {
   GET_BAI_VIET_CHUYEN_MUC_ID: 'http://10.168.4.231:5023/api/MobileAPI/get-list-bai-viet-theo-chuyen-muc-id?ChuyenMucId={0}&PageNumber={1}&PageSize={2}',
 
   // --------- FILE API -----------------------------
-  GET_IMAGE: 'http://10.168.4.231:5017/api/file-manager/GetImage?path={0}',
+  GET_IMAGE: 'http://10.168.4.231:9999/doc-manager/{0}',
+
+  // --------------- HDSD ---------------------------
+  GET_HDSD: 'http://10.168.4.231:5023/api/MobileAPI/get-list-hdsd-tree?Type={0}&PageNumber={1}&PageSize={2}',
+
+  // ---------- KHO API -----------------------------
+  GET_KHO_BY_LINH_VUC: 'http://10.168.4.231:5023/api/MobileAPI/get-list-kho-theo-linh-vuc?LinhVuc={0}&PageNumber={1}&PageSize={2}',
+  GET_DOI_TUONG_BY_KHO_ID: 'http://10.168.4.231:5023/api/MobileAPI/get-list-doi-tuong-theo-kho?IdKho={0}&PageNumber={1}&PageSize={2}',
 };

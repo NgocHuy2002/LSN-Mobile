@@ -34,32 +34,26 @@ export const PostsScreen = ({ navigation, route }) => {
 		/>
 	);
 	const renderCard = ({ item, index }) => {
-		// console.log(formatString(API.GET_IMAGE, item.imageLink));
 		return (
 			<TouchableWithoutFeedback onPress={() => navigation.navigate(ROUTER.POST, { id: item.id })}>
 				<View
 					style={{
 						borderRadius: 5,
 						width: Dimensions.get('screen').width * 0.8,
-						height: Dimensions.get('screen').height * 0.2,
+						height: 200,
+						// borderWidth: 1,
 						justifyContent: 'center',
 						alignItems: 'flex-start'
 					}}
 					key={item.id}
 				>
 					<Image
-						source={require('@assets/images/image_demo.png')}  
-						// source={{
-						// 	uri: formatString(API.GET_IMAGE, item.imageLink),
-						// 	headers: {
-						// 		'App-Code': APP_CODE,
-						// 		'Site-Id': SITE_ID,
-						// 	},
-						// }}
-						// src="http://10.168.4.231:5017/api/file-manager/GetImage?path=SERVER_gisDigital/bai-viet/doi-song.jpg"
-						style={{ resizeMode: 'cover', width: '100%' }}
+						source={{
+							uri: item.imageLink ? formatString(API.GET_IMAGE, item.imageLink) : 'https://developers.google.com/static/maps/documentation/maps-static/images/error-image-generic.png'
+						}}
+						style={{ resizeMode: 'cover', width: '100%', height: 150, overflow: 'hidden' }}
 					/>
-					<Text style={{ height: 50, textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: '100%' }}>{item.tieude}</Text>
+					<Text style={{ height: 50, textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: '100%' }}>{truncateString(item.tieude, 90)}</Text>
 				</View>
 			</TouchableWithoutFeedback>
 		)
@@ -87,13 +81,6 @@ export const PostsScreen = ({ navigation, route }) => {
 		}).catch((error) => console.log(error));
 	}
 	const handleGetBaiVietChuyenMuc = async (size) => {
-		// request.get(formatString(API.GET_BAI_VIET_CHUYEN_MUC, 3)).then((response) => {
-		// 	if (response.data) {
-		// 		setBaiVietChuyenMuc(response.data)
-		// 		return response.data;
-		// 	}
-		// 	return null;
-		// }).catch((error) => console.log(error));
 		const data = await getBaiVietTheoChuyenMucApi(size)
 		setBaiVietChuyenMuc(data)
 	}
@@ -115,7 +102,7 @@ export const PostsScreen = ({ navigation, route }) => {
 					return (
 						<View key={chuyen_muc + '_' + index}>
 							<View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
-								<Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>{truncateString(chuyen_muc.tenChuyenMuc, 20)}</Text>
+								<Text style={{ fontSize: 15, alignSelf: 'center', fontWeight: 'bold' }}>{truncateString(chuyen_muc.tenChuyenMuc, 25)}</Text>
 								<Button appearance="ghost" accessoryLeft={renderIcon} onPress={() => handleShowAllPosts({ title: chuyen_muc.tenChuyenMuc, id: chuyen_muc.id })}>Xem tất cả</Button>
 							</View>
 							{!chuyen_muc.listTinBai?.length < 1 ?

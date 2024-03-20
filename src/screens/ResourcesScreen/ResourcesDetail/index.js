@@ -1,7 +1,7 @@
 import Container from "@components/Container/Container";
 import Header from "@components/Header/Header";
 import Content from '@components/Content/Content';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Card, Icon, List, ListItem, Text } from "@ui-kitten/components";
 import { Column, Row } from "@components/Stack";
 import { TouchableOpacity, View } from "react-native";
@@ -9,9 +9,11 @@ import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from "moment";
 import { ROUTER } from "@constants/router";
+import { getDoiTuongByKhoIdApi } from "@services/KhoService/KhoService";
 
 export const ResourcesDetail = ({ route, navigation }) => {
-  const { title } = route.params;
+  const { title, id } = route.params;
+  const [doiTuong, setDoiTuong] = useState()
   const data = [
     {
       title: 'trạm khai thác nước mặt',
@@ -115,8 +117,20 @@ export const ResourcesDetail = ({ route, navigation }) => {
     </Card>
   );
   // ---------------------------------------
-  // --------------Action----------------
-  // ---------------------------------------
+  // ------------- useEffect -------------
+  useEffect(() => {
+    if (id) {
+      handleGetDoiTuongByKhoId(id, 1, 10)
+    }
+  }, [])
+  // -------------------------------------
+  // ------------- Action ----------------
+  const handleGetDoiTuongByKhoId = async (id, page, size) => {
+    const data = await getDoiTuongByKhoIdApi(id, page, size)
+    console.log(data);
+    setDoiTuong(data.items)
+  }
+  // -------------------------------------
 
   return (
     <Container>

@@ -55,7 +55,6 @@ export default function MenuScreen({ navigation }) {
     };
     
     const handleLogout = () => {
-        console.log('logout');
         dispatch(userLogoutRoutine.trigger())
     }
     return (

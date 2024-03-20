@@ -28,7 +28,7 @@ const comments = [
 ]
 
 export const PostDetail = ({ navigation, route }) => {
-  const { id } = route.params;
+  const { id, data } = route.params;
   const { width } = useWindowDimensions();
   const [source, setSource] = useState()
   const formValues = {
@@ -96,7 +96,9 @@ export const PostDetail = ({ navigation, route }) => {
   )
   // --------------- useEffect --------------------
   useEffect(() => {
-    handleGetBaiViet()
+    if (id) {
+      handleGetBaiViet()
+    }
   }, [])
   // ----------------------------------------------
   const handleGetBaiViet = async () => {
@@ -140,7 +142,7 @@ export const PostDetail = ({ navigation, route }) => {
         <Column space={4} style={{ paddingBottom: 25, paddingHorizontal: 10 }}>
           <RenderHtml
             contentWidth={width}
-            source={source ? source : { html: `<p></p>` }}
+            source={source ? source : { html: `<div>${data}</div>` }}
           />
         </Column>
         {/* Comment */}

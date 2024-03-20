@@ -37,6 +37,7 @@ import UserInfo from '@containers/UserInfo';
 import ChangeOldPassword from '@containers/Auth/ChangePassword/changePassword';
 import { GuideScreen } from '@containers/GuideScreen';
 import { PostByCategory } from '@containers/PostsScreen/PostByCategory';
+import { ResourcesByScreen } from '@containers/ResourcesScreen/KhoTheoLinhVuc';
 
 // import { TYPE_USER } from '@constants/app';
 
@@ -166,6 +167,7 @@ export default function MainNavigator() {
       <Stack.Screen name={ROUTER.POST} component={PostDetail} />
       <Stack.Screen name={ROUTER.CONTACT} component={ContactScreen} />
       <Stack.Screen name={ROUTER.RESOURCES_DETAIL} component={ResourcesDetail} />
+      <Stack.Screen name={ROUTER.RESOURCES_BY} component={ResourcesByScreen} />
       <Stack.Screen name={ROUTER.RESOURCES_LIST} component={ResourcesList} />
       <Stack.Screen name={ROUTER.DATA_DETAIL} component={DataDetail} />
       <Stack.Screen name={ROUTER.CHANGE_LAUGUAGE} component={LanguageScreen} />
