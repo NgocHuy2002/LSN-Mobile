@@ -52,7 +52,12 @@ export const Field = ({ navigation, route }) => {
           height: screenWidth,
           margin: 5
         }}>
-          <Image source={require('../../assets/images/image_demo.png')} style={{ width: screenWidth, height: 76 }} />
+          <Image
+            source={{
+              uri: item.imageLink ? formatString(API.GET_IMAGE, item.imageLink) : 'https://developers.google.com/static/maps/documentation/maps-static/images/error-image-generic.png'
+            }}
+            style={{ width: screenWidth, height: 76 }}
+          />
           <Text style={{ width: screenWidth, height: screenWidth * 0.5 }}>{item.tieude || item.metaKey}</Text>
         </View>
       </TouchableWithoutFeedback>
@@ -86,7 +91,7 @@ export const Field = ({ navigation, route }) => {
     if (id_nganh) {
       navigation.navigate(ROUTER.POST, { id: null, data: item.metaValue })
     }
-    else{
+    else {
       navigation.navigate(ROUTER.POST, { id: item.id })
     }
   }

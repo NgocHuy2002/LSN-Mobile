@@ -104,7 +104,11 @@ export const HomeScreen = ({ navigation }) => {
         justifyContent: 'center',
         alignItems: 'flex-start'
       }}>
-        <Image source={require('../../assets/images/image_demo.png')} style={{ resizeMode: 'cover', width: '100%', height: 150 }} />
+        <Image
+          source={{
+            uri: item.imageLink ? formatString(API.GET_IMAGE, item.imageLink) : 'https://developers.google.com/static/maps/documentation/maps-static/images/error-image-generic.png'
+          }}
+          style={{ resizeMode: 'cover', width: '100%', height: 150 }} />
         <Text style={{ textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: '100%', height: 50 }}>{truncateString(item.tieude, 85)}</Text>
       </View>
     </TouchableWithoutFeedback>
