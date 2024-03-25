@@ -62,9 +62,12 @@ axios.interceptors.response.use(
         getStore().dispatch(authActions.clear());
         navigationService.replace(ROUTER.AUTH_NAVIGATOR);
       }
-
+      // console.log(error.response.data);
       if (error.response.data?.message) {
         errorText = error.response.data.message;
+      }
+      if (error.response.data?.error_description) {
+        errorText = error.response.data.error_description;
       }
     }
 

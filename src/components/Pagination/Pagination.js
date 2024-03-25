@@ -7,7 +7,7 @@ export const PaginationCustom = (props) => {
         <Pagination
             dotsLength={items.length || 3}
             activeDotIndex={activeSlide || 0}
-            containerStyle={{ backgroundColor: "transparent", paddingVertical: 10 }}
+            containerStyle={{ backgroundColor: "transparent", paddingVertical: 0, paddingBottom: 10 }}
             dotStyle={{
                 width: 7,
                 height: 7,

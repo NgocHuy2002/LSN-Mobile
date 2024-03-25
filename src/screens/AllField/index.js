@@ -13,36 +13,15 @@ export const Field = ({ navigation, route }) => {
   const { title, data, id_nganh } = route.params;
   const isFocused = useIsFocused();
   const [nganh, setNganh] = useState()
-  const screenWidth = Dimensions.get('screen').width * 0.5 - 10
+  const screenWidth = Dimensions.get('screen').width * 0.5 - 20
   const numberCol = 2;
-  const carouselItems = [
-    {
-      id: 1,
-      tieude: "Item 1",
-      text: "Đoàn thanh niên Sở Tài nguyên và Môi trường hưởng ứng Chương trình tình nguyện mùa Đông “Xuân gắn kết – Tết sum vầy” năm 2024",
-    },
-    {
-      id: 2,
-      tieude: "Item 2",
-      text: "Huy động sức mạnh tổng hợp toàn dân trong nhiệm vụ bảo vệ môi trường",
-    },
-    {
-      id: 3,
-      tieude: "Item 3",
-      text: "Text 3",
-    },
-    {
-      id: 4,
-      tieude: "Item 4",
-      text: "Text 4",
-    },
-    {
-      id: 5,
-      tieude: "Item 5",
-      text: "Text 5",
-    },
-  ]
 
+  const truncateString = (str, maxLength) => {
+    if (str?.length > maxLength) {
+      return str?.slice(0, maxLength - 3) + '...';
+    }
+    return str;
+  }
   const renderItem = ({ item, index }) => {
     return (
       <TouchableWithoutFeedback onPress={() => handleNavigationToPost(item)}>
@@ -50,15 +29,17 @@ export const Field = ({ navigation, route }) => {
           borderRadius: 15,
           width: screenWidth,
           height: screenWidth,
-          margin: 5
+          margin: 10
         }}>
-          <Image
-            source={{
-              uri: item.imageLink ? formatString(API.GET_IMAGE, item.imageLink) : 'https://developers.google.com/static/maps/documentation/maps-static/images/error-image-generic.png'
-            }}
-            style={{ width: screenWidth, height: 76 }}
-          />
-          <Text style={{ width: screenWidth, height: screenWidth * 0.5 }}>{item.tieude || item.metaKey}</Text>
+          <View style={{ width: '100%', height: screenWidth / 4 * 3, borderRadius: 5, overflow: 'hidden' }}>
+            <Image
+              source={
+                item.imageLink ? { uri: formatString(API.GET_IMAGE, item.imageLink) } : require('@assets/images/product-no-image.png')
+              }
+              style={{ width: screenWidth, height: (screenWidth / 4 * 3) }}
+            />
+          </View>
+          <Text style={{ width: screenWidth, height: screenWidth * 0.3, textAlign: 'justify' }}>{truncateString(item.tieude, 50) || truncateString(item.metaKey, 50)}</Text>
         </View>
       </TouchableWithoutFeedback>
     )

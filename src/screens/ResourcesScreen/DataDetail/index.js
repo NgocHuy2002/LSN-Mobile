@@ -4,7 +4,7 @@ import Content from '@components/Content/Content';
 import React from "react";
 import { Button, Card, Icon, List, ListItem, Text } from "@ui-kitten/components";
 import { Column, Row } from "@components/Stack";
-import { Image, TouchableOpacity, View } from "react-native";
+import { Image, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import moment from "moment";
@@ -22,17 +22,24 @@ export const DataDetail = ({ route, navigation }) => {
     ]
   }
   const tableData = [
-    {file: 'tramquantrac.xls', memory: '1,2', type: 'Mb', key: 1},
-    {file: 'tramquantrac.xls', memory: '1,2', type: 'Mb', key: 2},
+    { file: 'tramquantrac.xls', memory: '1,2', type: 'Mb', key: 1 },
+    { file: 'tramquantrac.xls', memory: '1,2', type: 'Mb', key: 2 },
+    { file: 'tramquantrac12sdfsdf34.xls', memory: '1,2', type: 'Mb', key: 3 },
   ]
   // ----------- Render --------------------
-const RenderHeaderTable = (props) => {
-  return (
-    <Row>
+  const truncateString = (str, maxLength) => {
+    if (str?.length > maxLength) {
+      return str.slice(0, maxLength) + '...';
+    }
+    return str;
+  }
+  const RenderHeaderTable = (props) => {
+    return (
+      <Row>
 
-    </Row>
-  )
-}
+      </Row>
+    )
+  }
   // ---------------------------------------
   // --------------Action----------------
   // ---------------------------------------
@@ -75,26 +82,33 @@ const RenderHeaderTable = (props) => {
                 </Row>
               )
             })}
-            <Text style={{fontSize: 12, fontWeight: 'bold'}}>Hình ảnh</Text>
-            <Image style={{width: 80, height: 80, backgroundColor: '#CDD3D9'}}/>
+            <Text style={{ fontSize: 12, fontWeight: 'bold' }}>Hình ảnh</Text>
+            <Image style={{ width: 80, height: 80, backgroundColor: '#CDD3D9' }} />
           </Column>
         </View>
         <View style={{ padding: 10 }}>
           <Card>
-            <Row space={10} style={{alignItems: 'center', borderBottomWidth: 1, paddingBottom: 5, borderColor: '#CDD3D9'}}>
-              <Text style={{fontSize: 10}}>STT</Text>
-              <Text style={{fontSize: 10}}>Tên tệp tin</Text>
-              <Text style={{fontSize: 10}}>Dung lượng</Text>
-              <Text style={{fontSize: 10}}>Thời gian</Text>
+            <Row space={5} style={{ alignItems: 'center', borderBottomWidth: 1, paddingBottom: 5, borderColor: '#CDD3D9' }}>
+              <Text style={{ fontSize: 10, width: '10%' }}>STT</Text>
+              <Text style={{ fontSize: 10, width: '30%' }}>Tên tệp tin</Text>
+              <Text style={{ fontSize: 10, width: '20%' }}>Dung lượng</Text>
+              <Text style={{ fontSize: 10, width: '20%' }}>Thời gian</Text>
             </Row>
             {tableData.map((e, index) => {
               return (
-                <Row space={10} style={{alignItems: 'center', height: 57, borderBottomWidth: 1, borderColor: '#CDD3D9'}} key={e.key}>
-                    <Text key={`${e.key}_${e.index}`} style={{fontSize: 10}}>{index + 1}</Text>
-                    <Text key={`${e.key}_${e.file}`} style={{fontSize: 10}}>{e.file}</Text>
-                    <Text key={`${e.key}_${e.memory}`} style={{fontSize: 10}}>{`${e.memory} ${e.type}`}</Text>
-                    <Text key={`${e.key}_${e.key}`} style={{fontSize: 10}}>{moment().format('DD/MM/yyyy')}</Text>
-                </Row>
+                <TouchableOpacity onPress={() => console.log(index + 1)} key={e.key}>
+                  <Row space={5} style={{ alignItems: 'center', height: 57, borderBottomWidth: 1, borderColor: '#CDD3D9' }} >
+                    <Text key={`${e.key}_${e.index}`} style={{ fontSize: 10, width: '10%' }}>{index + 1}</Text>
+                    <Text key={`${e.key}_${e.file}`} style={{ fontSize: 10, color: '#286FC3', width: '30%' }}>{e.file}</Text>
+                    <Text key={`${e.key}_${e.memory}`} style={{ fontSize: 10, width: '20%' }}>{`${e.memory} ${e.type}`}</Text>
+                    <View key={`${e.key}_${e.key}`} style={{ width: '20%' }}>
+                      <Column>
+                        <Text style={{ fontSize: 10 }}>{moment().format('hh:mm:ss')}</Text>
+                        <Text style={{ fontSize: 10 }}>{moment().format('DD/MM/yyyy')}</Text>
+                      </Column>
+                    </View>
+                  </Row>
+                </TouchableOpacity>
               )
             })}
           </Card>

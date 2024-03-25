@@ -19,6 +19,7 @@ export const PostsScreen = ({ navigation, route }) => {
 	const [listChuyenMuc, setListChuyenMuc] = useState();
 	const [baiVietChuyenMuc, setBaiVietChuyenMuc] = useState();
 	const [paginationStates, setPaginationStates] = useState(Array(listChuyenMuc?.length).fill(0));
+	const viewWidth = Dimensions.get('screen').width * 0.8;
 	// ------- Render --------------------
 	const truncateString = (str, maxLength) => {
 		if (str.length > maxLength) {
@@ -39,21 +40,23 @@ export const PostsScreen = ({ navigation, route }) => {
 				<View
 					style={{
 						borderRadius: 5,
-						width: Dimensions.get('screen').width * 0.8,
-						height: 200,
+						width: viewWidth,
+						height: viewWidth - 30,
 						// borderWidth: 1,
 						justifyContent: 'center',
 						alignItems: 'flex-start'
 					}}
 					key={item.id}
 				>
-					<Image
-						source={{
-							uri: item.imageLink ? formatString(API.GET_IMAGE, item.imageLink) : 'https://developers.google.com/static/maps/documentation/maps-static/images/error-image-generic.png'
-						}}
-						style={{ resizeMode: 'cover', width: '100%', height: 150, overflow: 'hidden' }}
-					/>
-					<Text style={{ height: 50, textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: '100%' }}>{truncateString(item.tieude, 90)}</Text>
+					<View style={{width: '100%', height: viewWidth / 4 * 3, borderRadius: 5, overflow: 'hidden'}}>
+						<Image
+							source={
+								item.imageLink ? { uri: formatString(API.GET_IMAGE, item.imageLink) } : require('@assets/images/product-no-image.png')
+							}
+							style={{ resizeMode: 'cover', width: '100%', height: viewWidth / 4 * 3, overflow: 'hidden' }}
+						/>
+					</View>
+					<Text style={{ height: 50, textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: '100%' }}>{truncateString(item.tieude, 85)}</Text>
 				</View>
 			</TouchableWithoutFeedback>
 		)

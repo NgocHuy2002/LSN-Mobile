@@ -1,6 +1,8 @@
 {
+  "name": "LSN-Mobile",
+  "displayName": "Cổng thông tin điện tử tỉnh Lạng Sơn",
   "expo": {
-    "name": "LSN-Mobile",
+    "name": "Cổng thông tin điện tử tỉnh Lạng Sơn",
     "slug": "LSN-Mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -17,7 +19,7 @@
     "ios": {
       "bundleIdentifier": "com.dnhuy2012.LSNMobile",
       "buildNumber": "2",
-      "icon": "./assets/app-icon-ios.png",
+      "icon": "./assets/icon.png",
       "supportsTablet": true,
       "requireFullScreen": true,
       "usesIcloudStorage": true,
@@ -37,9 +39,9 @@
       ]
     ],
     "android": {
-      "icon": "./assets/app-icon-android-legacy.png",
+      "icon": "./assets/icon.png",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/app-icon-android-adaptive-foreground.png",
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundImage": "./assets/app-icon-android-adaptive-background.png"
       },
       "permissions": [

@@ -17,7 +17,6 @@ export function* userLogin(action) {
     const data = yield call(requestLogin, action.payload); // Call to api
     if (data) {
       yield put(userLoginRoutine.success(data));
-      console.info('Token: >>>', data);
       navigationService.replace(ROUTER.MAIN_NAVIGATOR);
     } else {
       Alert.showAlert(data.message);

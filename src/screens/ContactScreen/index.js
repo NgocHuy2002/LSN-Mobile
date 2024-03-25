@@ -132,9 +132,13 @@ export const ContactScreen = () => {
     let data = {
       "validationResult": {},
       "noidung": value.comment,
+      "tendangnhap":'string',
+      "hoten": 'string',
+      "trangThai": 0,
       "thoidiemgui": now.toISOString()
     }
     request.post(API.POST_CONTACT_CONTENTS, data).then((response) => {
+      console.log(response.data);
       if (response.data) {
         handleGetContectContents()
         showToast(response.data.msg)
@@ -144,13 +148,14 @@ export const ContactScreen = () => {
     }).catch((error) => console.log(error));
   }
   const handleGetContectContents = () => {
-    request.get(formatString(API.GET_CONTACT_CONTENTS, 1)).then((response) => {
-      if (response.data) {
-        setData(response.data)
-        return response.data;
-      }
-      return null;
-    }).catch((error) => console.log(error));
+    request.get(formatString(API.GET_CONTACT_CONTENTS, 1, 10))
+      .then((response) => {
+        if (response.data) {
+          setData(response.data)
+          return response.data;
+        }
+      })
+      .catch((error) => console.log(error));
   }
   // ------------------------------------
   return (
@@ -183,7 +188,7 @@ export const ContactScreen = () => {
           ))}
         </View>
       </Content>
-      <Toast config={toastConfig} position="bottom" visibilityTime={3000}/>
+      <Toast config={toastConfig} position="bottom" visibilityTime={3000} />
     </Container>
   )
 }

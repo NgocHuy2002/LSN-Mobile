@@ -29,12 +29,12 @@ export default function MenuScreen({ navigation }) {
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [visible, setVisible] = React.useState(false);
     const menuData = [
-        { icon: <HomeIcon />, title: 'Trang chủ' },
+        { icon: <HomeIcon />, title: 'Trang chủ', event: ROUTER.HOME},
         { icon: <InfoIcon />, title: 'Giới thiệu' },
         { icon: <PhoneIcon />, title: 'Liên hệ', event: ROUTER.CONTACT },
-        { icon: <SettingIcon />, title: 'Tài nguyên' },
+        { icon: <SettingIcon />, title: 'Tài nguyên', event: ROUTER.RESOURCES },
         { icon: <EarthIcon />, title: 'Bản đồ' },
-        { icon: <NewsPaperIcon />, title: 'Bài viết' },
+        { icon: <NewsPaperIcon />, title: 'Bài viết', event: ROUTER.POSTS },
         { icon: <BookIcon />, title: 'Hướng dẫn kết nối', event: ROUTER.GUIDE },
     ]
     const renderToggleButton = () => (

@@ -13,7 +13,7 @@ export const API = {
   // FORGOT_PASSWORD: 'http://10.168.4.231:5023/api/MobileAPI/get-list-linh-vuc',
   UPDATE_USER_INFO: 'http://10.168.4.231:5034/api/user-mobile/update',
 
-  GET_CONTACT_CONTENTS: 'http://10.168.4.231:5023/api/MobileAPI/get-list-noi-dung-lien-he?PageNumber={0}',
+  GET_CONTACT_CONTENTS: 'http://10.168.4.231:5023/api/MobileAPI/get-list-noi-dung-lien-he?PageNumber={0}&PageSize={1}',
   POST_CONTACT_CONTENTS: 'http://10.168.4.231:5023/api/MobileAPI/create-thong-tin-lien-he',
 
   // -------- BAI VIET API ----------------------------

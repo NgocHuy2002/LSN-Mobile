@@ -33,6 +33,7 @@ import { API } from "@constants/api";
 const { SlideInMenu } = renderers;
 import request from '@services/request';
 import { getHottestPostsApi, getLatestPostsApi, getLinhVucApi } from "@services/PostsService/PostsService";
+import { formatString } from "@helpers/formatString";
 
 
 export const HomeScreen = ({ navigation }) => {
@@ -42,9 +43,7 @@ export const HomeScreen = ({ navigation }) => {
   const [paginationNew, setPaginationNew] = useState(0)
   const [paginationHot, setPaginationHot] = useState(0)
   const screenWidth = Dimensions.get('screen').width;
-  const screenHeight = Dimensions.get('screen').height * 0.3;
-  const thirtyPercentOfScreenWidth = screenWidth * 0.3;
-  const result = screenWidth - thirtyPercentOfScreenWidth;
+  const result = Dimensions.get('screen').width * 0.8;
   const [visible, setVisible] = useState(false);
   const DATA = [
     {
@@ -98,25 +97,26 @@ export const HomeScreen = ({ navigation }) => {
     <TouchableWithoutFeedback onPress={() => navigation.navigate(ROUTER.POST, { id: item.id })}>
       <View style={{
         borderRadius: 5,
-        width: Dimensions.get('screen').width * 0.8,
-        height: 200,
-        // borderWidth: 1,
+        width: result,
+        height: result - 20,
         justifyContent: 'center',
         alignItems: 'flex-start'
       }}>
-        <Image
-          source={{
-            uri: item.imageLink ? formatString(API.GET_IMAGE, item.imageLink) : 'https://developers.google.com/static/maps/documentation/maps-static/images/error-image-generic.png'
-          }}
-          style={{ resizeMode: 'cover', width: '100%', height: 150 }} />
-        <Text style={{ textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: '100%', height: 50 }}>{truncateString(item.tieude, 85)}</Text>
+        <View style={{ width: '100%', height: result / 4 * 3, borderRadius: 5, overflow: 'hidden' }}>
+          <Image
+            source={
+              item.imageLink ? { uri: formatString(API.GET_IMAGE, item.imageLink) } : require('@assets/images/product-no-image.png')
+            }
+            style={{ resizeMode: 'cover', width: result, height: (result / 4) * 3 }} />
+        </View>
+        <Text style={{ textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: '100%', height: 50, paddingTop: 5 }}>{truncateString(item.tieude, 85)}</Text>
       </View>
     </TouchableWithoutFeedback>
   )
 
   const Item = ({ title, icon, id }) => (
     <TouchableOpacity onPress={() => navigation.navigate(ROUTER.FIELD, { title: title, id_nganh: id })}>
-      <View style={{ width: 70, height: 80, flex: 1, alignItems: 'center', marginRight: 5 }}>
+      <View style={{ width: 70, height: 80, flex: 1, alignItems: 'center', marginRight: 5, }}>
         {icon}
         <Text style={{ fontSize: 10, marginTop: 5, textAlign: 'center', display: 'flex', flexWrap: 'wrap' }}>{title}</Text>
       </View>
@@ -130,7 +130,7 @@ export const HomeScreen = ({ navigation }) => {
         <Pagination
           dotsLength={items?.length || 1}
           activeDotIndex={activeSlide}
-          containerStyle={{ backgroundColor: "transparent", paddingVertical: 0 }}
+          containerStyle={{ backgroundColor: "transparent", paddingVertical: 0, paddingBottom: 10 }}
           dotStyle={{
             width: 7,
             height: 7,
@@ -148,7 +148,7 @@ export const HomeScreen = ({ navigation }) => {
     const itemWidth = (screenWidth) / 4;
     return items.map((item) => {
       return (
-        <TouchableOpacity onPress={() => console.log(item.title)} key={item.key}>
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTER.FIELD, { title: item.title, id_nganh: item.key })} key={item.key}>
           <View style={{ width: itemWidth, height: 60, display: 'flex', alignItems: 'center' }}>
             {item.icon}
             <Text style={{ fontSize: 10, marginTop: 5, textAlign: 'center' }}>{item.title}</Text>
@@ -200,7 +200,7 @@ export const HomeScreen = ({ navigation }) => {
             <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Ngành</Text>
             <Button appearance="ghost" accessoryLeft={renderIcon} onPress={() => setVisible(true)}>Xem tất cả</Button>
           </View>
-          <View style={{ alignItems: 'center' }}>
+          <View style={{ alignItems: 'center', paddingLeft: 20 }}>
             <FlatList
               horizontal={true}
               data={DATA}
@@ -283,18 +283,18 @@ export const HomeScreen = ({ navigation }) => {
           visible={visible}
           transparent={true}
           animationType="slide"
-          onRequestClose={() => setVisible(false)}
         >
-          <TouchableWithoutFeedback onPress={() => setVisible(false)} style={{ zIndex: 1 }}>
-            <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, zIndex: 100 }}>
-              <Card disabled={true} style={{ position: 'absolute', top: '60%', height: '40%', borderTopRightRadius: 25, borderTopLeftRadius: 25 }}>
-                <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>Ngành</Text>
-                <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
-                  {renderMenu({ items: DATA })}
-                </ScrollView>
-              </Card>
-            </View>
-          </TouchableWithoutFeedback>
+          <View style={{ flex: 1, zIndex: 100 }}>
+            <TouchableWithoutFeedback onPress={() => setVisible(false)}>
+              <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', height: '65%', width: '100%' }} />
+            </TouchableWithoutFeedback>
+            <Card disabled={true} style={{ position: 'absolute', top: '60%', height: '40%', borderTopRightRadius: 25, borderTopLeftRadius: 25 }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>Ngành</Text>
+              <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
+                {renderMenu({ items: DATA })}
+              </ScrollView>
+            </Card>
+          </View>
         </Modal>
       </Content>
     </Container>

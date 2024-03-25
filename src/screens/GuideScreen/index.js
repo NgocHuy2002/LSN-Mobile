@@ -2,7 +2,7 @@ import Container from "@components/Container/Container";
 import Header from "@components/Header/Header";
 import Content from '@components/Content/Content';
 import React, { useEffect, useState } from "react";
-import { Drawer, DrawerGroup, DrawerItem, Icon, Menu, MenuGroup, MenuItem } from "@ui-kitten/components";
+import { Drawer, DrawerGroup, DrawerItem, Icon, Menu, MenuGroup, MenuItem, Text } from "@ui-kitten/components";
 import { getGuideApi } from "@services/GuideService/GuideService";
 
 export const GuideScreen = ({ navigation }) => {
@@ -31,18 +31,18 @@ export const GuideScreen = ({ navigation }) => {
       <Content scrollEnabled={false} safeAreaEnabled={false}>
         <Menu
           selectedIndex={selectedIndex}
-          style={{ padding: 10 }}
+          style={{ paddingHorizontal: 10, marginVertical: 10 }}
           onSelect={index => setSelectedIndex(index)}
         >
           {guide?.map((item) => {
             return (
               <MenuGroup
-                title={item.name}
+                title={evaProps => <Text {...evaProps} style={{fontSize: 15, fontWeight: '700'}}>{item.name}</Text>}
                 key={item.id}
               >
                 {item.child.map((subItem) => {
                   return(
-                    <MenuItem title={subItem.name} key={subItem.id}/>
+                    <MenuItem title={subItem.name} key={subItem.id} style={{borderBottomWidth: 1, borderColor: '#E8E8E8'}}/>
                   )
                 })}
               </MenuGroup>

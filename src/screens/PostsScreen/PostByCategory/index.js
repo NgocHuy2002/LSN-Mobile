@@ -16,30 +16,32 @@ import { ROUTER } from "@constants/router";
 export const PostByCategory = ({ navigation, route }) => {
   const { title, chuyen_muc_id } = route.params;
   const isFocused = useIsFocused();
-  const screenWidth = Dimensions.get('screen').width * 0.5 - 10
+  const screenWidth = Dimensions.get('screen').width * 0.5 - 20
   const numberCol = 2;
   const [data, setData] = useState()
 
   const truncateString = (str, maxLength) => {
-		if (str.length > maxLength) {
-			return str.slice(0, maxLength - 3) + '...';
-		}
-		return str;
-	}
+    if (str.length > maxLength) {
+      return str.slice(0, maxLength - 3) + '...';
+    }
+    return str;
+  }
   const renderItem = ({ item, index }) => {
     return (
       <TouchableWithoutFeedback onPress={() => navigation.navigate(ROUTER.POST, { id: item.id })}>
         <View style={{
           borderRadius: 15,
           width: screenWidth,
-          height: 150,
-          margin: 5
+          height: screenWidth,
+          margin: 10
         }}>
-          <Image
-            source={{
-							uri: item.imageLink ? formatString(API.GET_IMAGE, item.imageLink) : 'https://developers.google.com/static/maps/documentation/maps-static/images/error-image-generic.png'
-						}}
-            style={{ width: screenWidth, resizeMode: 'cover', height: 100 }} />
+          <View style={{ width: '100%', height: screenWidth / 4 * 3, borderRadius: 5, overflow: 'hidden' }}>
+            <Image
+              source={
+                item.imageLink ? { uri: formatString(API.GET_IMAGE, item.imageLink) } : require('@assets/images/product-no-image.png')
+              }
+              style={{ width: screenWidth, resizeMode: 'cover', height: (screenWidth / 4 * 3) }} />
+          </View>
           <Text style={{ width: screenWidth, height: 50, textAlign: 'justify' }}>{truncateString(item.tieude, 75)}</Text>
         </View>
       </TouchableWithoutFeedback>
