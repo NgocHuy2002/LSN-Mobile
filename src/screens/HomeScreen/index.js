@@ -34,6 +34,7 @@ const { SlideInMenu } = renderers;
 import request from '@services/request';
 import { getHottestPostsApi, getLatestPostsApi, getLinhVucApi } from "@services/PostsService/PostsService";
 import { formatString } from "@helpers/formatString";
+import { Video } from 'expo-av';
 
 
 export const HomeScreen = ({ navigation }) => {
@@ -45,39 +46,7 @@ export const HomeScreen = ({ navigation }) => {
   const screenWidth = Dimensions.get('screen').width;
   const result = Dimensions.get('screen').width * 0.8;
   const [visible, setVisible] = useState(false);
-  const DATA = [
-    {
-      key: 141,
-      icon: <TrafficIcon />,
-      title: 'Giao thông vận tải',
-    },
-    {
-      key: 140,
-      icon: <InfoIcon />,
-      title: 'Thông tin truyền thông',
-    },
-    {
-      key: 139,
-      icon: <NoiVuIcon />,
-      title: 'Nội vụ',
-    },
-    {
-      key: 424,
-      icon: <EnviromentIcon />,
-      title: 'Tài nguyên môi trường',
-    },
-    {
-      key: 138,
-      icon: <XayDungIcon />,
-      title: 'Xây dựng',
-    },
-    {
-      key: 425,
-      icon: <NgongNghiepIcon />,
-      title: 'Nông nghiệp',
-    },
-
-  ];
+  const DATA = [];
 
   const renderIcon = (props) => (
     <Icon
@@ -166,8 +135,8 @@ export const HomeScreen = ({ navigation }) => {
     // dispatch(getHottestPostsRoutine.trigger())
 
     // handleCallLinhVucApi('C_LINHVUC', 1, 10)
-    handleCallLatestPostsApi()
-    handleCallHottestPostsApi()
+    // handleCallLatestPostsApi()
+    // handleCallHottestPostsApi()
   }, [])
   // ------------------------------------
   // --------------- Action --------------
@@ -191,111 +160,31 @@ export const HomeScreen = ({ navigation }) => {
         style={{ backgroundColor: '#286FC3' }}
         color='#FFFFFF'
         status='primary'
-        title="Trang chủ"
+        title="Camera trực tiếp"
         hideLeftIcon={true}
       />
       <Content scrollEnabled={true} safeAreaEnabled={true}>
-        <View>
-          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
-            <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Ngành</Text>
-            <Button appearance="ghost" accessoryLeft={renderIcon} onPress={() => setVisible(true)}>Xem tất cả</Button>
-          </View>
-          <View style={{ alignItems: 'center', paddingLeft: 20 }}>
-            <FlatList
-              horizontal={true}
-              data={DATA}
-              renderItem={({ item }) => <Item title={item.title} icon={item.icon} id={item.key} />}
-              keyExtractor={item => item.key}
-            />
-          </View>
-        </View>
-        <View>
-          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
-            <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Bài viết mới nhất</Text>
-            <Button
-              appearance="ghost"
-              accessoryLeft={renderIcon}
-              onPress={() => navigation.navigate(ROUTER.FIELD, { title: 'Bài viết mới nhất', data: latest, id_nganh: null })}
-            >
-              Xem tất cả
-            </Button>
-          </View>
-          {latest ?
-            <View>
-              <Carousel
-                data={latest?.slice(0, 5) || null}
-                renderItem={renderCard || null}
-                layout={'default'}
-                sliderWidth={Dimensions.get('screen').width}
-                itemWidth={Dimensions.get('screen').width - 40}
-                autoplayDelay={2000}
-                inactiveSlideScale={1}
-                inactiveSlideShift={0}
-                loop={true}
-                autoplayInterval={3000}
-                scrollEnabled={true}
-                useScrollView={true}
-                onSnapToItem={(index) => setPaginationNew(index)}
-              />
-              <PaginationView
-                items={latest?.slice(0, 5) || null}
-                activeSlide={paginationNew}
-              />
-            </View> : null
-          }
-        </View>
-        <View>
-          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
-            <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Bài viết nổi bật</Text>
-            <Button
-              appearance="ghost"
-              accessoryLeft={renderIcon}
-              onPress={() => navigation.navigate(ROUTER.FIELD, { title: 'Bài viết nổi bật', data: hottest, id_nganh: null })}
-            >
-              Xem tất cả
-            </Button>
-          </View>
-          {hottest ?
-            <View style={{ alignItems: 'center' }}>
-              <Carousel
-                data={hottest?.slice(0, 5)}
-                renderItem={renderCard}
-                loop={true}
-                layout={'default'}
-                sliderWidth={Dimensions.get('screen').width}
-                itemWidth={Dimensions.get('screen').width - 40}
-                autoplayDelay={2000}
-                autoplayInterval={3000}
-                scrollEnabled={true}
-                inactiveSlideScale={1}
-                inactiveSlideShift={0}
-                useScrollView={true}
-                onSnapToItem={(index) => setPaginationHot(index)}
-              />
-              <PaginationView
-                items={hottest?.slice(0, 5) || null}
-                activeSlide={paginationHot}
-              />
-            </View> : null
-          }
-        </View>
-        <Modal
-          visible={visible}
-          transparent={true}
-          animationType="slide"
-        >
-          <View style={{ flex: 1, zIndex: 100 }}>
-            <TouchableWithoutFeedback onPress={() => setVisible(false)}>
-              <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', height: '65%', width: '100%' }} />
-            </TouchableWithoutFeedback>
-            <Card disabled={true} style={{ position: 'absolute', top: '60%', height: '40%', borderTopRightRadius: 25, borderTopLeftRadius: 25 }}>
-              <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>Ngành</Text>
-              <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
-                {renderMenu({ items: DATA })}
-              </ScrollView>
-            </Card>
-          </View>
-        </Modal>
+        {DATA.length > 0 ?
+          DATA.map((item) => {
+            return (
+              <Card style={{ width: Dimensions.get('screen').width - 20, height: Dimensions.get('screen').height / 3, margin: 10 }}>
+                <Text>Camera 1</Text>
+              </Card>
+            )
+          }) :
+          <Card style={{ width: Dimensions.get('screen').width - 20, height: Dimensions.get('screen').height / 3, margin: 10 }}>
+            {/* <Video
+              source={{ uri: 'https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8' }}
+              rate={1.0}
+              volume={1.0}
+              isMuted={true}
+              resizeMode="contain"
+              shouldPlay={true}
+              collapsable
+              useNativeControls
+              style={{ width: '100%', height: '100%'}} /> */}
+          </Card>
+        }
       </Content>
     </Container>
   )
