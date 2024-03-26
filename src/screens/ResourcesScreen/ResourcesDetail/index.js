@@ -71,25 +71,25 @@ export const ResourcesDetail = ({ route, navigation }) => {
   const RenderFooter = (props) => {
     return (
       <Row style={{ alignItems: 'center', paddingHorizontal: 20, paddingVertical: 5 }} space={4}>
-        <Row style={{ alignItems: 'center' }}>
+        <Row style={{ alignItems: 'center' }} space={1}>
           <MaterialCommunityIcons name="database-outline" size={12} color="#2C384A" />
           <Text style={{ fontSize: 12, fontWeight: '400' }}>{props.number}</Text>
         </Row>
-        {props?.seen ?
+        {props?.seen != undefined ?
           (
-            <Row style={{ alignItems: 'center' }}>
+            <Row style={{ alignItems: 'center' }} space={1}>
               <MaterialCommunityIcons name="eye-outline" size={12} color="#2C384A" />
               <Text style={{ fontSize: 12, fontWeight: '400' }}>{props.number}</Text>
             </Row>
           ) : null
         }
-        <Row style={{ alignItems: 'center' }}>
+        <Row style={{ alignItems: 'center' }} space={1}>
           <MaterialCommunityIcons name="calendar-blank" size={12} color="#2C384A" />
-          <Text style={{ fontSize: 12, fontWeight: '400' }}>{moment().format('DD/MM/yyyy')}</Text>
+          <Text style={{ fontSize: 12, fontWeight: '400' }}>{moment(props.date).format('DD/MM/yyyy')}</Text>
         </Row>
-        {props?.download ?
+        {props?.download != undefined ?
           (
-            <Row style={{ alignItems: 'center' }}>
+            <Row style={{ alignItems: 'center' }} space={1}>
               <AntDesign name="download" size={12} color="#2C384A" />
               <Text style={{ fontSize: 12, fontWeight: '400' }}>{props.number}</Text>
             </Row>
@@ -102,17 +102,20 @@ export const ResourcesDetail = ({ route, navigation }) => {
     <Card
       onPress={() => navigation.navigate(ROUTER.RESOURCES_LIST)}
       style={{ marginVertical: 10 }}
-      header={<RenderHeader title={item.title} />}
-      footer={<RenderFooter number={item.number} seen={item?.seen} download={item?.download} />}
+      header={<RenderHeader title={item.tenDoiTuong} />}
+      footer={<RenderFooter number={item.tongSoFileLuuTru} seen={item?.soLuotXem} download={item?.soLuotTai} date={item?.ngayCapNhat} />}
     >
       <Column>
         <Row style={{ paddingBottom: 5 }}>
           <Text>Nhãn (Tags): </Text>
-          {item.tags.map((e, index) => (
+          {/* {item.tags.map((e, index) => (
             <Text key={`${item.key}_${e}`}>{`${e}${index == item.tags.length - 1 ? '' : ', '}`}</Text>
-          ))}
+          ))} */}
+          <Text>{`Trống`}</Text>
+
         </Row>
-        <Text>{item.content}</Text>
+        <Text>{item.noiDungDoiTuong}</Text>
+        {/* <Text>`It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.`</Text> */}
       </Column>
     </Card>
   );
@@ -127,8 +130,7 @@ export const ResourcesDetail = ({ route, navigation }) => {
   // ------------- Action ----------------
   const handleGetDoiTuongByKhoId = async (id, page, size) => {
     const data = await getDoiTuongByKhoIdApi(id, page, size)
-    console.log(data);
-    setDoiTuong(data.items)
+    setDoiTuong(data)
   }
   // -------------------------------------
 
@@ -142,11 +144,13 @@ export const ResourcesDetail = ({ route, navigation }) => {
         hideLeftIcon={false}
       />
       <Content scrollEnabled={false} safeAreaEnabled={false}>
-        <List
-          style={{ paddingHorizontal: 15 }}
-          data={data}
-          renderItem={renderItem}
-        />
+        {doiTuong?.length > 0 ?
+          <List
+            style={{ paddingHorizontal: 15 }}
+            data={doiTuong}
+            renderItem={renderItem}
+          /> : <Text style={{ paddingTop: 20, alignSelf: 'center' }}>Danh sách đối tượng trống</Text>
+        }
       </Content>
     </Container>
   )

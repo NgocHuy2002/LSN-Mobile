@@ -53,7 +53,7 @@ export const PostsScreen = ({ navigation, route }) => {
 							source={
 								item.imageLink ? { uri: formatString(API.GET_IMAGE, item.imageLink) } : require('@assets/images/product-no-image.png')
 							}
-							style={{ resizeMode: 'cover', width: '100%', height: viewWidth / 4 * 3, overflow: 'hidden' }}
+							style={{ resizeMode: 'cover', width: viewWidth, height: '100%'}}
 						/>
 					</View>
 					<Text style={{ height: 50, textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: '100%' }}>{truncateString(item.tieude, 85)}</Text>
