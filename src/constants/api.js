@@ -31,7 +31,7 @@ export const API = {
 
   // --------------- HDSD ---------------------------
   GET_HDSD: 'http://10.168.4.231:5023/api/MobileAPI/get-list-hdsd-tree?Type={0}&PageNumber={1}&PageSize={2}',
-
+  GET_HDSD_ID: 'http://10.168.4.231:5023/api/HuongDanSuDung/{0}',
   // ---------- KHO API -----------------------------
   GET_KHO_BY_LINH_VUC: 'http://10.168.4.231:5023/api/MobileAPI/get-list-kho-theo-linh-vuc?LinhVuc={0}&PageNumber={1}&PageSize={2}',
   GET_DOI_TUONG_BY_KHO_ID: 'http://10.168.4.231:5023/api/MobileAPI/get-list-doi-tuong-theo-kho?IdKho={0}&PageNumber={1}&PageSize={2}',

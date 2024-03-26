@@ -11,3 +11,12 @@ export function getGuideApi(type, page,size) {
     return null;
   }).catch((error) => console.log(error));
 }
+
+export function getGuideByIdApi(id) {
+  return request.get(formatString(API.GET_HDSD_ID, id)).then((response) => {
+    if (response.data) {
+      return response.data;
+    }
+    return null;
+  }).catch((error) => console.log(error));
+}

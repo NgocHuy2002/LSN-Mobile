@@ -38,6 +38,9 @@ import ChangeOldPassword from '@containers/Auth/ChangePassword/changePassword';
 import { GuideScreen } from '@containers/GuideScreen';
 import { PostByCategory } from '@containers/PostsScreen/PostByCategory';
 import { ResourcesByScreen } from '@containers/ResourcesScreen/KhoTheoLinhVuc';
+import GuideDetail from '@containers/GuideScreen/GuideDetail';
+import { AboutScreen } from '@containers/AboutScreen';
+import { MapScreen } from '@containers/MapScreen';
 
 // import { TYPE_USER } from '@constants/app';
 
@@ -80,6 +83,22 @@ const MainTabBar = () => {
           ),
         }}
         component={ResourcesScreen}
+      />
+      <BottomTab.Screen
+        name={ROUTER.MAP}
+        options={{
+          tabBarLabel: 'Bản đồ',
+          tabBarIcon: (iconProps) => (
+            <Icon
+              {...iconProps}
+              pack="app"
+              name="map"
+              width={18}
+              height={18}
+            />
+          ),
+        }}
+        component={MapScreen}
       />
       <BottomTab.Screen
         name={ROUTER.POSTS}
@@ -174,6 +193,9 @@ export default function MainNavigator() {
       <Stack.Screen name={ROUTER.USER_INFO} component={UserInfo} />
       <Stack.Screen name={ROUTER.CHANGE_OLD_PASSWORD} component={ChangeOldPassword} />
       <Stack.Screen name={ROUTER.GUIDE} component={GuideScreen} /> 
+      <Stack.Screen name={ROUTER.GUIDE_ID} component={GuideDetail} /> 
+      <Stack.Screen name={ROUTER.ABOUT} component={AboutScreen} /> 
+      {/* <Stack.Screen name={ROUTER.MAP} component={MapScreen} />  */}
     </Stack.Navigator>
   );
 }

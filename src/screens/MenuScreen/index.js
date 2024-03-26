@@ -30,10 +30,10 @@ export default function MenuScreen({ navigation }) {
     const [visible, setVisible] = React.useState(false);
     const menuData = [
         { icon: <HomeIcon />, title: 'Trang chủ', event: ROUTER.HOME},
-        { icon: <InfoIcon />, title: 'Giới thiệu' },
+        { icon: <InfoIcon />, title: 'Giới thiệu', event: ROUTER.ABOUT },
         { icon: <PhoneIcon />, title: 'Liên hệ', event: ROUTER.CONTACT },
         { icon: <SettingIcon />, title: 'Tài nguyên', event: ROUTER.RESOURCES },
-        { icon: <EarthIcon />, title: 'Bản đồ' },
+        { icon: <EarthIcon />, title: 'Bản đồ', event: ROUTER.MAP },
         { icon: <NewsPaperIcon />, title: 'Bài viết', event: ROUTER.POSTS },
         { icon: <BookIcon />, title: 'Hướng dẫn kết nối', event: ROUTER.GUIDE },
     ]
