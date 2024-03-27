@@ -88,13 +88,13 @@ export const Field = ({ navigation, route }) => {
       />
       <Content scrollEnabled={false} safeAreaEnabled={false}>
         {/* <ProList
-                    params={filterParams}
-                    request={onRequest}
-                    reloadDeps={[isFocused]}
-                    renderItem={renderItem}
-                    ItemSeparatorComponent={() => <View style={tw.h4} />}
-                    contentContainerStyle={tw.p4}
-                /> */}
+          params={filterParams}
+          request={onRequest}
+          reloadDeps={[isFocused]}
+          renderItem={renderItem}
+          ItemSeparatorComponent={() => <View style={tw.h4} />}
+          contentContainerStyle={tw.p4}
+        /> */}
         <View style={{ flex: 1, alignItems: 'center' }}>
           <FlatList
             data={id_nganh ? nganh : data}

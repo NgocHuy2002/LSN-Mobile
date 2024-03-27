@@ -32,7 +32,7 @@ import { API } from "@constants/api";
 // import Modal from "@components/Modal/Modal";
 const { SlideInMenu } = renderers;
 import request from '@services/request';
-import { getHottestPostsApi, getLatestPostsApi, getLinhVucApi } from "@services/PostsService/PostsService";
+import { getFlatLinhVucApi, getHottestPostsApi, getLatestPostsApi, getLinhVucApi } from "@services/PostsService/PostsService";
 import { formatString } from "@helpers/formatString";
 
 
@@ -40,44 +40,12 @@ export const HomeScreen = ({ navigation }) => {
   const dispatch = useDispatch();
   const [latest, setLatest] = useState([]);
   const [hottest, setHottest] = useState([]);
+  const [linhVuc, setLinhVuc] = useState([]);
   const [paginationNew, setPaginationNew] = useState(0)
   const [paginationHot, setPaginationHot] = useState(0)
   const screenWidth = Dimensions.get('screen').width;
   const result = Dimensions.get('screen').width * 0.8;
   const [visible, setVisible] = useState(false);
-  const DATA = [
-    {
-      key: 141,
-      icon: <TrafficIcon />,
-      title: 'Giao thông vận tải',
-    },
-    {
-      key: 140,
-      icon: <InfoIcon />,
-      title: 'Thông tin truyền thông',
-    },
-    {
-      key: 139,
-      icon: <NoiVuIcon />,
-      title: 'Nội vụ',
-    },
-    {
-      key: 424,
-      icon: <EnviromentIcon />,
-      title: 'Tài nguyên môi trường',
-    },
-    {
-      key: 138,
-      icon: <XayDungIcon />,
-      title: 'Xây dựng',
-    },
-    {
-      key: 425,
-      icon: <NgongNghiepIcon />,
-      title: 'Nông nghiệp',
-    },
-
-  ];
 
   const renderIcon = (props) => (
     <Icon
@@ -117,7 +85,13 @@ export const HomeScreen = ({ navigation }) => {
   const Item = ({ title, icon, id }) => (
     <TouchableOpacity onPress={() => navigation.navigate(ROUTER.FIELD, { title: title, id_nganh: id })}>
       <View style={{ width: 70, height: 80, flex: 1, alignItems: 'center', marginRight: 5, }}>
-        {icon}
+        {/* {icon} */}
+        <Image
+          source={
+            icon ? { uri: formatString(API.GET_IMAGE, icon) } : require('@assets/images/product-no-image.png')
+          }
+          style={{ resizeMode: 'cover', width: 40, height: 40 }}
+        />
         <Text style={{ fontSize: 10, marginTop: 5, textAlign: 'center', display: 'flex', flexWrap: 'wrap' }}>{title}</Text>
       </View>
     </TouchableOpacity>
@@ -148,10 +122,15 @@ export const HomeScreen = ({ navigation }) => {
     const itemWidth = (screenWidth) / 4;
     return items.map((item) => {
       return (
-        <TouchableOpacity onPress={() => navigation.navigate(ROUTER.FIELD, { title: item.title, id_nganh: item.key })} key={item.key}>
-          <View style={{ width: itemWidth, height: 60, display: 'flex', alignItems: 'center' }}>
-            {item.icon}
-            <Text style={{ fontSize: 10, marginTop: 5, textAlign: 'center' }}>{item.title}</Text>
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTER.FIELD, { title: item.name, id_nganh: item.id })} key={item.id}>
+          <View style={{ width: itemWidth, height: 80, display: 'flex', alignItems: 'center' }}>
+            <Image
+              source={
+                item.imgLink ? { uri: formatString(API.GET_IMAGE, item.imgLink) } : require('@assets/images/product-no-image.png')
+              }
+              style={{ resizeMode: 'cover', width: 50, height: 50 }}
+            />
+            <Text style={{ fontSize: 10, marginTop: 5, textAlign: 'center' }}>{item.name}</Text>
           </View>
         </TouchableOpacity>
       );
@@ -165,7 +144,7 @@ export const HomeScreen = ({ navigation }) => {
     // dispatch(getLatestPostsRoutine.trigger())
     // dispatch(getHottestPostsRoutine.trigger())
 
-    // handleCallLinhVucApi('C_LINHVUC', 1, 10)
+    handleCallLinhVucApi('C_LINHVUC', 1, 10)
     handleCallLatestPostsApi()
     handleCallHottestPostsApi()
   }, [])
@@ -173,7 +152,7 @@ export const HomeScreen = ({ navigation }) => {
   // --------------- Action --------------
   const handleCallLinhVucApi = async (type, page, size) => {
     const data = await getLinhVucApi(type, page, size)
-    console.log("Linh vuc >>>", data.filter(x => x.id == 139));
+    setLinhVuc(data)
   }
   const handleCallLatestPostsApi = async () => {
     const data = await getLatestPostsApi()
@@ -203,9 +182,9 @@ export const HomeScreen = ({ navigation }) => {
           <View style={{ alignItems: 'center', paddingLeft: 20 }}>
             <FlatList
               horizontal={true}
-              data={DATA}
-              renderItem={({ item }) => <Item title={item.title} icon={item.icon} id={item.key} />}
-              keyExtractor={item => item.key}
+              data={linhVuc}
+              renderItem={({ item }) => <Item title={item?.name} icon={item?.imgLink} id={item?.id} />}
+              keyExtractor={item => item.id}
             />
           </View>
         </View>
@@ -291,7 +270,7 @@ export const HomeScreen = ({ navigation }) => {
             <Card disabled={true} style={{ position: 'absolute', top: '60%', height: '40%', borderTopRightRadius: 25, borderTopLeftRadius: 25 }}>
               <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>Ngành</Text>
               <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
-                {renderMenu({ items: DATA })}
+                {renderMenu({ items: linhVuc })}
               </ScrollView>
             </Card>
           </View>

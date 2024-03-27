@@ -1,12 +1,13 @@
 import Container from "@components/Container/Container";
-import { Text } from "@ui-kitten/components"
-import MapView, { Marker } from 'react-native-maps';
+import { Button, Text } from "@ui-kitten/components"
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import Content from '@components/Content/Content';
-import { Dimensions } from "react-native";
+import { Dimensions, StyleSheet } from "react-native";
 import Header from "@components/Header/Header";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 export const MapScreen = () => {
+  const mapRef = useRef();
   const [markers, setMarkers] = useState([
     {
       latlng: {
@@ -38,9 +39,22 @@ export const MapScreen = () => {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         },
-        title: 'VNPT',
+        title: `${markers.length + 1}`,
       }
     ]);
+  }
+
+  const handleFocusOn = (latitude, longitude, name) => {
+    let location = {
+      latitude: latitude,
+      longitude: longitude,
+      latitudeDelta: 0.0222,
+      longitudeDelta: 0.0021,
+    }
+    mapRef.current?.animateToRegion(location, 1000)
+  }
+  const handleRemovePin = (index) => {
+    setMarkers(l => l.filter((_, i) => { return i != index; }))
   }
   // ------------------------------------------
   return (
@@ -54,20 +68,30 @@ export const MapScreen = () => {
       />
       <Content>
         <MapView
-          style={{ width: Dimensions.get('screen').width, height: 500 }}
+          ref={mapRef}
+          style={StyleSheet.absoluteFill}
           initialRegion={{
-            latitude: 21.019121,//21.019121, 105.809102
+            latitude: 21.019121,
             longitude: 105.809102,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
-          onPress={(event) => console.log(event.nativeEvent.coordinate.latitude, event.nativeEvent.coordinate.longitude)}
+          provider={PROVIDER_GOOGLE}
+          showsMyLocationButton
+          showsUserLocation
+          onPoiClick={(event) => handleFocusOn(event.nativeEvent.coordinate.latitude, event.nativeEvent.coordinate.longitude, event.nativeEvent.coordinate.name)}
+          onLongPress={(event) => handlePin(event.nativeEvent.coordinate.latitude, event.nativeEvent.coordinate.longitude)}
         >
           {markers?.map((marker, index) => (
             <Marker
               key={index}
+              draggable
               coordinate={marker.latlng}
               title={marker.title}
+              onPress={(event) => {
+                handleFocusOn(event.nativeEvent.coordinate.latitude, event.nativeEvent.coordinate.longitude, event.nativeEvent.coordinate.name);
+                // handleRemovePin(event.currentTarget._internalFiberInstanceHandleDEV.return.key);
+              }}
             // description={marker.description}
             />
           ))}

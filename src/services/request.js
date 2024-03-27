@@ -55,19 +55,18 @@ axios.interceptors.response.use(
       errorText = 'Thời gian chờ đã quá hạn, vui lòng thử lại';
     } else if (error.response) {
       const { token } = getStore().getState().auth;
-
-      if (error.response.status === 401 && token) {
-        console.log('--- token timeout ---');
-        errorText = 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại';
-        getStore().dispatch(authActions.clear());
-        navigationService.replace(ROUTER.AUTH_NAVIGATOR);
-      }
       // console.log(error.response.data);
       if (error.response.data?.message) {
         errorText = error.response.data.message;
       }
       if (error.response.data?.error_description) {
         errorText = error.response.data.error_description;
+      }
+      if (error.response.status === 401 && token) {
+        console.log('--- token timeout ---');
+        errorText = 'Phiên đăng nhập đã hết hạn, vui lòng đăng nhập lại';
+        getStore().dispatch(authActions.clear());
+        navigationService.replace(ROUTER.AUTH_NAVIGATOR);
       }
     }
 

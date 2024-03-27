@@ -64,3 +64,14 @@ export function getLinhVucApi(type, page, size) {
       return null;
     })
 }
+
+export function getFlatLinhVucApi(type, page, size) {
+  return request
+    .get(formatString(API.GET_LINH_VUC_FLAT, type, page, size))
+    .then((response) => {
+      if (response.data) {
+        return response.data;
+      }
+      return null;
+    }).catch((error) => { console.log(error); })
+}

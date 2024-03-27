@@ -36,7 +36,7 @@ const authSlice = createSlice({
       tokenService.setToken(action.payload);
     },
     // [userInfo.SUCCESS]: (state, action) => {
-    //   state.user = action.payload;
+    //   state.user = action.payload.data;
     // },
     // [userList.SUCCESS]: (state, action) => {
     //   state.list = action.payload;

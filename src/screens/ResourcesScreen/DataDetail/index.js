@@ -96,7 +96,7 @@ export const DataDetail = ({ route, navigation }) => {
             </Row>
             {tableData.map((e, index) => {
               return (
-                <TouchableOpacity onPress={() => console.log(index + 1)} key={e.key}>
+                <TouchableWithoutFeedback onPress={() => console.log(index + 1)} key={e.key}>
                   <Row space={5} style={{ alignItems: 'center', height: 57, borderBottomWidth: 1, borderColor: '#CDD3D9' }} >
                     <Text key={`${e.key}_${e.index}`} style={{ fontSize: 10, width: '10%' }}>{index + 1}</Text>
                     <Text key={`${e.key}_${e.file}`} style={{ fontSize: 10, color: '#286FC3', width: '30%' }}>{e.file}</Text>
@@ -108,7 +108,7 @@ export const DataDetail = ({ route, navigation }) => {
                       </Column>
                     </View>
                   </Row>
-                </TouchableOpacity>
+                </TouchableWithoutFeedback>
               )
             })}
           </Card>

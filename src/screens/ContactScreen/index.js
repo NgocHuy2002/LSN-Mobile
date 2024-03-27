@@ -167,7 +167,7 @@ export const ContactScreen = () => {
         title='Liên hệ'
         hideLeftIcon={false}
       />
-      <View style={{ paddingHorizontal: 10 }}>
+      <View style={{ paddingHorizontal: 10, borderBottomWidth: 1, borderColor: '#E8E8E8' }}>
         <Text style={{ fontSize: 12, fontWeight: 'bold', color: '#2C384A', padding: 10 }}>Nội dung thông tin cần liên hệ</Text>
         <Formik
           initialValues={formValues}

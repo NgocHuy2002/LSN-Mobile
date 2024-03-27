@@ -11,13 +11,17 @@ export const API = {
   VERIFY_OTP_EMAIL: 'http://10.168.4.231:5034/api/user-mobile/verify-email-otp',
   FORGOT_PASSWORD: 'http://10.168.4.231:5034/api/user-mobile/forgot-password',
   // FORGOT_PASSWORD: 'http://10.168.4.231:5023/api/MobileAPI/get-list-linh-vuc',
+  // --------- USER API ------------------------------
   UPDATE_USER_INFO: 'http://10.168.4.231:5034/api/user-mobile/update',
+  GET_USER_INFO: 'http://10.168.4.231:5034/api/users/user-info',
 
+  // --------- LIEN HE API ---------------------------
   GET_CONTACT_CONTENTS: 'http://10.168.4.231:5023/api/MobileAPI/get-list-noi-dung-lien-he?PageNumber={0}&PageSize={1}',
   POST_CONTACT_CONTENTS: 'http://10.168.4.231:5023/api/MobileAPI/create-thong-tin-lien-he',
 
   // -------- BAI VIET API ----------------------------
   GET_LINH_VUC: 'http://10.168.4.231:5023/api/MobileAPI/get-list-linh-vuc?Type={0}&PageNumber={1}&PageSize={2}',
+  GET_LINH_VUC_FLAT: 'http://10.168.4.231:5023/api/CTerm/get-list-flat?Type={0}&PageNumber={1}&PageSize={2}',
   GET_LATEST_POSTS: 'http://10.168.4.231:5023/api/MobileAPI/get-list-bai-viet-gan-nhat',
   GET_HOTTEST_POSTS: 'http://10.168.4.231:5023/api/MobileAPI/get-list-bai-viet-noi-bat',
 

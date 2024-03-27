@@ -36,6 +36,9 @@
             "usesCleartextTraffic": true
           }
         }
+      ],
+      [
+        "expo-image-picker"
       ]
     ],
     "android": {

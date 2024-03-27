@@ -1,10 +1,10 @@
 import Container from "@components/Container/Container";
 import Header from "@components/Header/Header";
 import Content from '@components/Content/Content';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Icon, List, ListItem, Text } from "@ui-kitten/components";
 import { Row } from "@components/Stack";
-import { FlatList, TouchableOpacity, View } from "react-native";
+import { FlatList, Image, TouchableOpacity, View } from "react-native";
 import { ROUTER } from "@constants/router";
 
 import TrafficIcon from '@assets/icons/traffic.svg'
@@ -13,42 +13,13 @@ import InfoIcon from '@assets/icons/info.svg'
 import NoiVuIcon from '@assets/icons/noi_vu.svg'
 import NgongNghiepIcon from '@assets/icons/nong_nghiep.svg'
 import XayDungIcon from '@assets/icons/xay_dung.svg'
+import { getLinhVucApi } from "@services/PostsService/PostsService";
+import { formatString } from "@helpers/formatString";
+import { API } from "@constants/api";
 
 export const ResourcesScreen = ({ route, navigation }) => {
   const numCol = 2
-  const NGANH = [
-    {
-      key: 141,
-      icon: <TrafficIcon width={100} height={100}/>,
-      title: 'Giao thông vận tải',
-    },
-    {
-      key: 140,
-      icon: <InfoIcon width={100} height={100}/>,
-      title: 'Thông tin truyền thông',
-    },
-    {
-      key: 139,
-      icon: <NoiVuIcon width={100} height={100}/>,
-      title: 'Nội vụ',
-    },
-    {
-      key: 424,
-      icon: <EnviromentIcon width={100} height={100}/>,
-      title: 'Tài nguyên môi trường',
-    },
-    {
-      key: 138,
-      icon: <XayDungIcon width={100} height={100}/>,
-      title: 'Xây dựng',
-    },
-    {
-      key: 425,
-      icon: <NgongNghiepIcon width={100} height={100}/>,
-      title: 'Nông nghiệp',
-    },
-
-  ];
+  const [nganh, setNganh] = useState([])
 
   // ----------- Render --------------------
   const ItemAccessory = props => {
@@ -62,14 +33,29 @@ export const ResourcesScreen = ({ route, navigation }) => {
     );
   };
   const Item = ({ title, icon, id }) => (
-    <TouchableOpacity onPress={() => navigation.navigate(ROUTER.RESOURCES_BY, { id_nganh: id })} style={{flex: 1, marginTop: 15}}>
-      <View style={{flex: 1, alignItems: 'center', marginRight: 5, gap: 10 }}>
-        {icon}
+    <TouchableOpacity onPress={() => navigation.navigate(ROUTER.RESOURCES_BY, { id_nganh: id })} style={{ flex: 1, marginTop: 15 }}>
+      <View style={{ flex: 1, alignItems: 'center', marginRight: 5, gap: 10 }}>
+        <Image
+          source={
+            icon ? { uri: formatString(API.GET_IMAGE, icon) } : require('@assets/images/product-no-image.png')
+          }
+          style={{ resizeMode: 'cover', width: 100, height: 100 }}
+        />
         <Text style={{ fontSize: 15, marginTop: 5, textAlign: 'center', display: 'flex', flexWrap: 'wrap' }}>{title}</Text>
       </View>
     </TouchableOpacity>
   );
   // ---------------------------------------
+  // ---------- useEffect --------------
+  useEffect(() => {
+    handleCallLinhVucApi('C_LINHVUC', 1, 10)
+  }, [])
+  // ------------------------------------
+  // --------------- Action --------------
+  const handleCallLinhVucApi = async (type, page, size) => {
+    const data = await getLinhVucApi(type, page, size)
+    setNganh(data)
+  }
   return (
     <Container>
       <Header
@@ -80,13 +66,13 @@ export const ResourcesScreen = ({ route, navigation }) => {
         hideLeftIcon={false}
       />
       <Content scrollEnabled={false} safeAreaEnabled={false}>
-        <View style={{flex: 1}}>
+        <View style={{ flex: 1 }}>
           <FlatList
             horizontal={false}
-            data={NGANH}
+            data={nganh}
             numColumns={numCol}
-            renderItem={({ item }) => <Item title={item.title} icon={item.icon} id={item.key} />}
-            keyExtractor={item => item.key}
+            renderItem={({ item }) => <Item title={item.name} icon={item.imgLink} id={item.id} />}
+            keyExtractor={item => item.id}
           />
         </View>
       </Content>
