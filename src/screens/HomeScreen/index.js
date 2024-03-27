@@ -17,10 +17,10 @@ import { BottomNavigationCustom } from "@components/BottomTabs";
 import { ROUTER } from "@constants/router";
 // import Menu, { MenuDivider, MenuItem } from "react-native-material-menu";
 import {
-    Menu,
-    MenuOptions,
-    MenuOption,
-    MenuTrigger,
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
 } from 'react-native-popup-menu';
 import { renderers } from 'react-native-popup-menu';
 import { useFocusEffect } from "@react-navigation/native";
@@ -32,261 +32,250 @@ import { API } from "@constants/api";
 // import Modal from "@components/Modal/Modal";
 const { SlideInMenu } = renderers;
 import request from '@services/request';
+import { getFlatLinhVucApi, getHottestPostsApi, getLatestPostsApi, getLinhVucApi } from "@services/PostsService/PostsService";
+import { formatString } from "@helpers/formatString";
 
 
 export const HomeScreen = ({ navigation }) => {
-    const dispatch = useDispatch();
-    const [latest, setLatest] = useState([]);
-    const [hottest, setHottest] = useState([]);
-    const [paginationNew, setPaginationNew] = useState(0)
-    const [paginationHot, setPaginationHot] = useState(0)
-    const screenWidth = Dimensions.get('screen').width;
-    const screenHeight = Dimensions.get('screen').height * 0.3;
-    const thirtyPercentOfScreenWidth = screenWidth * 0.3;
-    const result = screenWidth - thirtyPercentOfScreenWidth;
-    const [visible, setVisible] = useState(false);
-    const DATA = [
-        {
-            key: 1,
-            icon: <TrafficIcon />,
-            title: 'Giao thông vận tải',
-        },
-        {
-            key: 3,
-            icon: <InfoIcon />,
-            title: 'Thông tin truyền thông',
-        },
-        {
-            key: 4,
-            icon: <NoiVuIcon />,
-            title: 'Nội vụ',
-        },
-        {
-            key: 2,
-            icon: <EnviromentIcon />,
-            title: 'Tài nguyên môi trường',
-        },
-        {
-            key: 6,
-            icon: <XayDungIcon />,
-            title: 'Xây dựng',
-        },
-        {
-            key: 5,
-            icon: <NgongNghiepIcon />,
-            title: 'Nông nghiệp',
-        },
+  const dispatch = useDispatch();
+  const [latest, setLatest] = useState([]);
+  const [hottest, setHottest] = useState([]);
+  const [linhVuc, setLinhVuc] = useState([]);
+  const [paginationNew, setPaginationNew] = useState(0)
+  const [paginationHot, setPaginationHot] = useState(0)
+  const screenWidth = Dimensions.get('screen').width;
+  const result = Dimensions.get('screen').width * 0.8;
+  const [visible, setVisible] = useState(false);
 
-    ];
+  const renderIcon = (props) => (
+    <Icon
+      {...props}
+      name={'grid'}
+    />
+  );
+  // ------- Render --------------------
+  const truncateString = (str, maxLength) => {
+    if (str?.length > maxLength) {
+      return str.slice(0, maxLength) + '...';
+    }
+    return str;
+  }
 
-    const carouselItems = [
-        {
-            title: "Item 1",
-            text: "Đoàn thanh niên Sở Tài nguyên và Môi trường hưởng ứng Chương trình tình nguyện mùa Đông “Xuân gắn kết – Tết sum vầy” năm 2024",
-        },
-        {
-            title: "Item 2",
-            text: "Huy động sức mạnh tổng hợp toàn dân trong nhiệm vụ bảo vệ môi trường",
-        },
-        {
-            title: "Item 3",
-            text: "Text 3",
-        },
-        {
-            title: "Item 4",
-            text: "Text 4",
-        },
-        {
-            title: "Item 5",
-            text: "Text 5",
-        },
-    ]
-    const renderIcon = (props) => (
-        <Icon
-            {...props}
-            name={'grid'}
-        />
-    );
-    // ------- Render --------------------
-    const renderCard = ({ item, index }) => (
-        <View style={{
-            borderRadius: 5,
-            width: Dimensions.get('screen').width * 0.7,
-            height: Dimensions.get('screen').height * 0.2,
-        }}>
-            <Image source={require('../../assets/images/image_demo.png')} />
-            <Text style={{ textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: Dimensions.get('screen').width * 0.7 }}>{item.tieude}</Text>
+  const renderCard = ({ item, index }) => (
+    <TouchableWithoutFeedback onPress={() => navigation.navigate(ROUTER.POST, { id: item.id })}>
+      <View style={{
+        borderRadius: 5,
+        width: result,
+        height: result - 20,
+        justifyContent: 'center',
+        alignItems: 'flex-start'
+      }}>
+        <View style={{ width: '100%', height: result / 4 * 3, borderRadius: 5, overflow: 'hidden' }}>
+          <Image
+            source={
+              item.imageLink ? { uri: formatString(API.GET_IMAGE, item.imageLink) } : require('@assets/images/product-no-image.png')
+            }
+            style={{ resizeMode: 'cover', width: result, height: (result / 4) * 3 }} />
         </View>
-    )
+        <Text style={{ textAlign: 'justify', display: 'flex', flexWrap: 'wrap', width: '100%', height: 50, paddingTop: 5 }}>{truncateString(item.tieude, 85)}</Text>
+      </View>
+    </TouchableWithoutFeedback>
+  )
 
-    const Item = ({ title, icon }) => (
-        <TouchableOpacity onPress={() => navigation.navigate(ROUTER.FIELD, { title: title })}>
-            <View style={{ width: 70, height: 80, flex: 1, alignItems: 'center', marginRight: 5 }}>
-                {icon}
-                <Text style={{ fontSize: 10, marginTop: 5, textAlign: 'center', display: 'flex', flexWrap: 'wrap' }}>{title}</Text>
-            </View>
-        </TouchableOpacity>
-    );
+  const Item = ({ title, icon, id }) => (
+    <TouchableOpacity onPress={() => navigation.navigate(ROUTER.FIELD, { title: title, id_nganh: id })}>
+      <View style={{ width: 70, height: 80, flex: 1, alignItems: 'center', marginRight: 5, }}>
+        {/* {icon} */}
+        <Image
+          source={
+            icon ? { uri: formatString(API.GET_IMAGE, icon) } : require('@assets/images/product-no-image.png')
+          }
+          style={{ resizeMode: 'cover', width: 40, height: 40 }}
+        />
+        <Text style={{ fontSize: 10, marginTop: 5, textAlign: 'center', display: 'flex', flexWrap: 'wrap' }}>{title}</Text>
+      </View>
+    </TouchableOpacity>
+  );
 
-    function PaginationView(props) {
-        const { items, activeSlide } = props;
-        return (
-            <View style={{ height: 65 }}>
-                <Pagination
-                    dotsLength={items.length || 5}
-                    activeDotIndex={activeSlide}
-                    containerStyle={{ backgroundColor: "transparent", }}
-                    dotStyle={{
-                        width: 5,
-                        height: 5,
-                        borderRadius: 5,
-                    }}
-                    dotColor='#286FC3'
-                    inactiveDotColor='#757575'
-                    inactiveDotOpacity={0.4}
-                    inactiveDotScale={0.6}
-                />
-            </View>
-        );
-    }
-    const renderMenu = ({ items }) => {
-        const itemWidth = (screenWidth) / 4;
-        return items.map((item) => {
-            return (
-                <TouchableOpacity onPress={() => console.log(item.title)} key={item.key}>
-                    <View style={{ width: itemWidth, height: 60, display: 'flex', alignItems: 'center' }}>
-                        {item.icon}
-                        <Text style={{ fontSize: 10, marginTop: 5, textAlign: 'center' }}>{item.title}</Text>
-                    </View>
-                </TouchableOpacity>
-            );
-        });
-    };
-
-    // ------- ----- --------------------
-    // ---------- useEffect --------------
-    useEffect(() => {
-        // dispatch(getLinhVucRoutine.trigger())
-        // dispatch(getLatestPostsRoutine.trigger())
-        // dispatch(getHottestPostsRoutine.trigger())
-        handleCallLatestPostsApi()
-        handleCallHottestPostsApi()
-    }, [])
-    // ------------------------------------
-    // --------------- Action --------------
-    const handleCallLatestPostsApi = () => {
-        request.get(API.GET_LATEST_POSTS).then((response) => {
-            if (response.data) {
-                setLatest(response.data.slice(0, 5))
-                return response.data;
-            }
-            return null;
-        }).catch((error) => console.log(error));
-    }
-    const handleCallHottestPostsApi = () => {
-        request.get(API.GET_HOTTEST_POSTS).then((response) => {
-            if (response.data) {
-                setHottest(response.data.slice(0, 5))
-                return response.data;
-            }
-            return null;
-        }).catch((error) => console.log(error));
-    }
-    
-    // ------------------------------------
+  function PaginationView(props) {
+    const { items, activeSlide } = props;
     return (
-        <Container>
-            <Header
-                style={{ backgroundColor: '#286FC3' }}
-                color='#FFFFFF'
-                status='primary'
-                title="Trang chủ"
-                hideLeftIcon={true}
-                onBackPress={() => console.log('test')}
+      <View>
+        <Pagination
+          dotsLength={items?.length || 1}
+          activeDotIndex={activeSlide}
+          containerStyle={{ backgroundColor: "transparent", paddingVertical: 0, paddingBottom: 10 }}
+          dotStyle={{
+            width: 7,
+            height: 7,
+            borderRadius: 5,
+          }}
+          dotColor='#286FC3'
+          inactiveDotColor='#757575'
+          inactiveDotOpacity={0.4}
+          inactiveDotScale={0.6}
+        />
+      </View>
+    );
+  }
+  const renderMenu = ({ items }) => {
+    const itemWidth = (screenWidth) / 4;
+    return items.map((item) => {
+      return (
+        <TouchableOpacity onPress={() => navigation.navigate(ROUTER.FIELD, { title: item.name, id_nganh: item.id })} key={item.id}>
+          <View style={{ width: itemWidth, height: 80, display: 'flex', alignItems: 'center' }}>
+            <Image
+              source={
+                item.imgLink ? { uri: formatString(API.GET_IMAGE, item.imgLink) } : require('@assets/images/product-no-image.png')
+              }
+              style={{ resizeMode: 'cover', width: 50, height: 50 }}
             />
-            <Content scrollEnabled={true} safeAreaEnabled={true}>
-                <View>
-                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
-                        <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Lĩnh vực</Text>
-                        <Button appearance="ghost" accessoryLeft={renderIcon} onPress={() => setVisible(true)}>Xem tất cả</Button>
-                    </View>
-                    <View style={{ alignItems: 'center' }}>
-                        <FlatList
-                            horizontal={true}
-                            data={DATA}
-                            renderItem={({ item }) => <Item title={item.title} icon={item.icon} />}
-                            keyExtractor={item => item.key}
-                        />
-                    </View>
-                </View>
-                <View>
-                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
-                        <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Bài viết mới nhất</Text>
-                        <Button appearance="ghost" accessoryLeft={renderIcon}>Xem tất cả</Button>
-                    </View>
-                    <View>
-                        <Carousel
-                            data={latest}
-                            renderItem={renderCard}
-                            layout={'default'}
-                            loop={true}
-                            sliderWidth={Dimensions.get('screen').width}
-                            itemWidth={Dimensions.get('screen').width * 0.7}
-                            autoplayDelay={2000}
-                            autoplayInterval={3000}
-                            scrollEnabled={true}
-                            useScrollView={true}
-                            onSnapToItem={(index) => setPaginationNew(index)}
-                        />
-                        <PaginationView
-                            items={latest}
-                            activeSlide={paginationNew}
-                        />
-                    </View>
-                </View>
-                <View>
-                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
-                        <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Bài viết nổi bật</Text>
-                        <Button appearance="ghost" accessoryLeft={renderIcon}>Xem tất cả</Button>
-                    </View>
-                    <View style={{ alignItems: 'center' }}>
-                        <Carousel
-                            data={hottest}
-                            renderItem={renderCard}
-                            loop={true}
-                            layout={'default'}
-                            sliderWidth={Dimensions.get('screen').width}
-                            itemWidth={Dimensions.get('screen').width * 0.7}
-                            autoplayDelay={2000}
-                            autoplayInterval={3000}
-                            scrollEnabled={true}
-                            useScrollView={true}
-                            onSnapToItem={(index) => setPaginationHot(index)}
-                        />
-                        <PaginationView
-                            items={hottest}
-                            activeSlide={paginationHot}
-                        />
-                    </View>
-                </View>
-                <Modal
-                    visible={visible}
-                    transparent={true}
-                    animationType="slide"
-                    onRequestClose={() => setVisible(false)}
-                >
-                    <TouchableWithoutFeedback onPress={() => setVisible(false)} style={{ zIndex: 1 }}>
-                        <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', flex: 1, zIndex: 100 }}>
-                            <Card disabled={true} style={{ position: 'absolute', top: '60%', height: '40%', borderTopRightRadius: 25, borderTopLeftRadius: 25 }}>
-                                <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>Lĩnh vực</Text>
-                                <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
-                                    {renderMenu({ items: DATA })}
-                                </ScrollView>
-                            </Card>
-                        </View>
-                    </TouchableWithoutFeedback>
-                </Modal>
-            </Content>
-        </Container>
-    )
+            <Text style={{ fontSize: 10, marginTop: 5, textAlign: 'center' }}>{item.name}</Text>
+          </View>
+        </TouchableOpacity>
+      );
+    });
+  };
+
+  // ------- ----- --------------------
+  // ---------- useEffect --------------
+  useEffect(() => {
+    // dispatch(getLinhVucRoutine.trigger())
+    // dispatch(getLatestPostsRoutine.trigger())
+    // dispatch(getHottestPostsRoutine.trigger())
+
+    handleCallLinhVucApi('C_LINHVUC', 1, 10)
+    handleCallLatestPostsApi()
+    handleCallHottestPostsApi()
+  }, [])
+  // ------------------------------------
+  // --------------- Action --------------
+  const handleCallLinhVucApi = async (type, page, size) => {
+    const data = await getLinhVucApi(type, page, size)
+    setLinhVuc(data)
+  }
+  const handleCallLatestPostsApi = async () => {
+    const data = await getLatestPostsApi()
+    setLatest(data)
+  }
+  const handleCallHottestPostsApi = async () => {
+    const data = await getHottestPostsApi()
+    setHottest(data)
+  }
+
+  // ------------------------------------
+  return (
+    <Container>
+      <Header
+        style={{ backgroundColor: '#286FC3' }}
+        color='#FFFFFF'
+        status='primary'
+        title="Trang chủ"
+        hideLeftIcon={true}
+      />
+      <Content scrollEnabled={true} safeAreaEnabled={true}>
+        <View>
+          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
+            <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Ngành</Text>
+            <Button appearance="ghost" accessoryLeft={renderIcon} onPress={() => setVisible(true)}>Xem tất cả</Button>
+          </View>
+          <View style={{ alignItems: 'center', paddingLeft: 20 }}>
+            <FlatList
+              horizontal={true}
+              data={linhVuc}
+              renderItem={({ item }) => <Item title={item?.name} icon={item?.imgLink} id={item?.id} />}
+              keyExtractor={item => item.id}
+            />
+          </View>
+        </View>
+        <View>
+          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
+            <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Bài viết mới nhất</Text>
+            <Button
+              appearance="ghost"
+              accessoryLeft={renderIcon}
+              onPress={() => navigation.navigate(ROUTER.FIELD, { title: 'Bài viết mới nhất', data: latest, id_nganh: null })}
+            >
+              Xem tất cả
+            </Button>
+          </View>
+          {latest ?
+            <View>
+              <Carousel
+                data={latest?.slice(0, 5) || null}
+                renderItem={renderCard || null}
+                layout={'default'}
+                sliderWidth={Dimensions.get('screen').width}
+                itemWidth={Dimensions.get('screen').width - 40}
+                autoplayDelay={2000}
+                inactiveSlideScale={1}
+                inactiveSlideShift={0}
+                loop={true}
+                autoplayInterval={3000}
+                scrollEnabled={true}
+                useScrollView={true}
+                onSnapToItem={(index) => setPaginationNew(index)}
+              />
+              <PaginationView
+                items={latest?.slice(0, 5) || null}
+                activeSlide={paginationNew}
+              />
+            </View> : null
+          }
+        </View>
+        <View>
+          <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 20 }}>
+            <Text style={{ fontSize: 20, alignSelf: 'center', fontWeight: 'bold' }}>Bài viết nổi bật</Text>
+            <Button
+              appearance="ghost"
+              accessoryLeft={renderIcon}
+              onPress={() => navigation.navigate(ROUTER.FIELD, { title: 'Bài viết nổi bật', data: hottest, id_nganh: null })}
+            >
+              Xem tất cả
+            </Button>
+          </View>
+          {hottest ?
+            <View style={{ alignItems: 'center' }}>
+              <Carousel
+                data={hottest?.slice(0, 5)}
+                renderItem={renderCard}
+                loop={true}
+                layout={'default'}
+                sliderWidth={Dimensions.get('screen').width}
+                itemWidth={Dimensions.get('screen').width - 40}
+                autoplayDelay={2000}
+                autoplayInterval={3000}
+                scrollEnabled={true}
+                inactiveSlideScale={1}
+                inactiveSlideShift={0}
+                useScrollView={true}
+                onSnapToItem={(index) => setPaginationHot(index)}
+              />
+              <PaginationView
+                items={hottest?.slice(0, 5) || null}
+                activeSlide={paginationHot}
+              />
+            </View> : null
+          }
+        </View>
+        <Modal
+          visible={visible}
+          transparent={true}
+          animationType="slide"
+        >
+          <View style={{ flex: 1, zIndex: 100 }}>
+            <TouchableWithoutFeedback onPress={() => setVisible(false)}>
+              <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', height: '65%', width: '100%' }} />
+            </TouchableWithoutFeedback>
+            <Card disabled={true} style={{ position: 'absolute', top: '60%', height: '40%', borderTopRightRadius: 25, borderTopLeftRadius: 25 }}>
+              <Text style={{ fontSize: 16, fontWeight: 'bold', marginBottom: 10 }}>Ngành</Text>
+              <ScrollView contentContainerStyle={{ flexDirection: 'row', flexWrap: 'wrap', gap: 20 }}>
+                {renderMenu({ items: linhVuc })}
+              </ScrollView>
+            </Card>
+          </View>
+        </Modal>
+      </Content>
+    </Container>
+  )
 }

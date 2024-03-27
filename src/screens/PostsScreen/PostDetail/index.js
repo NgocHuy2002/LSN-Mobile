@@ -1,6 +1,6 @@
 import Container from '@components/Container/Container';
-import React, { useState } from 'react';
-import { FlatList, TouchableWithoutFeedback, View, useWindowDimensions } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { Dimensions, FlatList, ImageBackground, TouchableWithoutFeedback, View, useWindowDimensions } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 import Content from '@components/Content/Content';
 import Header from '@components/Header/Header';
@@ -13,6 +13,9 @@ import { Formik } from 'formik';
 import FormikInput from '@components/FormInput/FormikInput';
 import { tw } from 'react-native-tailwindcss';
 import * as Yup from 'yup';
+import { getBaiVietTheoIdApi } from '@services/PostsService/PostsService';
+import { WebView } from 'react-native-webview';
+import Loading from '@components/Loading/Loading';
 
 const title = 'Thủ tướng Phạm Minh Chính: Nỗ lực của ngành TN&MT giúp giải phóng, phát huy các nguồn lực tài nguyên cho phát triển kinh tế, xã hội'
 const author = 'Trần Đức Hiếu'
@@ -23,19 +26,17 @@ const comments = [
   { name: 'Trần Đức Hiếu', comment: 'Bài viết rất hữu ích.. like like', date: '', key: 4 },
   { name: 'Trần Đức Hiếu', comment: 'Bài viết rất hữu ích.. like like', date: '', key: 5 },
 ]
-const source = {
-  html:
-    `<p style="color: #286FC3; font-size: 12px; font-weight: 700; padding: 10px">
-  <span style="text-align: justify;">
-    ${title}
-  </span>
-</p>`
-};
-export const PostDetail = () => {
+
+export const PostDetail = ({ navigation, route }) => {
+  const { id, data } = route.params;
   const { width } = useWindowDimensions();
+  const [source, setSource] = useState()
   const formValues = {
     comment: '',
   };
+  // const source = {
+  //   html: content
+  // };
   const noSpacesValidation = Yup.string()
     .required('Thông tin này không được bỏ trống')
     .test('no-spaces', 'Không được chỉ nhập khoảng trắng', (value) => {
@@ -56,10 +57,20 @@ export const PostDetail = () => {
       </TouchableWithoutFeedback>
     )
   };
+  const AvatarImageComponentShowcase = () => (
+    <Avatar
+      source={require('@assets/images/logo.png')}
+      ImageComponent={ImageBackground}
+    />
+  );
   const Item = ({ items }) => (
     <Row space={4} style={{ justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10 }}>
-      <Row style={{ alignItems: 'center' }}>
-        < Avatar source={require('@assets/images/logo.png')} style={{ height: 22.1, width: 25, marginRight: 10 }} />
+      <Row style={{ alignItems: 'center', gap: 10 }}>
+        <Avatar
+          source={require('@assets/images/logo.png')}
+          ImageComponent={ImageBackground}
+          size='small'
+        />
         <Column style={{ alignItems: 'left' }}>
           <Text style={{ fontSize: 12, color: '#2C384A', fontWeight: 'bold' }}>
             {items.name}
@@ -84,7 +95,17 @@ export const PostDetail = () => {
     />
   )
   // --------------- useEffect --------------------
+  useEffect(() => {
+    if (id) {
+      handleGetBaiViet()
+    }
+  }, [])
   // ----------------------------------------------
+  const handleGetBaiViet = async () => {
+    const data = await getBaiVietTheoIdApi(id)
+    // console.log(data.noidung);
+    setSource({ html: data.noidung })
+  }
   // --------------- Action -----------------------
   const onFormSubmit = (values) => {
     console.log(values);
@@ -99,11 +120,29 @@ export const PostDetail = () => {
         title='Bài viết'
         hideLeftIcon={false}
       />
+      {/* <View style={{ height: 500, width: Dimensions.get('screen').width,backgroundColor: "#EEF2FA", }}>
+        <WebView
+          originWhitelist={['*']}
+          scalesPageToFit={true}
+          bounces={false}
+          scrollEnabled
+          source={source ? source : { html: `<p></p>` }}
+          automaticallyAdjustContentInsets={false}
+          containerStyle={{ flex: 1, backgroundColor: '#EEF2FA' }}
+          renderLoading={() => (
+              <View style={[tw.flex1]}>
+                  <Loading />
+              </View>
+          )}
+          javaScriptEnabled={true}
+          startInLoadingState={true}
+        />
+      </View> */}
       <Content scrollEnabled={true} safeAreaEnabled={true}>
-        <Column space={4} style={{ paddingBottom: 25 }}>
+        <Column space={4} style={{ paddingBottom: 25, paddingHorizontal: 10 }}>
           <RenderHtml
             contentWidth={width}
-            source={source}
+            source={source ? source : { html: `<div>${data}</div>` }}
           />
         </Column>
         {/* Comment */}

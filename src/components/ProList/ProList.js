@@ -47,6 +47,7 @@ const ProList = forwardRef(function ProList(props, ref) {
     allLoadedComponent,
     ...restProps
   } = props;
+  const numberCol = 2;
 
   const pageRef = useRef(0);
   const listRef = useRef(null);
@@ -290,6 +291,7 @@ const ProList = forwardRef(function ProList(props, ref) {
       data={dataSource}
       refreshControl={renderRefreshControl()}
       onEndReached={onEndReached}
+      numColumns={numberCol}
       ListEmptyComponent={renderEmpty}
       ListFooterComponent={renderFooter}
     />

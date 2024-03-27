@@ -1,6 +1,8 @@
 {
+  "name": "LSN-Mobile",
+  "displayName": "Cổng thông tin điện tử tỉnh Lạng Sơn",
   "expo": {
-    "name": "LSN-Mobile",
+    "name": "Cổng thông tin điện tử tỉnh Lạng Sơn",
     "slug": "LSN-Mobile",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,25 +17,63 @@
       "**/*"
     ],
     "ios": {
+<<<<<<< HEAD
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
       "supportsTablet": true,
       "bundleIdentifier": "com.geoit.lsn"
+=======
+      "bundleIdentifier": "com.dnhuy2012.LSNMobile",
+      "buildNumber": "2",
+      "icon": "./assets/icon.png",
+      "supportsTablet": true,
+      "requireFullScreen": true,
+      "usesIcloudStorage": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Cho phép $(PRODUCT_NAME) truy cập camera để thêm ảnh chụp sản phẩm",
+        "NSPhotoLibraryUsageDescription": "Cho phép $(PRODUCT_NAME) truy cập thư viện ảnh để thêm ảnh sản phẩm"
+      }
+>>>>>>> dev_huy
     },
+    "plugins": [
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ],
+      [
+        "expo-image-picker"
+      ]
+    ],
     "android": {
+      "icon": "./assets/icon.png",
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
+        "backgroundImage": "./assets/app-icon-android-adaptive-background.png"
+      },
+      "permissions": [
+        "CAMERA",
+        "NOTIFICATIONS",
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ],
+      "package": "com.dnhuy2012.LSNMobile"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "extra": {
       "eas": {
+<<<<<<< HEAD
         "projectId": "668f9da4-0193-4a85-8a9f-40cd2de16bba"
+=======
+        "projectId": "285b11b1-253c-4791-ae6c-9d155bdbffde"
+>>>>>>> dev_huy
       }
     }
   }

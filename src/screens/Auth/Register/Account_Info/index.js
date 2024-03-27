@@ -108,6 +108,7 @@ export default function AccountInfo({ navigation, route }) {
     const onFormSubmit = async (value) => {
         // navigation.navigate(ROUTER.SUCCESS, { content: 'Tài khoản đã được tạo thành công' })
         const data = {
+            "userName": values.userName,
             "sex": value.gender,
             "fullName": value.name,
             "dateOfBirth": value.birth,

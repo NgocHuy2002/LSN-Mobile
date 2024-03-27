@@ -4,7 +4,7 @@ import TopNavigationCustom from "../../../components/TopNavigation";
 import React, { useEffect } from "react";
 import { CustomForm } from "@components/Form/form";
 import * as Yup from 'yup';
-import { Formik } from "formik";
+import { Formik, useFormikContext } from "formik";
 import Container from "@components/Container/Container";
 import Header from "@components/Header/Header";
 import Content from '@components/Content/Content';
@@ -18,21 +18,23 @@ import { userLoginRoutine } from "../saga/routines";
 import axios from "axios";
 import { API } from "@constants/api";
 import { selectToken } from "../saga/selectors";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
-
   const [secureTextEntry, setSecureTextEntry] = React.useState(true);
   const [checked, setChecked] = React.useState(false);
   const [error, setError] = React.useState(false);
+  const [username, setUserName] = React.useState('');
+  const [pass, setPass] = React.useState('');
 
   const toggleSecureEntry = () => {
     setSecureTextEntry(!secureTextEntry);
   };
 
   const formValues = {
-    username: 'su',
-    password: '9876543A@a'
+    username: username,
+    password: pass
   };
 
   const renderIcon = (props) => (
@@ -96,7 +98,9 @@ export default function LoginScreen({ navigation }) {
       setError(false)
     }, [])
   )
-
+  useEffect(() => {
+    getRememberedUser()
+  }, [])
   // ---------- Action ------------
   const onFormSubmit = async (values) => {
     values = {
@@ -106,8 +110,39 @@ export default function LoginScreen({ navigation }) {
       client_id: 'vilis-mobile-client',
       client_secret: 'n)3b^Q7g]Jd6T&$^',
     }
+    if (checked) {
+      console.log('c');
+      rememberUser(values)
+    }
     await dispatch(userLoginRoutine(values))
   };
+  const rememberUser = async (values) => {
+    try {
+      await AsyncStorage.setItem('USERUSERNAMEKEY', values.username)
+      await AsyncStorage.setItem('USERPASSWORDKEY', values.password)
+      await AsyncStorage.setItem('CHECKED', JSON.stringify(checked))
+    } catch (error) {
+      // Error saving data
+      console.log(error);
+    }
+  };
+  const getRememberedUser = async () => {
+    try {
+      const username = await AsyncStorage.getItem('USERUSERNAMEKEY');
+      const password = await AsyncStorage.getItem('USERPASSWORDKEY');
+      const isChecked = await AsyncStorage.getItem('CHECKED')
+      if (username !== null && password !== null) {
+        // We have username!!
+        setUserName(username)
+        setPass(password)
+        setChecked(JSON.parse(isChecked))
+      }
+    } catch (error) {
+      // Error retrieving data
+      console.log(error);
+    }
+  };
+  // ------------------------------------------
   return (
     <Container>
       <Header
@@ -120,6 +155,7 @@ export default function LoginScreen({ navigation }) {
         <Formik
           initialValues={formValues}
           onSubmit={onFormSubmit}
+          enableReinitialize={true}
         // validationSchema={Schema}
         >
           {renderForm}

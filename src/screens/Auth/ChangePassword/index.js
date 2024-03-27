@@ -119,13 +119,11 @@ export default function ChangePasswordForNew({ navigation, route }) {
     const onFormSubmit = async (pass) => {
         if (isNew) {
             let body = {
-                userName: pass.new_password,
+                userName: values.email,
                 email: pass.email,
                 password: pass.new_password,
-                phone: 'string',
                 appCode: APP_CODE
             }
-            console.log(body)
             request.post(API.REGISTER, body).then((response) => {
                 if (response.data) {
                     if (response.data.data) {
@@ -135,10 +133,26 @@ export default function ChangePasswordForNew({ navigation, route }) {
                 }
                 return null;
             })
-            .catch((error) => { console.log(error) });
+                .catch((error) => { console.log(error) });
         }
         else {
-            navigation.navigate(ROUTER.SUCCESS, { content: 'Mật khẩu đã được khôi phục thành công' })
+            let body = {
+                otp: values.otp,
+                email: values.email,
+                newPassword: pass.new_password,
+                userName: values.email,
+                appCode: APP_CODE
+            }
+            request.post(API.FORGOT_PASSWORD, body).then((response) => {
+                if (response.data) {
+                    if (response.data.data) {
+                        console.log(response.data.data);
+                        navigation.navigate(ROUTER.SUCCESS, { content: 'Mật khẩu đã được khôi phục thành công' })
+                    }
+                }
+                return null;
+            })
+                .catch((error) => { console.log(error) });
         }
 
         console.log(pass);

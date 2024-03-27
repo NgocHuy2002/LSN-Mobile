@@ -36,6 +36,11 @@ import { LanguageScreen } from '@containers/ChangeLanguage';
 import UserInfo from '@containers/UserInfo';
 import ChangeOldPassword from '@containers/Auth/ChangePassword/changePassword';
 import { GuideScreen } from '@containers/GuideScreen';
+import { PostByCategory } from '@containers/PostsScreen/PostByCategory';
+import { ResourcesByScreen } from '@containers/ResourcesScreen/KhoTheoLinhVuc';
+import GuideDetail from '@containers/GuideScreen/GuideDetail';
+import { AboutScreen } from '@containers/AboutScreen';
+import { MapScreen } from '@containers/MapScreen';
 
 // import { TYPE_USER } from '@constants/app';
 
@@ -78,6 +83,22 @@ const MainTabBar = () => {
           ),
         }}
         component={ResourcesScreen}
+      />
+      <BottomTab.Screen
+        name={ROUTER.MAP}
+        options={{
+          tabBarLabel: 'Bản đồ',
+          tabBarIcon: (iconProps) => (
+            <Icon
+              {...iconProps}
+              pack="app"
+              name="map"
+              width={18}
+              height={18}
+            />
+          ),
+        }}
+        component={MapScreen}
       />
       <BottomTab.Screen
         name={ROUTER.POSTS}
@@ -161,15 +182,20 @@ export default function MainNavigator() {
       <Stack.Screen name={ROUTER.MAIN} component={MainTabBar} />
       <Stack.Screen name={ROUTER.HOME} component={HomeScreen} />
       <Stack.Screen name={ROUTER.FIELD} component={Field} />
+      <Stack.Screen name={ROUTER.POSTS_BY_CATEGORY} component={PostByCategory} />
       <Stack.Screen name={ROUTER.POST} component={PostDetail} />
       <Stack.Screen name={ROUTER.CONTACT} component={ContactScreen} />
       <Stack.Screen name={ROUTER.RESOURCES_DETAIL} component={ResourcesDetail} />
+      <Stack.Screen name={ROUTER.RESOURCES_BY} component={ResourcesByScreen} />
       <Stack.Screen name={ROUTER.RESOURCES_LIST} component={ResourcesList} />
       <Stack.Screen name={ROUTER.DATA_DETAIL} component={DataDetail} />
       <Stack.Screen name={ROUTER.CHANGE_LAUGUAGE} component={LanguageScreen} />
       <Stack.Screen name={ROUTER.USER_INFO} component={UserInfo} />
       <Stack.Screen name={ROUTER.CHANGE_OLD_PASSWORD} component={ChangeOldPassword} />
       <Stack.Screen name={ROUTER.GUIDE} component={GuideScreen} /> 
+      <Stack.Screen name={ROUTER.GUIDE_ID} component={GuideDetail} /> 
+      <Stack.Screen name={ROUTER.ABOUT} component={AboutScreen} /> 
+      {/* <Stack.Screen name={ROUTER.MAP} component={MapScreen} />  */}
     </Stack.Navigator>
   );
 }
