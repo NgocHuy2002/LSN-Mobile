@@ -1,17 +1,18 @@
+import { Spinner, Text } from '@ui-kitten/components';
+import { useUpdateEffect } from 'ahooks';
+import { produce } from 'immer';
 import React, {
   forwardRef,
   useEffect,
+  useImperativeHandle,
   useRef,
   useState,
-  useImperativeHandle,
 } from 'react';
-import { produce } from 'immer';
-import { useUpdateEffect } from 'ahooks';
+import { FlatList, RefreshControl, View } from 'react-native';
 import { tw } from 'react-native-tailwindcss';
-import { Text, Spinner } from '@ui-kitten/components';
-import { View, FlatList, RefreshControl } from 'react-native';
 
 import renderNode from '@helpers/renderNode';
+
 import { Row } from '../Stack';
 
 const LOAD_STATE = {

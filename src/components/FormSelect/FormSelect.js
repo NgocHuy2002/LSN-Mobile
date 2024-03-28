@@ -1,12 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import isPlainObject from 'lodash/isPlainObject';
-
-import { tw } from 'react-native-tailwindcss';
 import { styled } from '@ui-kitten/components';
-
+import { IndexPath, Select, SelectItem, Text } from '@ui-kitten/components';
+import isPlainObject from 'lodash/isPlainObject';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { View } from 'react-native';
-import { Text, Select, SelectItem, IndexPath } from '@ui-kitten/components';
+import { tw } from 'react-native-tailwindcss';
 
 import useFormControlState from '@components/FormControl/useFormControlState';
 

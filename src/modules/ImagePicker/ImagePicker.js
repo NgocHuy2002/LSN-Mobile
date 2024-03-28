@@ -1,20 +1,19 @@
+import { SaveFormat, manipulateAsync } from 'expo-image-manipulator';
 import {
   ImagePickerAsset,
   MediaTypeOptions,
   PermissionStatus,
-  launchCameraAsync,
-  launchImageLibraryAsync,
   getCameraPermissionsAsync,
   getMediaLibraryPermissionsAsync,
+  launchCameraAsync,
+  launchImageLibraryAsync,
   requestCameraPermissionsAsync,
   requestMediaLibraryPermissionsAsync,
 } from 'expo-image-picker';
-import { manipulateAsync, SaveFormat } from 'expo-image-manipulator';
 
 import Alert from '@modules/Alert/Alert';
-import Toast from '@modules/Toast/Toast';
-
 import TempSystem from '@modules/TempSystem/TempSystem';
+import Toast from '@modules/Toast/Toast';
 
 export default class ImagePicker {
   static LIMIT_SIZE = 10;

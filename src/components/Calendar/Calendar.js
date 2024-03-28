@@ -1,11 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import moment from 'moment';
-
-import { usePersistFn, useUpdateEffect } from 'ahooks';
-
 import { Calendar as RkCalendar } from '@ui-kitten/components';
+import { usePersistFn, useUpdateEffect } from 'ahooks';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import { cloneDate, isEqualDates } from '@helpers/dateHelper';
 

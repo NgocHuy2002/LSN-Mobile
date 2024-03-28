@@ -1,9 +1,8 @@
 import { getDocumentAsync } from 'expo-document-picker';
 
 import Alert from '@modules/Alert/Alert';
-import Toast from '@modules/Toast/Toast';
-
 import TempSystem from '@modules/TempSystem/TempSystem';
+import Toast from '@modules/Toast/Toast';
 
 export default class DocumentPicker {
   static LIMIT_SIZE = 10;

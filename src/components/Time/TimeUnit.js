@@ -1,11 +1,8 @@
-import React from 'react';
-
-import { tw } from 'react-native-tailwindcss';
-
 import { Text } from '@ui-kitten/components';
 // import { Wheel } from 'teaset';
-
 import { usePersistFn } from 'ahooks';
+import React from 'react';
+import { tw } from 'react-native-tailwindcss';
 
 function Wheel() {
   return null;

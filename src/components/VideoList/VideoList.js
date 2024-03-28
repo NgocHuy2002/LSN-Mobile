@@ -1,8 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-
+import React from 'react';
+import { FlatList, View } from 'react-native';
 import { tw } from 'react-native-tailwindcss';
-import { View, FlatList } from 'react-native';
 
 import VideoItem from './VideoItem';
 

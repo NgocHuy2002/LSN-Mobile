@@ -1,10 +1,8 @@
-import Constants from "expo-constants"
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Constants from 'expo-constants';
 import Reactotron from 'reactotron-react-native';
 import { reactotronRedux as reduxPlugin } from 'reactotron-redux';
 import sagaPlugin from 'reactotron-redux-saga';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const reactotron = Reactotron.configure({
   host: Constants.expoConfig?.extra?.LOCAL_IP,

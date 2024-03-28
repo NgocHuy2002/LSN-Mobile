@@ -1,12 +1,10 @@
+import { Text } from '@ui-kitten/components';
 import React from 'react';
-
 import { tw } from 'react-native-tailwindcss';
 
-import { Text } from '@ui-kitten/components';
+import ActionSheet from '@components/ActionSheet/ActionSheet';
 
 import { callPhone } from '@helpers/linkingHelper';
-
-import ActionSheet from '@components/ActionSheet/ActionSheet';
 
 export default function HyperlinkText(props) {
   const { children, ...restProps } = props;

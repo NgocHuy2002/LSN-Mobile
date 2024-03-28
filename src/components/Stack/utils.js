@@ -1,6 +1,6 @@
 import React from 'react';
+import { StyleSheet, View, ViewStyle } from 'react-native';
 import { tw } from 'react-native-tailwindcss';
-import { View, ViewStyle, StyleSheet } from 'react-native';
 
 export function flattenChildren(children) {
   const childrenArray = React.Children.toArray(children);

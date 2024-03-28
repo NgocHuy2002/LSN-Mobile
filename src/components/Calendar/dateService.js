@@ -1,5 +1,5 @@
-import upperFirst from "lodash/upperFirst"
 import { MomentDateService } from '@ui-kitten/moment';
+import upperFirst from 'lodash/upperFirst';
 
 class CustomDateService extends MomentDateService {
   compareDates(date1, date2) {
@@ -22,8 +22,8 @@ class CustomDateService extends MomentDateService {
   }
 
   getMonthName(date, style) {
-    const monthName = super.getMonthName(date, style)
-    return upperFirst(monthName)
+    const monthName = super.getMonthName(date, style);
+    return upperFirst(monthName);
   }
 }
 

@@ -1,9 +1,18 @@
-import { put, call, takeLeading } from 'redux-saga/effects';
+import { call, put, takeLeading } from 'redux-saga/effects';
 
 import Alert from '@modules/Alert/Alert';
 
-import { getHottestPostsApi, getLatestPostsApi, getLinhVucApi } from '@services/PostsService/PostsService';
-import { getHottestPostsRoutine, getLatestPostsRoutine, getLinhVucRoutine } from './routines';
+import {
+  getHottestPostsApi,
+  getLatestPostsApi,
+  getLinhVucApi,
+} from '@services/PostsService/PostsService';
+
+import {
+  getHottestPostsRoutine,
+  getLatestPostsRoutine,
+  getLinhVucRoutine,
+} from './routines';
 
 export function* getLinhVuc(action) {
   try {

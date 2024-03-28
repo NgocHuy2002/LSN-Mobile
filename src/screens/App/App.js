@@ -1,25 +1,35 @@
-import 'react-native-gesture-handler';
+import * as eva from '@eva-design/eva';
+import { NavigationContainer } from '@react-navigation/native';
+import {
+  ApplicationProvider,
+  IconRegistry,
+  Layout,
+  Text,
+} from '@ui-kitten/components';
+import { EvaIconsPack } from '@ui-kitten/eva-icons';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet } from 'react-native';
-import * as eva from '@eva-design/eva';
-import { ApplicationProvider, IconRegistry, Layout, Text } from '@ui-kitten/components';
-import DynamicStatusBar from '@components/DynamicStatusBar/DynamicStatusBar';
-import mappingTheme from '@theme/mappingTheme';
-import * as ExpoIconsPack from '@components/IconsPack/ExpoIconsPack';
-import { Host as PortalProvider } from 'react-native-portalize';
-import AppIconsPack from '@components/IconsPack/AppIconsPack';
-import { RootSiblingParent } from 'react-native-root-siblings';
+import 'react-native-gesture-handler';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { EvaIconsPack } from '@ui-kitten/eva-icons';
-import { NavigationContainer } from '@react-navigation/native';
+import { Host as PortalProvider } from 'react-native-portalize';
+import { RootSiblingParent } from 'react-native-root-siblings';
 // import MyStack, { Navigator } from './src/screens/navigation/navigation';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
-// import { MenuProvider } from 'react-native-popup-menu';
-import { navigationRef } from '@services/navigationService';
+import { tw } from 'react-native-tailwindcss';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/es/integration/react';
+
+import DynamicStatusBar from '@components/DynamicStatusBar/DynamicStatusBar';
+import AppIconsPack from '@components/IconsPack/AppIconsPack';
+import * as ExpoIconsPack from '@components/IconsPack/ExpoIconsPack';
+
 import MyStack from '@containers/navigation/navigation';
-import { tw } from 'react-native-tailwindcss';
+
+// import { MenuProvider } from 'react-native-popup-menu';
+import { navigationRef } from '@services/navigationService';
+
+import mappingTheme from '@theme/mappingTheme';
+
 import AppLoading from './AppLoading/AppLoading';
 
 // import { FeatherIconsPack } from './feather-icons';
@@ -33,13 +43,24 @@ export default function App() {
       {/* <MenuProvider> */}
       <SafeAreaProvider>
         <RootSiblingParent>
-          <IconRegistry icons={[EvaIconsPack, AppIconsPack, ...Object.values(ExpoIconsPack)]} />
-          <ApplicationProvider {...eva} theme={eva.light} mapping={eva.mapping} customMapping={mappingTheme}>
+          <IconRegistry
+            icons={[
+              EvaIconsPack,
+              AppIconsPack,
+              ...Object.values(ExpoIconsPack),
+            ]}
+          />
+          <ApplicationProvider
+            {...eva}
+            theme={eva.light}
+            mapping={eva.mapping}
+            customMapping={mappingTheme}
+          >
             <GestureHandlerRootView style={tw.flex1}>
               <PortalProvider>
                 <NavigationContainer ref={navigationRef}>
                   <DynamicStatusBar
-                  // darkTheme={darkTheme} 
+                  // darkTheme={darkTheme}
                   />
                   <MyStack />
                   <AppLoading />

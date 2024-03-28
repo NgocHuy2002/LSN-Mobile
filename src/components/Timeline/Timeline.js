@@ -1,11 +1,11 @@
+import { Icon } from '@ui-kitten/components';
 import React from 'react';
 import { View } from 'react-native';
 import { color, tw } from 'react-native-tailwindcss';
-import { Icon } from '@ui-kitten/components';
-
-import renderNode from '@helpers/renderNode';
 
 import { Column, Row } from '@components/Stack';
+
+import renderNode from '@helpers/renderNode';
 
 export default function Timeline({
   data,

@@ -1,15 +1,13 @@
-import React from 'react';
+import { useField, useFormikContext } from 'formik';
 import * as PropTypes from 'prop-types';
-
+import React from 'react';
 import { tw } from 'react-native-tailwindcss';
 
-import { useField, useFormikContext } from 'formik';
+import FormControl from '@components/FormControl/FormControl';
+import FormHelperText from '@components/FormHelperText/FormHelperText';
+import FormLabel from '@components/FormLabel/FormLabel';
 
 import renderNode from '@helpers/renderNode';
-
-import FormControl from '@components/FormControl/FormControl';
-import FormLabel from '@components/FormLabel/FormLabel';
-import FormHelperText from '@components/FormHelperText/FormHelperText';
 
 import FormSelect from './FormSelect';
 

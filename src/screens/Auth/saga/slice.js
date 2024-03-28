@@ -1,10 +1,17 @@
-import { REHYDRATE } from 'redux-persist';
 import { createSlice } from '@reduxjs/toolkit';
+import { REHYDRATE } from 'redux-persist';
 
 import { SECURE_KEY } from '@constants/app';
+
 import * as tokenService from '@services/tokenService';
 
-import { userLoginRoutine, userLogoutRoutine, userInfo, userList } from './routines';
+import {
+  userInfo,
+  userList,
+  userLoginRoutine,
+  userLogoutRoutine,
+} from './routines';
+
 // import { updateUserInfo } from '../Profile/ProfileEdit/saga/routines';
 
 export const initialState = {
@@ -16,7 +23,7 @@ const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    clear: state => {
+    clear: (state) => {
       state.user = null;
       state.list = null;
       state.token = null;

@@ -1,9 +1,8 @@
-import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-
-import { tw } from 'react-native-tailwindcss';
+import React, { useRef } from 'react';
+import { FlatList, View } from 'react-native';
 import { Portal } from 'react-native-portalize';
-import { View, FlatList } from 'react-native';
+import { tw } from 'react-native-tailwindcss';
 
 import Lightbox from '@components/Lightbox/Lightbox';
 

@@ -1,10 +1,20 @@
-import { REHYDRATE } from 'redux-persist';
 import { createSlice } from '@reduxjs/toolkit';
+import { REHYDRATE } from 'redux-persist';
 
 import { SECURE_KEY } from '@constants/app';
+
 import * as tokenService from '@services/tokenService';
 
-import { userLoginRoutine, userLogoutRoutine, userInfo, userList, getLinhVucRoutine, getLatestPostsRoutine, getHottestPostsRoutine } from './routines';
+import {
+  getHottestPostsRoutine,
+  getLatestPostsRoutine,
+  getLinhVucRoutine,
+  userInfo,
+  userList,
+  userLoginRoutine,
+  userLogoutRoutine,
+} from './routines';
+
 // import { updateUserInfo } from '../Profile/ProfileEdit/saga/routines';
 
 export const initialState = {
@@ -16,7 +26,7 @@ const postsSlice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    clear: state => {
+    clear: (state) => {
       state.linh_vuc = null;
       state.latest_posts = null;
       state.hottest_post = null;

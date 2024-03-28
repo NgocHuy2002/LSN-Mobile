@@ -1,12 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import { tw } from 'react-native-tailwindcss';
-
-import { View } from 'react-native';
 import { Text } from '@ui-kitten/components';
-
+import PropTypes from 'prop-types';
+import React from 'react';
+import { View } from 'react-native';
 import ImageView from 'react-native-image-viewing';
+import { tw } from 'react-native-tailwindcss';
 
 function Lightbox(props, ref) {
   const [images, setImages] = React.useState([]);

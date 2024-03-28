@@ -1,9 +1,7 @@
+import { Divider, Icon, ListItem, Text } from '@ui-kitten/components';
 import React from 'react';
-
+import { Animated, TouchableOpacity, View } from 'react-native';
 import { tw } from 'react-native-tailwindcss';
-
-import { Icon, Text, Divider, ListItem } from '@ui-kitten/components';
-import { View, Animated, TouchableOpacity } from 'react-native';
 
 import makeStyles from '@helpers/makeStyles';
 
@@ -27,8 +25,9 @@ export default function TableView(props) {
 
   const styles = useStyles();
 
-  const animatedValue = React.useRef(new Animated.Value(expanded ? 1 : 0))
-    .current;
+  const animatedValue = React.useRef(
+    new Animated.Value(expanded ? 1 : 0),
+  ).current;
 
   const [visible, setVisible] = React.useState(expanded);
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, ViewStyle, StyleProp } from 'react-native';
+import { StyleProp, View, ViewStyle } from 'react-native';
 
 import { getSpacedChildren } from './utils';
 
@@ -19,8 +19,8 @@ export const Stack = ({
     () => ({
       flexDirection: direction,
       flexWrap: wrap,
-      alignItems: align || (center ? "center" : undefined),
-      justifyContent: justify || (center ? "center" : undefined),
+      alignItems: align || (center ? 'center' : undefined),
+      justifyContent: justify || (center ? 'center' : undefined),
     }),
     [direction, wrap, center, align, justify],
   );

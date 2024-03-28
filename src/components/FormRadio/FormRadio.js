@@ -1,9 +1,9 @@
+import { Radio, Text } from '@ui-kitten/components';
 import React from 'react';
 import { View } from 'react-native';
-import { Text, Radio } from '@ui-kitten/components';
 
-import { Column } from '@components/Stack';
 import useFormControlState from '@components/FormControl/useFormControlState';
+import { Column } from '@components/Stack';
 
 export default function FormRadio(props) {
   const {

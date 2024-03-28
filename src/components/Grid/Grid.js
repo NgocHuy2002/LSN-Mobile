@@ -1,10 +1,7 @@
-import React from 'react';
-
-import { tw } from 'react-native-tailwindcss';
-
 import { useLayout } from '@react-native-community/hooks';
-
+import React from 'react';
 import { View } from 'react-native';
+import { tw } from 'react-native-tailwindcss';
 
 export default function Grid(props) {
   const {

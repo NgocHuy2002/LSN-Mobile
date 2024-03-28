@@ -1,12 +1,13 @@
-import { APP_CODE, SITE_ID } from '@constants/app';
 import axios from 'axios';
+
+import { APP_CODE, SITE_ID } from '@constants/app';
 
 export function setToken(token) {
   axios.defaults.headers.common['Authorization'] = token
     ? `Bearer ${token}`
     : '';
-    axios.defaults.headers.common['App-Code'] = APP_CODE
-    axios.defaults.headers.common['Site-Id'] = SITE_ID
+  axios.defaults.headers.common['App-Code'] = APP_CODE;
+  axios.defaults.headers.common['Site-Id'] = SITE_ID;
 }
 
 export function clearToken() {

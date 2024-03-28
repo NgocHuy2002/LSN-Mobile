@@ -1,14 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import moment from 'moment';
-
-import { tw, color } from 'react-native-tailwindcss';
-
+import { Button, Divider, Text } from '@ui-kitten/components';
 import { usePersistFn } from 'ahooks';
-
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { View } from 'react-native';
-import { Text, Button, Divider } from '@ui-kitten/components';
+import { color, tw } from 'react-native-tailwindcss';
 
 import dateService from './dateService';
 

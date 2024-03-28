@@ -1,13 +1,12 @@
-import React, { forwardRef, useState, useCallback } from 'react';
+import { Icon, Input, Text } from '@ui-kitten/components';
 import PropTypes from 'prop-types';
-
+import React, { forwardRef, useCallback, useState } from 'react';
+import { Linking, Platform, TouchableOpacity, View } from 'react-native';
 import { tw } from 'react-native-tailwindcss';
-import { Text, Icon, Input } from '@ui-kitten/components';
-import { View, Linking, Platform, TouchableOpacity } from 'react-native';
-
-import renderNode from '@helpers/renderNode';
 
 import useFormControlState from '@components/FormControl/useFormControlState';
+
+import renderNode from '@helpers/renderNode';
 
 const FormInput = forwardRef((props, ref) => {
   const {

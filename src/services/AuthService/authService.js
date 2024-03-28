@@ -1,18 +1,21 @@
-import request from '@services/request';
-import { API, API_URL_34, API_URL_35 } from '@constants/api';
-import { formatString } from '@helpers/formatString';
 import axios from 'axios';
+
+import { API, API_URL_34, API_URL_35 } from '@constants/api';
+
+import { formatString } from '@helpers/formatString';
+
+import request from '@services/request';
 
 export function requestLogin(data) {
   var formBody = [];
   for (var property in data) {
     var encodedKey = encodeURIComponent(property);
     var encodedValue = encodeURIComponent(data[property]);
-    formBody.push(encodedKey + "=" + encodedValue);
+    formBody.push(encodedKey + '=' + encodedValue);
   }
-  formBody = formBody.join("&");
+  formBody = formBody.join('&');
   const myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
+  myHeaders.append('Content-Type', 'application/x-www-form-urlencoded');
   return request.post(API.LOGIN, formBody, myHeaders).then((response) => {
     if (response?.data) {
       return response.data.access_token;

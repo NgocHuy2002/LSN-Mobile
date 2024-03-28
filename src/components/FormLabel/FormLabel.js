@@ -1,15 +1,13 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import { tw } from 'react-native-tailwindcss';
 import { styled } from '@ui-kitten/components';
-
+import { Icon, Text } from '@ui-kitten/components';
+import PropTypes from 'prop-types';
+import React from 'react';
 import { View } from 'react-native';
-import { Text, Icon } from '@ui-kitten/components';
-
-import renderNode from '@helpers/renderNode';
+import { tw } from 'react-native-tailwindcss';
 
 import useFormControlState from '@components/FormControl/useFormControlState';
+
+import renderNode from '@helpers/renderNode';
 
 function FormLabel(props) {
   const {
@@ -63,16 +61,11 @@ function FormLabel(props) {
     states: ['status', 'variant', 'disabled', 'readonly', 'required'],
   });
 
-  const showAsterisk = !fcs.readonly && fcs.required
+  const showAsterisk = !fcs.readonly && fcs.required;
 
   return (
     <View
-      style={[
-        tw.flexRow,
-        tw.itemsEnd,
-        computedStyle.container,
-        containerStyle,
-      ]}
+      style={[tw.flexRow, tw.itemsEnd, computedStyle.container, containerStyle]}
     >
       {!!leading && (
         <View style={[tw.pR1, leadingContainerStyle]}>
@@ -82,9 +75,7 @@ function FormLabel(props) {
       <Text {...textProps} style={[computedStyle.text, textStyle]}>
         {children}
         {showAsterisk && (
-          <Text style={[computedStyle.asterisk, asteriskStyle]}>
-            &thinsp;*
-          </Text>
+          <Text style={[computedStyle.asterisk, asteriskStyle]}>&thinsp;*</Text>
         )}
       </Text>
       {!!trailing && (

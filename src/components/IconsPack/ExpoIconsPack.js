@@ -1,12 +1,11 @@
-import React from 'react';
-import { StyleSheet } from 'react-native';
-
 import {
   FontAwesome,
   FontAwesome5,
-  MaterialIcons,
   MaterialCommunityIcons,
+  MaterialIcons,
 } from '@expo/vector-icons';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 
 const IconProvider = (Icon, name) => ({
   toReactElement: (props) => {

@@ -1,55 +1,90 @@
-import Container from "@components/Container/Container";
-import React, { useEffect, useMemo, useState } from "react";
-import Header from "@components/Header/Header";
-import Content from '@components/Content/Content';
-import ProList from "@components/ProList/ProList";
 import { useIsFocused } from '@react-navigation/native';
-import { Dimensions, FlatList, Image, TouchableWithoutFeedback, View } from "react-native";
-import { Text } from "@ui-kitten/components";
-import { API } from "@constants/api";
-import { formatString } from "@helpers/formatString";
+import { Text } from '@ui-kitten/components';
+import React, { useEffect, useMemo, useState } from 'react';
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import { tw } from 'react-native-tailwindcss';
+
+import Container from '@components/Container/Container';
+import Content from '@components/Content/Content';
+import Header from '@components/Header/Header';
+import ProList from '@components/ProList/ProList';
+
+import { API } from '@constants/api';
+import { ROUTER } from '@constants/router';
+
+import { formatString } from '@helpers/formatString';
+
+import {
+  getBaiVietTheoChuyenMucApi,
+  getBaiVietTheoChuyenMucIdApi,
+} from '@services/PostsService/PostsService';
 import request from '@services/request';
-import { getBaiVietTheoChuyenMucApi, getBaiVietTheoChuyenMucIdApi } from "@services/PostsService/PostsService";
-import { tw } from "react-native-tailwindcss";
-import { ROUTER } from "@constants/router";
 
 export const PostByCategory = ({ navigation, route }) => {
   const { title, chuyen_muc_id } = route.params;
   const isFocused = useIsFocused();
-  const screenWidth = Dimensions.get('screen').width * 0.5 - 20
+  const screenWidth = Dimensions.get('screen').width * 0.5 - 20;
   const numberCol = 2;
-  const [data, setData] = useState()
+  const [data, setData] = useState();
 
   const truncateString = (str, maxLength) => {
     if (str.length > maxLength) {
       return str.slice(0, maxLength - 3) + '...';
     }
     return str;
-  }
+  };
   const renderItem = ({ item, index }) => {
     return (
-      <TouchableWithoutFeedback onPress={() => navigation.navigate(ROUTER.POST, { id: item.id })}>
-        <View style={{
-          borderRadius: 15,
-          width: screenWidth,
-          height: screenWidth,
-          margin: 10
-        }}>
-          <View style={{ width: '100%', height: screenWidth / 4 * 3, borderRadius: 5, overflow: 'hidden' }}>
+      <TouchableWithoutFeedback
+        onPress={() => navigation.navigate(ROUTER.POST, { id: item.id })}
+      >
+        <View
+          style={{
+            borderRadius: 15,
+            width: screenWidth,
+            height: screenWidth,
+            margin: 10,
+          }}
+        >
+          <View
+            style={{
+              width: '100%',
+              height: (screenWidth / 4) * 3,
+              borderRadius: 5,
+              overflow: 'hidden',
+            }}
+          >
             <Image
               source={
-                item.imageLink ? { uri: formatString(API.GET_IMAGE, item.imageLink) } : require('@assets/images/product-no-image.png')
+                item.imageLink
+                  ? { uri: formatString(API.GET_IMAGE, item.imageLink) }
+                  : require('@assets/images/product-no-image.png')
               }
-              style={{ width: screenWidth, resizeMode: 'cover', height: (screenWidth / 4 * 3) }} />
+              style={{
+                width: screenWidth,
+                resizeMode: 'cover',
+                height: (screenWidth / 4) * 3,
+              }}
+            />
           </View>
-          <Text style={{ width: screenWidth, height: 50, textAlign: 'justify' }}>{truncateString(item.tieude, 75)}</Text>
+          <Text
+            style={{ width: screenWidth, height: 50, textAlign: 'justify' }}
+          >
+            {truncateString(item.tieude, 75)}
+          </Text>
         </View>
       </TouchableWithoutFeedback>
-    )
-  }
+    );
+  };
 
   const formatData = (data, numCol) => {
-    const numberOfFullRows = Math.floor(data.lenght / numCol)
+    const numberOfFullRows = Math.floor(data.lenght / numCol);
 
     let numberOfElementsLastRow = data.lenght - { numberOfFullRows };
 
@@ -57,7 +92,7 @@ export const PostByCategory = ({ navigation, route }) => {
       data.push({ key: `blank-${numberOfElementsLastRow}`, empty: true });
       numberOfElementsLastRow = numberOfElementsLastRow + 1;
     }
-  }
+  };
 
   const filterParams = useMemo(() => {
     const params = {};
@@ -68,29 +103,33 @@ export const PostByCategory = ({ navigation, route }) => {
   }, []);
   // ------------------ useEffect ---------------------------
   useEffect(() => {
-    handleGetBaiViet()
-  }, [])
+    handleGetBaiViet();
+  }, []);
   // --------------------------------------------------------
   // ------------------ Action ------------------------------
   const handleGetBaiViet = async (page, limit, params) => {
-    const data = await getBaiVietTheoChuyenMucIdApi(chuyen_muc_id, page, limit, params);
+    const data = await getBaiVietTheoChuyenMucIdApi(
+      chuyen_muc_id,
+      page,
+      limit,
+      params,
+    );
     if (data) {
       return { data };
     }
     return null;
-  }
+  };
   // --------------------------------------------------------
   return (
     <Container>
       <Header
         style={{ backgroundColor: '#286FC3' }}
-        color='#FFFFFF'
-        status='primary'
+        color="#FFFFFF"
+        status="primary"
         title={title}
         hideLeftIcon={false}
       />
       <Content scrollEnabled={false} safeAreaEnabled={false}>
-
         <View style={{ flex: 1, alignItems: 'center' }}>
           <ProList
             params={filterParams}
@@ -99,10 +138,10 @@ export const PostByCategory = ({ navigation, route }) => {
             renderItem={renderItem}
             ItemSeparatorComponent={() => <View style={tw.h4} />}
             // contentContainerStyle={tw.p4}
-            keyExtractor={item => item.id}
+            keyExtractor={(item) => item.id}
           />
         </View>
       </Content>
     </Container>
-  )
-}
+  );
+};

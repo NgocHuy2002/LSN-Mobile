@@ -1,12 +1,14 @@
-import React from 'react';
-
-import { useSelector } from 'react-redux';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
-
+import {
+  useFocusEffect,
+  useNavigation,
+  useRoute,
+} from '@react-navigation/native';
 import * as SplashScreen from 'expo-splash-screen';
+import React from 'react';
+import { useSelector } from 'react-redux';
 
+import { ROUTER } from '@constants/router';
 
-import { ROUTER } from "@constants/router";
 import { selectToken } from '@containers/Auth/saga/selectors';
 
 export default function AppLoaderScreen(props) {

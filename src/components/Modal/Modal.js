@@ -1,11 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import { Modal as RkModal } from '@ui-kitten/components';
-
-import styles from './styles';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import ModalContent from './ModalContent';
+import styles from './styles';
 
 const Modal = React.forwardRef((props, ref) => {
   const { onModalShow, onModalHide, backPressEnabled, ...restProps } = props;

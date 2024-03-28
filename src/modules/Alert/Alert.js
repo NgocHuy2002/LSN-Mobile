@@ -1,4 +1,4 @@
-import { Alert as RNAlert, BackHandler } from 'react-native';
+import { BackHandler, Alert as RNAlert } from 'react-native';
 
 export default class Alert {
   static DIALOG_TITLE = 'Thông báo';

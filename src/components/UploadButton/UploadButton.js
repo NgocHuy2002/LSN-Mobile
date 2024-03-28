@@ -1,19 +1,18 @@
-import React, { useRef, useState } from 'react';
-import { tw, color } from 'react-native-tailwindcss';
-import { View } from 'react-native';
-import { Text, Icon, Button, Radio, RadioGroup } from '@ui-kitten/components';
+import { Button, Icon, Radio, RadioGroup, Text } from '@ui-kitten/components';
 import { Formik } from 'formik';
-import { Portal } from 'react-native-portalize';
+import React, { useRef, useState } from 'react';
+import { View } from 'react-native';
 import { Modalize } from 'react-native-modalize';
+import { Portal } from 'react-native-portalize';
+import { color, tw } from 'react-native-tailwindcss';
 
-import { Column, Row } from '@components/Stack';
-import FormLabel from '@components/FormLabel/FormLabel';
 import FormikInput from '@components/FormInput/FormikInput';
+import FormLabel from '@components/FormLabel/FormLabel';
 import FormikRadio from '@components/FormRadio/FormikRadio';
+import useSafeAreaStyle from '@components/SafeAreaView/useSafeAreaStyle';
+import { Column, Row } from '@components/Stack';
 
 import ImagePicker from '@modules/ImagePicker/ImagePicker';
-
-import useSafeAreaStyle from '@components/SafeAreaView/useSafeAreaStyle';
 
 export default function UploadButton({
   onImageChange,
@@ -24,7 +23,10 @@ export default function UploadButton({
   const contentStyle = useSafeAreaStyle(['bottom'], tw.p4);
 
   const [selected, setSelected] = useState(0);
-  const [formValues, setFormValues] = useState({ type: 'image', import: false });
+  const [formValues, setFormValues] = useState({
+    type: 'image',
+    import: false,
+  });
 
   const onGalleryOpen = async () => {
     const imageUri = await ImagePicker.launchImageLibrary();

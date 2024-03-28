@@ -1,9 +1,7 @@
-import React from 'react';
-
 import { useTheme } from '@ui-kitten/components';
-
-import { View } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
+import React from 'react';
+import { View } from 'react-native';
 
 import makeStyles from '@helpers/makeStyles';
 

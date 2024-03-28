@@ -1,9 +1,7 @@
-import React from 'react';
-
-import { tw } from 'react-native-tailwindcss';
 import { styled } from '@ui-kitten/components';
-
+import React from 'react';
 import { View } from 'react-native';
+import { tw } from 'react-native-tailwindcss';
 
 import useSafeAreaStyle from '@components/SafeAreaView/useSafeAreaStyle';
 

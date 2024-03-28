@@ -1,31 +1,64 @@
-import Container from '@components/Container/Container';
-import React, { useEffect, useState } from 'react';
-import { Dimensions, FlatList, Image, ImageBackground, TouchableWithoutFeedback, View, useWindowDimensions } from 'react-native';
-import RenderHtml from 'react-native-render-html';
-import Content from '@components/Content/Content';
-import Header from '@components/Header/Header';
-import { Avatar, Button, Icon, Input, Text } from '@ui-kitten/components';
-import { Column, Row } from '@components/Stack';
 import { AntDesign } from '@expo/vector-icons';
-import moment from 'moment';
-import { ImageWithDescription } from '@components/ImageWithDescription/ImageWithDescription';
+import { Avatar, Button, Icon, Input, Text } from '@ui-kitten/components';
 import { Formik } from 'formik';
-import FormikInput from '@components/FormInput/FormikInput';
+import moment from 'moment';
+import React, { useEffect, useState } from 'react';
+import {
+  Dimensions,
+  FlatList,
+  Image,
+  ImageBackground,
+  TouchableWithoutFeedback,
+  View,
+  useWindowDimensions,
+} from 'react-native';
+import RenderHtml from 'react-native-render-html';
 import { tw } from 'react-native-tailwindcss';
-import * as Yup from 'yup';
-import { getBaiVietTheoIdApi } from '@services/PostsService/PostsService';
 import { WebView } from 'react-native-webview';
-import Loading from '@components/Loading/Loading';
+import * as Yup from 'yup';
 
-const title = 'Thủ tướng Phạm Minh Chính: Nỗ lực của ngành TN&MT giúp giải phóng, phát huy các nguồn lực tài nguyên cho phát triển kinh tế, xã hội'
-const author = 'Trần Đức Hiếu'
+import Container from '@components/Container/Container';
+import Content from '@components/Content/Content';
+import FormikInput from '@components/FormInput/FormikInput';
+import Header from '@components/Header/Header';
+import { ImageWithDescription } from '@components/ImageWithDescription/ImageWithDescription';
+import Loading from '@components/Loading/Loading';
+import { Column, Row } from '@components/Stack';
+
+import { getBaiVietTheoIdApi } from '@services/PostsService/PostsService';
+
 const comments = [
-  { name: 'Trần Đức Hiếu', comment: 'Bài viết rất hữu ích.. like like', date: '', key: 1 },
-  { name: 'Trần Đức Hiếu', comment: 'Bài viết rất hữu ích.. like like', date: '', key: 2 },
-  { name: 'Trần Đức Hiếu', comment: 'Bài viết rất hữu ích.. like like', date: '', key: 3 },
-  { name: 'Trần Đức Hiếu', comment: 'Bài viết rất hữu ích.. like like', date: '', key: 4 },
-  { name: 'Trần Đức Hiếu', comment: 'Bài viết rất hữu ích.. like like', date: '', key: 5 },
-]
+  {
+    name: 'Trần Đức Hiếu',
+    comment: 'Bài viết rất hữu ích.. like like',
+    date: '',
+    key: 1,
+  },
+  {
+    name: 'Trần Đức Hiếu',
+    comment: 'Bài viết rất hữu ích.. like like',
+    date: '',
+    key: 2,
+  },
+  {
+    name: 'Trần Đức Hiếu',
+    comment: 'Bài viết rất hữu ích.. like like',
+    date: '',
+    key: 3,
+  },
+  {
+    name: 'Trần Đức Hiếu',
+    comment: 'Bài viết rất hữu ích.. like like',
+    date: '',
+    key: 4,
+  },
+  {
+    name: 'Trần Đức Hiếu',
+    comment: 'Bài viết rất hữu ích.. like like',
+    date: '',
+    key: 5,
+  },
+];
 
 export const PostDetail = ({ navigation, route }) => {
   const { id, data } = route.params;
@@ -51,18 +84,15 @@ export const PostDetail = ({ navigation, route }) => {
   const tagsStyles = {
     img: {
       width: 200,
-      height: 200
-    }
-  }
+      height: 200,
+    },
+  };
   const RenderIcon = (props) => {
     return (
       <TouchableWithoutFeedback onPress={props?.formik}>
-        <Icon
-          {...props}
-          name={'corner-down-left-outline'}
-        />
+        <Icon {...props} name={'corner-down-left-outline'} />
       </TouchableWithoutFeedback>
-    )
+    );
   };
   const AvatarImageComponentShowcase = () => (
     <Avatar
@@ -71,12 +101,19 @@ export const PostDetail = ({ navigation, route }) => {
     />
   );
   const Item = ({ items }) => (
-    <Row space={4} style={{ justifyContent: 'space-between', alignItems: 'center', paddingVertical: 10 }}>
+    <Row
+      space={4}
+      style={{
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingVertical: 10,
+      }}
+    >
       <Row style={{ alignItems: 'center', gap: 10 }}>
         <Avatar
           source={require('@assets/images/logo.png')}
           ImageComponent={ImageBackground}
-          size='small'
+          size="small"
         />
         <Column style={{ alignItems: 'left' }}>
           <Text style={{ fontSize: 12, color: '#2C384A', fontWeight: 'bold' }}>
@@ -87,45 +124,47 @@ export const PostDetail = ({ navigation, route }) => {
           </Text>
         </Column>
       </Row>
-      <Text style={{ fontSize: 12, color: '#2C384A', fontWeight: '400' }}>{moment().format('DD/MM/yyyy')}</Text>
+      <Text style={{ fontSize: 12, color: '#2C384A', fontWeight: '400' }}>
+        {moment().format('DD/MM/yyyy')}
+      </Text>
     </Row>
-  )
+  );
   const renderForm = (formik) => (
     <FormikInput
       name="comment"
       variant="outlined"
-      size='large'
+      size="large"
       containerStyle={tw.mB4}
       onSubmitEditing={formik.handleSubmit}
       accessoryRight={<RenderIcon formik={formik.handleSubmit} />}
       placeholder="Chia sẻ ý kiến của bạn"
     />
-  )
+  );
   // --------------- useEffect --------------------
   useEffect(() => {
     if (id) {
-      handleGetBaiViet()
+      handleGetBaiViet();
     }
-  }, [])
+  }, []);
   // ----------------------------------------------
   const handleGetBaiViet = async () => {
-    const data = await getBaiVietTheoIdApi(id)
+    const data = await getBaiVietTheoIdApi(id);
     // console.log(data.noidung);
-    setSource({ html: data?.noidung })
-    setContent(data)
-  }
+    setSource({ html: data?.noidung });
+    setContent(data);
+  };
   // --------------- Action -----------------------
   const onFormSubmit = (values) => {
     console.log(values);
-  }
+  };
   // ----------------------------------------------
   return (
     <Container>
       <Header
         style={{ backgroundColor: '#286FC3' }}
-        color='#FFFFFF'
-        status='primary'
-        title='Bài viết'
+        color="#FFFFFF"
+        status="primary"
+        title="Bài viết"
         hideLeftIcon={false}
       />
       {/* <View style={{ height: 500, width: Dimensions.get('screen').width,backgroundColor: "#EEF2FA", }}>
@@ -148,15 +187,19 @@ export const PostDetail = ({ navigation, route }) => {
       </View> */}
       <Content scrollEnabled={true} safeAreaEnabled={true}>
         <Column space={4} style={{ paddingBottom: 25, paddingHorizontal: 10 }}>
-          <Text style={{fontSize: 16, fontWeight: 'bold'}}>{content?.tieude}</Text>
+          <Text style={{ fontSize: 16, fontWeight: 'bold' }}>
+            {content?.tieude}
+          </Text>
           <Row space={4}>
             <Row space={2}>
-              <Icon name={'person-outline'} width={15} height={15}/>
-              <Text style={{fontSize: 12}}>{content?.tacgia}</Text>
+              <Icon name={'person-outline'} width={15} height={15} />
+              <Text style={{ fontSize: 12 }}>{content?.tacgia}</Text>
             </Row>
             <Row space={2}>
-              <Icon name={'calendar-outline'} width={15} height={15}/>
-              <Text style={{fontSize: 12}}>{moment(content?.thoigianxuatban).format('DD/MM/YYYY')}</Text>
+              <Icon name={'calendar-outline'} width={15} height={15} />
+              <Text style={{ fontSize: 12 }}>
+                {moment(content?.thoigianxuatban).format('DD/MM/YYYY')}
+              </Text>
             </Row>
           </Row>
           <RenderHtml
@@ -182,4 +225,4 @@ export const PostDetail = ({ navigation, route }) => {
       </Content>
     </Container>
   );
-}
+};

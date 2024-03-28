@@ -1,14 +1,14 @@
-import { persistReducer } from 'redux-persist';
-import { combineReducers } from '@reduxjs/toolkit';
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 import createSecureStore from '@neverdull-agency/expo-unlimited-secure-store';
-import { SECURE_KEY, STORAGE_KEY } from '@constants/app';
-import { authReducer } from '@containers/Auth/saga/slice';
-import { appReducer } from '@containers/App/slice';
-import { postsReducer } from '@containers/HomeScreen/saga/slice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { combineReducers } from '@reduxjs/toolkit';
+import { persistReducer } from 'redux-persist';
+import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2';
 
+import { SECURE_KEY, STORAGE_KEY } from '@constants/app';
+
+import { appReducer } from '@containers/App/slice';
+import { authReducer } from '@containers/Auth/saga/slice';
+import { postsReducer } from '@containers/HomeScreen/saga/slice';
 
 export default function createReducer(injectedReducers = {}) {
   const secureStorage = createSecureStore();

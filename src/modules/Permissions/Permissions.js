@@ -1,5 +1,4 @@
 // import * as ExpoPermissions from 'expo-permissions';
-
 import Toast from '@modules/Toast/Toast';
 
 export default class Permissions {

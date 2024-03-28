@@ -1,8 +1,6 @@
-import React from 'react';
-
-import isEqual from 'lodash/isEqual';
-
 import { useFormikContext } from 'formik';
+import isEqual from 'lodash/isEqual';
+import React from 'react';
 
 const defaultShouldTriggerErrors = (errors, nextErrors) =>
   !isEqual(errors, nextErrors);

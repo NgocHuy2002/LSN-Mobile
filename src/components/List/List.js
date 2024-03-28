@@ -1,14 +1,11 @@
-import React from 'react';
+import { Ionicons } from '@expo/vector-icons';
+import { Spinner, Text } from '@ui-kitten/components';
 import PropTypes from 'prop-types';
-
+import React from 'react';
+import { FlatList, TouchableOpacity, View } from 'react-native';
 import { tw } from 'react-native-tailwindcss';
 
-import { Text, Spinner } from '@ui-kitten/components';
-import { View, FlatList, TouchableOpacity } from 'react-native';
-
 import { LOAD_STATE } from './constants';
-
-import {Ionicons} from '@expo/vector-icons';
 
 export default function List(props) {
   const {
@@ -50,7 +47,7 @@ export default function List(props) {
   const onLoadmore = React.useCallback(() => {
     if (loadState === LOAD_STATE.IDLE) {
       // if (listRef.current?._listRef._scrollMetrics.offset > 1) {
-        props.onLoadmore(LOAD_STATE.LOAD_MORE);
+      props.onLoadmore(LOAD_STATE.LOAD_MORE);
       // }
     }
   }, [loadState]);

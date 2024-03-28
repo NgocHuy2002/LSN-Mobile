@@ -1,9 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import { tw } from 'react-native-tailwindcss';
-
 import { Layout } from '@ui-kitten/components';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { tw } from 'react-native-tailwindcss';
 
 import Modal from '@components/Modal/Modal';
 

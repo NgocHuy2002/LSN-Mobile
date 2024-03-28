@@ -1,23 +1,24 @@
-import { Dimensions, Pressable, StyleSheet } from 'react-native';
+import { AntDesign } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
+import {
+  NavigationHelpers,
+  ParamListBase,
+  TabNavigationState,
+} from '@react-navigation/native';
 import React, { useEffect } from 'react';
+import { Dimensions, Pressable, StyleSheet } from 'react-native';
 import Animated, {
   runOnUI,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {
-  TabNavigationState,
-  ParamListBase,
-  NavigationHelpers,
-} from '@react-navigation/native';
-import { BottomTabNavigationEventMap } from '@react-navigation/bottom-tabs';
-import { AntDesign } from '@expo/vector-icons';
-import { ROUTER } from "@constants/router";
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
+import { ROUTER } from '@constants/router';
 
-{/* <Tab.Screen name={ROUTER.HOME} component={HomeScreen}
+{
+  /* <Tab.Screen name={ROUTER.HOME} component={HomeScreen}
 options={{
     tabBarLabel: 'Trang chủ',
     tabBarIcon: ({ color, size }) => (
@@ -54,7 +55,8 @@ options={{
         <MaterialCommunityIcons name="menu" color={color} size={size} />
     ),
 }}
-/> */}
+/> */
+}
 export const routes = {
   home: { name: ROUTER.HOME, icon: 'home' },
   field: { name: ROUTER.FIELD },

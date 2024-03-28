@@ -3,7 +3,7 @@
  * @param {string} name
  */
 export const getShortname = (name) => {
-  if (!name) return ''
+  if (!name) return '';
   name = name.toUpperCase();
   let array = name.split(' ');
   if (name.length === 2 || array.length === 1) return name[0];

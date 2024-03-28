@@ -1,26 +1,24 @@
-import React from 'react';
-import { LogBox } from 'react-native';
-
-import moment from 'moment';
-import 'moment/locale/vi';
-
-import * as Font from 'expo-font';
-import { Asset } from 'expo-asset';
-import * as Updates from 'expo-updates';
-import * as Application from 'expo-application';
-import * as SplashScreen from 'expo-splash-screen';
-
-import { Provider as StoreProvider } from 'react-redux';
-import { PersistGate } from 'redux-persist/es/integration/react';
-
-import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import FontAwesomeIcons from '@expo/vector-icons/FontAwesome';
 import FontAwesome5Icons from '@expo/vector-icons/FontAwesome5';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import * as Application from 'expo-application';
+import { Asset } from 'expo-asset';
+import * as Font from 'expo-font';
+import * as SplashScreen from 'expo-splash-screen';
+import * as Updates from 'expo-updates';
+import moment from 'moment';
+import 'moment/locale/vi';
+import React from 'react';
+import { LogBox } from 'react-native';
+import { Provider as StoreProvider } from 'react-redux';
+import { PersistGate } from 'redux-persist/es/integration/react';
+
+import { ImageAssets } from '@constants/assets';
 
 import App from '@containers/App/App';
+
 import Alert from '@modules/Alert/Alert';
-import { ImageAssets } from '@constants/assets';
 
 import configureStore from './store.config';
 

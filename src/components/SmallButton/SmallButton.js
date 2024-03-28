@@ -1,6 +1,6 @@
 import React from 'react';
-import { tw, color } from 'react-native-tailwindcss';
-import { View, Text, TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
+import { color, tw } from 'react-native-tailwindcss';
 
 const SmallButton = ({
   text,

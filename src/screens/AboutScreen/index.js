@@ -1,13 +1,31 @@
-import Container from "@components/Container/Container";
-import Header from "@components/Header/Header";
-import { View, ImageBackground, Dimensions, StyleSheet, useWindowDimensions } from "react-native";
-import Content from '@components/Content/Content';
-import React, { useEffect, useState } from "react";
-import { Avatar, Card, Drawer, DrawerGroup, DrawerItem, Icon, Menu, MenuGroup, MenuItem, Text } from "@ui-kitten/components";
-import { Column, Row } from "@components/Stack";
-import { getAboutApi } from "@services/AboutService/AboutService";
-import RenderHTML from "react-native-render-html";
+import {
+  Avatar,
+  Card,
+  Drawer,
+  DrawerGroup,
+  DrawerItem,
+  Icon,
+  Menu,
+  MenuGroup,
+  MenuItem,
+  Text,
+} from '@ui-kitten/components';
+import React, { useEffect, useState } from 'react';
+import {
+  Dimensions,
+  ImageBackground,
+  StyleSheet,
+  View,
+  useWindowDimensions,
+} from 'react-native';
+import RenderHTML from 'react-native-render-html';
 
+import Container from '@components/Container/Container';
+import Content from '@components/Content/Content';
+import Header from '@components/Header/Header';
+import { Column, Row } from '@components/Stack';
+
+import { getAboutApi } from '@services/AboutService/AboutService';
 
 export const AboutScreen = ({ navigation }) => {
   const [source, setSource] = useState();
@@ -21,25 +39,29 @@ export const AboutScreen = ({ navigation }) => {
   );
   // --------------------------- useEffect --------------------------
   useEffect(() => {
-    handleGetAbout('noi-dung-hien-thi-so-1', 'C_TRANGTINH', 1, 10)
-  },[])
+    handleGetAbout('noi-dung-hien-thi-so-1', 'C_TRANGTINH', 1, 10);
+  }, []);
   // ----------------------------------------------------------------
   // --------------------------- Action -----------------------------
   const handleGetAbout = async (slug, type, page, size) => {
-    const data = await getAboutApi(slug, type, page, size)
-    setSource({ html: data?.noidung })
-  }
+    const data = await getAboutApi(slug, type, page, size);
+    setSource({ html: data?.noidung });
+  };
   // ----------------------------------------------------------------
   return (
     <Container>
       <Header
         style={{ backgroundColor: '#286FC3' }}
-        color='#FFFFFF'
-        status='primary'
-        title='Giới thiệu'
+        color="#FFFFFF"
+        status="primary"
+        title="Giới thiệu"
         hideLeftIcon={false}
       />
-      <Content scrollEnabled={true} safeAreaEnabled={false} style={{marginHorizontal:10 }}>
+      <Content
+        scrollEnabled={true}
+        safeAreaEnabled={false}
+        style={{ marginHorizontal: 10 }}
+      >
         {/* <Card style={styles.card}>
           <Row space={4}>
             {AvatarImageComponentShowcase()}
@@ -55,13 +77,15 @@ export const AboutScreen = ({ navigation }) => {
         </Card> */}
         <RenderHTML
           contentWidth={width - 20}
-          source={source ? source : { html: `<div><p>Không có bài viết</p></div>` }}
+          source={
+            source ? source : { html: `<div><p>Không có bài viết</p></div>` }
+          }
           // tagsStyles={tagsStyles}
         />
       </Content>
     </Container>
-  )
-}
+  );
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -73,6 +97,6 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').width - 20,
     marginHorizontal: 10,
     height: 100,
-    justifyContent: 'center'
-  }
-})
+    justifyContent: 'center',
+  },
+});

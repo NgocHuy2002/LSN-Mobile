@@ -1,9 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import { BackHandler } from 'react-native';
-
 import { usePersistFn } from 'ahooks';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { BackHandler } from 'react-native';
 
 const ModalContent = (props) => {
   const { children, backPressEnabled } = props;

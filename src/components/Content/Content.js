@@ -1,13 +1,10 @@
-import React from 'react';
-
-import { tw } from 'react-native-tailwindcss';
 import { styled } from '@ui-kitten/components';
-
-import { View, ScrollView } from 'react-native';
+import React from 'react';
+import { ScrollView, View } from 'react-native';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { tw } from 'react-native-tailwindcss';
 
 import useSafeAreaStyle from '@components/SafeAreaView/useSafeAreaStyle';
-
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 function Content(props) {
   const {

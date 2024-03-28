@@ -1,14 +1,12 @@
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
+import { createInjectorsEnhancer, forceReducerReload } from 'redux-injectors';
 import { persistStore } from 'redux-persist';
 import createSagaMiddleware from 'redux-saga';
 import { routinePromiseWatcherSaga } from 'redux-saga-routines';
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
-import { createInjectorsEnhancer, forceReducerReload } from 'redux-injectors';
 
 import reactotron from './helpers/reactotron';
-
-import rootSaga from './sagas';
 import createReducer from './reducers';
-
+import rootSaga from './sagas';
 import { setStore } from './store';
 
 export default function configureAppStore() {

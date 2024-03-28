@@ -1,9 +1,6 @@
+import { NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import * as React from 'react';
-import { Text, View, Animated } from 'react-native';
-import {
-  NavigationContainer,
-  useFocusEffect,
-} from '@react-navigation/native';
+import { Animated, Text, View } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 
 export const FadeInView = (props, { navigation }) => {

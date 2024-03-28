@@ -1,9 +1,10 @@
-import React, { useState, useRef } from "react";
-import PropTypes from "prop-types";
-import Swiper from "react-native-swiper";
-import { API_URL, API } from "@constants/api";
-import { tw, color } from "react-native-tailwindcss";
-import { View, Image, FlatList, TouchableOpacity } from "react-native";
+import PropTypes from 'prop-types';
+import React, { useRef, useState } from 'react';
+import { FlatList, Image, TouchableOpacity, View } from 'react-native';
+import Swiper from 'react-native-swiper';
+import { color, tw } from 'react-native-tailwindcss';
+
+import { API, API_URL } from '@constants/api';
 
 export default function ImageSlider(props) {
   const { data, containerStyle } = props;
@@ -25,16 +26,13 @@ export default function ImageSlider(props) {
           tw.w12,
           tw.h12,
           tw.m1,
-          currentIndex === index && [
-            tw.border2,
-            tw.borderPrimary,
-          ],
+          currentIndex === index && [tw.border2, tw.borderPrimary],
         ]}
       >
         <Image
           style={[tw.wFull, tw.hFull, tw.roundedLg]}
           source={{
-            uri: API_URL + API.PREVIEW_ID.replace("{0}", item.url),
+            uri: API_URL + API.PREVIEW_ID.replace('{0}', item.url),
           }}
         />
       </View>
@@ -60,7 +58,7 @@ export default function ImageSlider(props) {
               <Image
                 style={[tw.wFull, tw.hFull, tw.resizeContain]}
                 source={{
-                  uri: API_URL + API.PREVIEW_ID.replace("{0}", item.url),
+                  uri: API_URL + API.PREVIEW_ID.replace('{0}', item.url),
                 }}
               />
             </View>

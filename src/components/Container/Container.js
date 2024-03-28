@@ -1,10 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import { tw } from 'react-native-tailwindcss';
 import { styled } from '@ui-kitten/components';
-
+import PropTypes from 'prop-types';
+import React from 'react';
 import { View } from 'react-native';
+import { tw } from 'react-native-tailwindcss';
+
 // import * as Animatable from 'react-native-animatable';
 
 function Container(props) {

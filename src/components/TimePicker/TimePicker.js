@@ -1,24 +1,16 @@
-import React from 'react';
+import { Button, Divider, Layout } from '@ui-kitten/components';
+import { usePersistFn } from 'ahooks';
 import PropTypes from 'prop-types';
-
+import React from 'react';
+import { View } from 'react-native';
 import { tw } from 'react-native-tailwindcss';
 
-import { usePersistFn } from 'ahooks';
-
-import { View } from 'react-native';
-import { Button, Layout, Divider } from '@ui-kitten/components';
-
-import Time from '@components/Time/Time';
 import Modal from '@components/Modal/Modal';
+import Time from '@components/Time/Time';
 
 const TimePicker = React.forwardRef((props, modalRef) => {
-  const {
-    visible,
-    onModalShow,
-    onModalHide,
-    onBackdropPress,
-    ...restProps
-  } = props;
+  const { visible, onModalShow, onModalHide, onBackdropPress, ...restProps } =
+    props;
 
   const dateRef = React.useRef(null);
 

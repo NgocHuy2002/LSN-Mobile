@@ -1,10 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import { tw } from 'react-native-tailwindcss';
-
-import { View } from 'react-native';
 import { Icon, Text } from '@ui-kitten/components';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { View } from 'react-native';
+import { tw } from 'react-native-tailwindcss';
 
 import makeStyles from '@helpers/makeStyles';
 import renderNode from '@helpers/renderNode';
@@ -33,7 +31,7 @@ export default function Empty(props) {
     diamondStyle,
     containerStyle,
   } = props;
-  
+
   const styles = useStyles();
 
   return (

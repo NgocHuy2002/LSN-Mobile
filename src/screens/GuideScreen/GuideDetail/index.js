@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react';
+import { View, useWindowDimensions } from 'react-native';
 import RenderHtml from 'react-native-render-html';
-import { View, useWindowDimensions } from "react-native";
-import Container from "@components/Container/Container";
+
+import Container from '@components/Container/Container';
 import Content from '@components/Content/Content';
-import { getGuideByIdApi } from "@services/GuideService/GuideService";
-import Header from "@components/Header/Header";
+import Header from '@components/Header/Header';
+
+import { getGuideByIdApi } from '@services/GuideService/GuideService';
 
 const GuideDetail = ({ navigation, route }) => {
   const { title, id } = route.params;
@@ -12,23 +14,23 @@ const GuideDetail = ({ navigation, route }) => {
   const { width } = useWindowDimensions();
   // -------------- useEffect ---------------------
   useEffect(() => {
-    getGuide()
-  }, [])
+    getGuide();
+  }, []);
   // ----------------------------------------------
   // ------------- Action -------------------------
   const getGuide = async () => {
     if (id) {
-      const data = await getGuideByIdApi(id)
+      const data = await getGuideByIdApi(id);
       console.log(data);
     }
-  }
+  };
   // ----------------------------------------------
   return (
     <Container>
       <Header
-        style={{ backgroundColor: '#286FC3', }}
-        color='#FFFFFF'
-        status='primary'
+        style={{ backgroundColor: '#286FC3' }}
+        color="#FFFFFF"
+        status="primary"
         title={title}
         hideLeftIcon={false}
       />
@@ -36,10 +38,16 @@ const GuideDetail = ({ navigation, route }) => {
         {/* <View style={{justifyContent: 'center', alignItems: 'center'}}></View> */}
         <RenderHtml
           contentWidth={width}
-          source={source ? source : { html: `<div style="display: flex;align-items: center; justify-content: center, padding-top: 10px">Không có hướng dẫn </div>` }}
+          source={
+            source
+              ? source
+              : {
+                  html: `<div style="display: flex;align-items: center; justify-content: center, padding-top: 10px">Không có hướng dẫn </div>`,
+                }
+          }
         />
       </Content>
     </Container>
-  )
-}
-export default GuideDetail
+  );
+};
+export default GuideDetail;

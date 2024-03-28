@@ -1,10 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
 import { Icon, ListItem } from '@ui-kitten/components';
-import { TouchableOpacity } from 'react-native';
-
 import * as ExpoWebBrowser from 'expo-web-browser';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { TouchableOpacity } from 'react-native';
 
 import Toast from '@modules/Toast/Toast';
 

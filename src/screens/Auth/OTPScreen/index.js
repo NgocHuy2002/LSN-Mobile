@@ -1,21 +1,24 @@
-import Container from "@components/Container/Container";
-import Content from "@components/Content/Content";
-import FormikInput from "@components/FormInput/FormikInput";
-import FormikSelect from "@components/FormSelect/FormikSelect";
-import Header from "@components/Header/Header";
-import { Column, Row } from "@components/Stack";
-import { ROUTER } from "@constants/router";
-import { Button, Text } from "@ui-kitten/components";
-import { Field, Formik } from "formik";
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import { Dimensions, View } from "react-native";
-import OTPTextInput from "react-native-otp-textinput";
-import { tw } from "react-native-tailwindcss";
-import request from '@services/request';
-import { API } from "@constants/api";
+import { useFocusEffect } from '@react-navigation/native';
+import { Button, Text } from '@ui-kitten/components';
+import { useInterval } from 'ahooks';
+import { Field, Formik } from 'formik';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { Dimensions, View } from 'react-native';
+import OTPTextInput from 'react-native-otp-textinput';
+import { tw } from 'react-native-tailwindcss';
 import * as Yup from 'yup';
-import { useFocusEffect } from "@react-navigation/native";
-import { useInterval } from "ahooks";
+
+import Container from '@components/Container/Container';
+import Content from '@components/Content/Content';
+import FormikInput from '@components/FormInput/FormikInput';
+import FormikSelect from '@components/FormSelect/FormikSelect';
+import Header from '@components/Header/Header';
+import { Column, Row } from '@components/Stack';
+
+import { API } from '@constants/api';
+import { ROUTER } from '@constants/router';
+
+import request from '@services/request';
 
 export const OTPScreen = ({ route, navigation }) => {
   const { registerBy, values, isNew } = route.params;
@@ -30,9 +33,9 @@ export const OTPScreen = ({ route, navigation }) => {
   // ---------- useEffect ------------
   useFocusEffect(
     useCallback(() => {
-      setError(false)
-    }, [])
-  )
+      setError(false);
+    }, []),
+  );
   // useEffect(() => {
   //   console.log(time);
   //   const timerId = setInterval(() => {
@@ -66,7 +69,7 @@ export const OTPScreen = ({ route, navigation }) => {
   // }, [])
   useEffect(() => {
     intervalId.current = setInterval(() => {
-      setTime(prev => prev - 1);
+      setTime((prev) => prev - 1);
     }, 1000);
     return () => clearInterval(intervalId.current);
   }, []);
@@ -74,7 +77,7 @@ export const OTPScreen = ({ route, navigation }) => {
     request.post(API.SEND_OTP_EMAIL, values).then((response) => {
       if (response.data) {
         if (response.data.data == true) {
-          setTime(59)
+          setTime(59);
         }
       }
       return null;
@@ -83,21 +86,24 @@ export const OTPScreen = ({ route, navigation }) => {
   // ---------- Action ------------
   const clearText = () => {
     otpInput.current.clear();
-  }
+  };
   const onFormSubmit = async (data) => {
     let body = {
-      "email": registerBy == 'email' ? values.email : values.phone,
-      "otp": data
-    }
+      email: registerBy == 'email' ? values.email : values.phone,
+      otp: data,
+    };
     request.post(API.VERIFY_OTP_EMAIL, body).then((response) => {
       if (response?.data) {
         console.log(response.data?.data, '- VERIFY_OTP_EMAIL');
         if (response.data.data == true) {
-          navigation.navigate(ROUTER.CHANGE_PASSWORD, { registerBy: registerBy, values: body, isNew: isNew })
-        }
-        else {
-          setError(true)
-          clearText()
+          navigation.navigate(ROUTER.CHANGE_PASSWORD, {
+            registerBy: registerBy,
+            values: body,
+            isNew: isNew,
+          });
+        } else {
+          setError(true);
+          clearText();
         }
       }
       return null;
@@ -117,16 +123,73 @@ export const OTPScreen = ({ route, navigation }) => {
             <Text style={[tw.mB4, tw.textBase, { color: '#92969A' }]}>
               Vui lòng nhập mã số gồm 6 chữ số bao gồm:
             </Text>
-            <OTPTextInput ref={otpInput} handleTextChange={(e) => setOtp(e)} inputCount={6} inputCellLength={1} textInputStyle={{ borderWidth: 1, borderColor: '#286FC3', borderRadius: 8, width: 40, height: 40 }} containerStyle={{ width: screenWidth }} />
-            {error ? <Text style={{ fontSize: 15, color: '#DD4066' }}>Mã xác thực không đúng</Text> : null}
+            <OTPTextInput
+              ref={otpInput}
+              handleTextChange={(e) => setOtp(e)}
+              inputCount={6}
+              inputCellLength={1}
+              textInputStyle={{
+                borderWidth: 1,
+                borderColor: '#286FC3',
+                borderRadius: 8,
+                width: 40,
+                height: 40,
+              }}
+              containerStyle={{ width: screenWidth }}
+            />
+            {error ? (
+              <Text style={{ fontSize: 15, color: '#DD4066' }}>
+                Mã xác thực không đúng
+              </Text>
+            ) : null}
           </View>
-          <Button onPress={() => onFormSubmit(otp)} style={{ borderRadius: 100, width: 343, height: 51, alignSelf: 'center', marginBottom: '5%' }}><Text>Gửi mã xác thực OTP</Text></Button>
-          {time <= 0 ?
-            <Text style={{ alignSelf: 'center', marginBottom: '5%', fontSize: 16, color: '#286FC3' }}>{`Không nhận được mã? `}<Text style={{ fontSize: 16, color: '#286FC3', textDecorationLine: 'underline' }} onPress={() => handleStop()}>{`Gửi lại mã`}</Text></Text>
-            :
-            <Text style={{ alignSelf: 'center', marginBottom: '5%', fontSize: 16, color: '#286FC3' }}>{`Gửi lại mã `}<Text style={{ fontSize: 16, color: 'red' }}>{`${time}`}</Text><Text style={{ fontSize: 16, color: '#286FC3' }}>s</Text></Text>}
+          <Button
+            onPress={() => onFormSubmit(otp)}
+            style={{
+              borderRadius: 100,
+              width: 343,
+              height: 51,
+              alignSelf: 'center',
+              marginBottom: '5%',
+            }}
+          >
+            <Text>Gửi mã xác thực OTP</Text>
+          </Button>
+          {time <= 0 ? (
+            <Text
+              style={{
+                alignSelf: 'center',
+                marginBottom: '5%',
+                fontSize: 16,
+                color: '#286FC3',
+              }}
+            >
+              {`Không nhận được mã? `}
+              <Text
+                style={{
+                  fontSize: 16,
+                  color: '#286FC3',
+                  textDecorationLine: 'underline',
+                }}
+                onPress={() => handleStop()}
+              >{`Gửi lại mã`}</Text>
+            </Text>
+          ) : (
+            <Text
+              style={{
+                alignSelf: 'center',
+                marginBottom: '5%',
+                fontSize: 16,
+                color: '#286FC3',
+              }}
+            >
+              {`Gửi lại mã `}
+              <Text style={{ fontSize: 16, color: 'red' }}>{`${time}`}</Text>
+              <Text style={{ fontSize: 16, color: '#286FC3' }}>s</Text>
+            </Text>
+          )}
         </Column>
       </Content>
     </Container>
-  )
-}
+  );
+};

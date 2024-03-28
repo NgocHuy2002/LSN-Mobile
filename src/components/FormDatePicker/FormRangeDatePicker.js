@@ -1,17 +1,14 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import toLower from 'lodash/toLower';
-
+import { Icon, Input, Text } from '@ui-kitten/components';
 import { usePersistFn, useUpdateEffect } from 'ahooks';
-
-import { Text, Icon, Input } from '@ui-kitten/components';
-import { View, TouchableWithoutFeedback } from 'react-native';
-
-import renderNode from '@helpers/renderNode';
-import { parseDate, parseString, isEqualRangeDates } from '@helpers/dateHelper';
+import toLower from 'lodash/toLower';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { TouchableWithoutFeedback, View } from 'react-native';
 
 import RangeDatePicker from '@components/DatePicker/RangeDatePicker';
+
+import { isEqualRangeDates, parseDate, parseString } from '@helpers/dateHelper';
+import renderNode from '@helpers/renderNode';
 
 function FormRangeDatePicker(props) {
   const {

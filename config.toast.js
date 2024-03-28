@@ -15,7 +15,7 @@ const toastConfig = {
       contentContainerStyle={{ paddingHorizontal: 15 }}
       text1Style={{
         fontSize: 15,
-        fontWeight: '400'
+        fontWeight: '400',
       }}
     />
   ),
@@ -27,10 +27,10 @@ const toastConfig = {
     <ErrorToast
       {...props}
       text1Style={{
-        fontSize: 17
+        fontSize: 17,
       }}
       text2Style={{
-        fontSize: 15
+        fontSize: 15,
       }}
     />
   ),
@@ -46,5 +46,5 @@ const toastConfig = {
       <Text>{text1}</Text>
       <Text>{props.uuid}</Text>
     </View>
-  )
+  ),
 };

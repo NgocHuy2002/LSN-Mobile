@@ -11,7 +11,7 @@
       "@modules/*": ["./src/modules/*"],
       "@navigation/*": ["./src/navigation/*"],
       "@services/*": ["./src/services/*"],
-      "@theme/*": ["./src/theme/*"],
+      "@theme/*": ["./src/theme/*"]
     }
   },
   "include": ["./src/**/*", "app.config.js"],

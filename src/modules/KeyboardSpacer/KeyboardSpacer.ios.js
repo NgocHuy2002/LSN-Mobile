@@ -1,6 +1,5 @@
 import React from 'react';
 import { Dimensions } from 'react-native';
-
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 
 const spacingHeight =

@@ -1,27 +1,47 @@
-import { Button, Card, CheckBox, Icon, Input, Modal, Text } from "@ui-kitten/components";
-import { Dimensions, Image, Pressable, SafeAreaView, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
-import React from "react";
-import { CustomForm } from "@components/Form/form";
-import * as Yup from 'yup';
-import { Formik } from "formik";
-import Container from "@components/Container/Container";
-import Header from "@components/Header/Header";
-import Content from '@components/Content/Content';
-import { tw } from 'react-native-tailwindcss';
-import { Column, Row } from "@components/Stack";
-import FormikInput from "@components/FormInput/FormikInput";
-import { useFocusEffect } from "@react-navigation/native";
-import { ROUTER } from "@constants/router";
-import UserIcon from '@assets/icons/user-edit.svg'
-import FormikSelect from "@components/FormSelect/FormikSelect";
-import FormikDatePicker from "@components/FormDatePicker/FormikDatePicker";
-import { WarningModal } from "@components/WarningModal";
-import { updateUserInfoApi } from "@services/UserServive/UserService";
+import { useFocusEffect } from '@react-navigation/native';
+import {
+  Button,
+  Card,
+  CheckBox,
+  Icon,
+  Input,
+  Modal,
+  Text,
+} from '@ui-kitten/components';
 import * as ImagePicker from 'expo-image-picker';
+import { Formik } from 'formik';
+import React from 'react';
+import {
+  Dimensions,
+  Image,
+  Pressable,
+  SafeAreaView,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import { tw } from 'react-native-tailwindcss';
+import * as Yup from 'yup';
+
+import UserIcon from '@assets/icons/user-edit.svg';
+
+import Container from '@components/Container/Container';
+import Content from '@components/Content/Content';
+import { CustomForm } from '@components/Form/form';
+import FormikDatePicker from '@components/FormDatePicker/FormikDatePicker';
+import FormikInput from '@components/FormInput/FormikInput';
+import FormikSelect from '@components/FormSelect/FormikSelect';
+import Header from '@components/Header/Header';
+import { Column, Row } from '@components/Stack';
+import { WarningModal } from '@components/WarningModal';
+
+import { ROUTER } from '@constants/router';
+
+import { updateUserInfoApi } from '@services/UserServive/UserService';
 
 export default function UserInfo({ navigation, route }) {
   // const user = useSelector(selectUser)
-  const { user } = route.params
+  const { user } = route.params;
   const [error, setError] = React.useState(false);
   const [visible, setVisible] = React.useState(false);
   const [image, setImage] = React.useState(null);
@@ -52,18 +72,33 @@ export default function UserInfo({ navigation, route }) {
     address: noSpacesValidation,
   });
 
-
   const renderForm = (formik) => (
     <Column space={4} style={[tw.p4, { flex: 1 }]}>
-      <Text style={[tw.mB4, tw.textBase, { color: '#92969A', alignSelf: 'center' }]}>
+      <Text
+        style={[tw.mB4, tw.textBase, { color: '#92969A', alignSelf: 'center' }]}
+      >
         Vui lòng nhập thông tin tài khoản
       </Text>
       <Pressable onPress={() => setModalVisible(true)}>
         {/* <UserIcon style={{ alignSelf: 'center' }} /> */}
-        {image ?
-          <View style={{ width: 108, height: 106, borderRadius: Dimensions.get('screen').width, overflow: 'hidden', alignSelf: 'center' }}><Image source={{ uri: image }} style={{ width: 108, height: 106 }} /></View> :
+        {image ? (
+          <View
+            style={{
+              width: 108,
+              height: 106,
+              borderRadius: Dimensions.get('screen').width,
+              overflow: 'hidden',
+              alignSelf: 'center',
+            }}
+          >
+            <Image
+              source={{ uri: image }}
+              style={{ width: 108, height: 106 }}
+            />
+          </View>
+        ) : (
           <UserIcon style={{ alignSelf: 'center' }} />
-        }
+        )}
       </Pressable>
       <Column space={4} style={{ flex: 1, justifyContent: 'space-between' }}>
         <View>
@@ -98,7 +133,7 @@ export default function UserInfo({ navigation, route }) {
           />
           <FormikSelect
             name="sex"
-            variant='outlined'
+            variant="outlined"
             containerStyle={tw.mB4}
             // required={true}
             uniqueKey="value"
@@ -123,34 +158,44 @@ export default function UserInfo({ navigation, route }) {
           />
         </View>
         <View style={{ alignItems: 'center' }}>
-          <Button onPress={formik.handleSubmit} style={{ borderRadius: 100, width: 343, height: 51 }}>Lưu thông tin</Button>
-          <Button onPress={() => setVisible(true)} appearance="ghost" status="danger">Xoá tài khoản</Button>
+          <Button
+            onPress={formik.handleSubmit}
+            style={{ borderRadius: 100, width: 343, height: 51 }}
+          >
+            Lưu thông tin
+          </Button>
+          <Button
+            onPress={() => setVisible(true)}
+            appearance="ghost"
+            status="danger"
+          >
+            Xoá tài khoản
+          </Button>
         </View>
       </Column>
     </Column>
-  )
-
+  );
 
   // ---------- useEffect ------------
   useFocusEffect(
     React.useCallback(() => {
-      setError(false)
-    }, [])
-  )
+      setError(false);
+    }, []),
+  );
   // ---------- Action ------------
   const onFormSubmit = async (values) => {
     const dataForm = {
       // userName: values.userName,
       sex: values.sex,
-      "fullName": values.fullName,
-      "dateOfBirth": values.dateOfBirth,
-      "address": values.address,
-      "phone": values.phone,
-      "email": values.email,
-    }
-    const data = await updateUserInfoApi(dataForm)
+      fullName: values.fullName,
+      dateOfBirth: values.dateOfBirth,
+      address: values.address,
+      phone: values.phone,
+      email: values.email,
+    };
+    const data = await updateUserInfoApi(dataForm);
     if (data) {
-      navigation.navigate(ROUTER.MENU)
+      navigation.navigate(ROUTER.MENU);
     }
     // navigation.navigate(ROUTER.SUCCESS, { content: 'Tài khoản đã được tạo thành công' })
     // console.log(values);
@@ -169,7 +214,7 @@ export default function UserInfo({ navigation, route }) {
 
     if (!result.canceled) {
       setImage(result.assets[0].uri);
-      setModalVisible(true)
+      setModalVisible(true);
     }
   };
 
@@ -181,14 +226,14 @@ export default function UserInfo({ navigation, route }) {
         cameraType: ImagePicker.CameraType.front,
         allowsEditing: true,
         aspect: [4, 3],
-        quality: 1
-      })
+        quality: 1,
+      });
       if (!result.canceled) {
         setImage(result.assets[0].uri);
-        setModalVisible(true)
+        setModalVisible(true);
       }
     } catch (error) {
-      alert('Error upload image: ' + error.message)
+      alert('Error upload image: ' + error.message);
     }
   };
   // -----------------------------------------
@@ -205,7 +250,7 @@ export default function UserInfo({ navigation, route }) {
         <Formik
           initialValues={formValues}
           onSubmit={onFormSubmit}
-        // validationSchema={Schema}
+          // validationSchema={Schema}
         >
           {renderForm}
         </Formik>
@@ -224,25 +269,40 @@ export default function UserInfo({ navigation, route }) {
         onBackdropPress={() => setModalVisible(false)}
         visible={modalVisible}
       >
-        <Card style={{ width: Dimensions.get('window').width * 0.8, height: Dimensions.get('window').height * 0.25, alignItems: 'center', borderRadius: 15 }}>
+        <Card
+          style={{
+            width: Dimensions.get('window').width * 0.8,
+            height: Dimensions.get('window').height * 0.25,
+            alignItems: 'center',
+            borderRadius: 15,
+          }}
+        >
           <Column space={8}>
-            <Text style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>Ảnh người dùng</Text>
+            <Text
+              style={{ fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}
+            >
+              Ảnh người dùng
+            </Text>
             <Row space={4}>
-              <Pressable
-                style={styles.pressable}
-                onPress={uploadImage}
-              >
+              <Pressable style={styles.pressable} onPress={uploadImage}>
                 <Column style={{ alignItems: 'center' }}>
-                  <Icon name={'camera-outline'} width={30} height={30} fill='#286FC3' />
+                  <Icon
+                    name={'camera-outline'}
+                    width={30}
+                    height={30}
+                    fill="#286FC3"
+                  />
                   <Text style={{ fontSize: 12 }}>Camera</Text>
                 </Column>
               </Pressable>
-              <Pressable
-                style={styles.pressable}
-                onPress={pickImage}
-              >
+              <Pressable style={styles.pressable} onPress={pickImage}>
                 <Column style={{ alignItems: 'center' }}>
-                  <Icon name={'image-outline'} width={30} height={30} fill='#286FC3' />
+                  <Icon
+                    name={'image-outline'}
+                    width={30}
+                    height={30}
+                    fill="#286FC3"
+                  />
                   <Text style={{ fontSize: 12 }}>Thư viện</Text>
                 </Column>
               </Pressable>
@@ -251,7 +311,7 @@ export default function UserInfo({ navigation, route }) {
         </Card>
       </Modal>
     </Container>
-  )
+  );
 }
 const styles = StyleSheet.create({
   pressable: {
@@ -259,6 +319,6 @@ const styles = StyleSheet.create({
     height: 70,
     borderRadius: 5,
     justifyContent: 'center',
-    backgroundColor: '#E8E8E8'
-  }
-})
+    backgroundColor: '#E8E8E8',
+  },
+});

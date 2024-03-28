@@ -1,12 +1,10 @@
-import React, { useRef, useMemo } from 'react';
-import PropTypes from 'prop-types';
-
-import { tw } from 'react-native-tailwindcss';
-import { Image, View } from 'react-native';
-
+import { ResizeMode, Video } from 'expo-av';
 import VideoPlayer from 'expo-video-player';
+import PropTypes from 'prop-types';
+import React, { useMemo, useRef } from 'react';
+import { Image, View } from 'react-native';
+import { tw } from 'react-native-tailwindcss';
 import YoutubePlayer from 'react-native-youtube-iframe';
-import { Video, ResizeMode } from 'expo-av';
 
 import Avatar from '@components/Avatar/Avatar';
 

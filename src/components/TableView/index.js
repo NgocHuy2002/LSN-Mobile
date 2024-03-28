@@ -1,6 +1,6 @@
-import TableView from './TableView';
-import TableItem from './TableItem';
 import TableActions from './TableActions';
+import TableItem from './TableItem';
+import TableView from './TableView';
 
 TableView.Item = TableItem;
 TableView.Actions = TableActions;

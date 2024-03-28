@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { useField, useFormikContext } from 'formik';
+import React from 'react';
 
 import FormHelperText from './FormHelperText';
 
@@ -33,11 +32,11 @@ export default function FormikErrorMessage(props) {
         ? children({ message, messages, renderError })
         : null
       : component
-      ? React.createElement(component, restProps, {
-          message,
-          messages,
-          renderError,
-        })
-      : renderError(message)
+        ? React.createElement(component, restProps, {
+            message,
+            messages,
+            renderError,
+          })
+        : renderError(message)
     : null;
 }

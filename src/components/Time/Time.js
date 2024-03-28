@@ -1,25 +1,23 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import moment from 'moment';
-
-import TimeUnit from './TimeUnit';
-import TimeGroup from './TimeGroup';
-
 import { usePersistFn, useUpdateEffect } from 'ahooks';
+import moment from 'moment';
+import PropTypes from 'prop-types';
+import React from 'react';
 
+import { isEqualDates, parseDate } from '@helpers/dateHelper';
+
+import TimeGroup from './TimeGroup';
+import TimeUnit from './TimeUnit';
 import {
-  getIsPM,
-  getHour,
-  setHour,
-  getMinute,
-  setMinute,
-  getSecond,
-  setSecond,
   createUnit,
   generateUnit,
+  getHour,
+  getIsPM,
+  getMinute,
+  getSecond,
+  setHour,
+  setMinute,
+  setSecond,
 } from './timeUtil';
-import { parseDate, isEqualDates } from '@helpers/dateHelper';
 
 const Time = React.forwardRef((props, ref) => {
   const {

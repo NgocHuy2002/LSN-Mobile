@@ -1,7 +1,16 @@
-import { put, call, takeLeading } from 'redux-saga/effects';
+import { call, put, takeLeading } from 'redux-saga/effects';
+
+import { ROUTER } from '@constants/router';
 
 import Alert from '@modules/Alert/Alert';
 
+import {
+  requestLogin,
+  requestLogout,
+  requestRegister,
+  sendOtpForEmail,
+} from '@services/AuthService/authService';
+import { requestGetUserInfo } from '@services/UserService/UserService';
 import * as navigationService from '@services/navigationService';
 
 import {
@@ -10,9 +19,6 @@ import {
   userLogoutRoutine,
   userRegisterRoutine,
 } from './routines';
-import { requestLogin, requestLogout, requestRegister, sendOtpForEmail } from '@services/AuthService/authService';
-import { ROUTER } from '@constants/router';
-import { requestGetUserInfo } from '@services/UserService/UserService';
 
 export function* userLogin(action) {
   try {
@@ -72,7 +78,6 @@ export function* userLogout(action) {
   yield put(userLogoutRoutine.success());
   navigationService.replace(ROUTER.AUTH_NAVIGATOR);
 }
-
 
 // -------------- OTP -------------------
 export function* sendOtpEmail(action) {

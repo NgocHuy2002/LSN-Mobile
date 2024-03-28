@@ -1,6 +1,7 @@
-import { StyleSheet, View } from 'react-native';
-import React from 'react';
 import { BottomTabBarProps } from '@react-navigation/bottom-tabs';
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
+
 import TabBarComponent from './TabBarComponent';
 
 const TabBar = ({ state, navigation, descriptors }) => {

@@ -1,9 +1,9 @@
+import { styled } from '@ui-kitten/components';
 import React from 'react';
 import { View } from 'react-native';
-import { styled } from '@ui-kitten/components';
 
-import Toolbar from '@components/Toolbar/Toolbar';
 import useSafeAreaStyle from '@components/SafeAreaView/useSafeAreaStyle';
+import Toolbar from '@components/Toolbar/Toolbar';
 
 function Header(props) {
   const { eva, style, safeAreaEnabled = true, ...restProps } = props;

@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { ModalService } from '@ui-kitten/components';
+import React from 'react';
 
 import Loading from './Loading';
 
@@ -14,7 +13,7 @@ class LoadingService {
   }
 
   static hide() {
-    this.modalId=ModalService.hide(this.modalId);
+    this.modalId = ModalService.hide(this.modalId);
   }
 
   static isLoading() {

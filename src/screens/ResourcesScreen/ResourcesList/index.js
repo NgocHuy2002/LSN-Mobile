@@ -1,31 +1,46 @@
-import Container from "@components/Container/Container";
-import Header from "@components/Header/Header";
-import Content from '@components/Content/Content';
-import React, { useState } from "react";
-import { Button, Card, Icon, Input, List, ListItem, Modal, Text } from "@ui-kitten/components";
-import { Column, Row } from "@components/Stack";
-import { Image, ScrollView, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import { AntDesign } from '@expo/vector-icons';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import {
+  Button,
+  Card,
+  Icon,
+  Input,
+  List,
+  ListItem,
+  Modal,
+  Text,
+} from '@ui-kitten/components';
+import { Formik } from 'formik';
+import moment from 'moment';
+import React, { useState } from 'react';
+import {
+  Image,
+  ScrollView,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
+import { tw } from 'react-native-tailwindcss';
 import * as Yup from 'yup';
-import moment from "moment";
-import FormikInput from "@components/FormInput/FormikInput";
-import FormikSelect from "@components/FormSelect/FormikSelect";
-import { Formik } from "formik";
-import { tw } from "react-native-tailwindcss";
-import { ROUTER } from "@constants/router";
+
+import Container from '@components/Container/Container';
+import Content from '@components/Content/Content';
+import FormikInput from '@components/FormInput/FormikInput';
+import FormikSelect from '@components/FormSelect/FormikSelect';
+import Header from '@components/Header/Header';
+import { Column, Row } from '@components/Stack';
+
+import { ROUTER } from '@constants/router';
 
 export const ResourcesList = ({ route, navigation }) => {
   const [visible, setVisible] = useState(false);
   // const { title } = route.params;
-  const data = new Array(8).fill(
-    {
-      title: 'Dữ liệu ',
-      number: 123,
-      seen: 30,
-      download: 30,
-    }
-  );
+  const data = new Array(8).fill({
+    title: 'Dữ liệu ',
+    number: 123,
+    seen: 30,
+    download: 30,
+  });
 
   const formValues = {
     truong_du_lieu: '',
@@ -40,46 +55,85 @@ export const ResourcesList = ({ route, navigation }) => {
       <TouchableOpacity onPress={() => navigation.navigate(ROUTER.DATA_DETAIL)}>
         <Row
           space={4}
-          style={{ height: 77, borderTopWidth: 1, borderColor: '#E8E8E8', alignItems: 'center', borderBottomWidth: index == data.length - 1 ? 1 : 0, justifyContent: 'space-between', backgroundColor: 'transparent' }}
+          style={{
+            height: 77,
+            borderTopWidth: 1,
+            borderColor: '#E8E8E8',
+            alignItems: 'center',
+            borderBottomWidth: index == data.length - 1 ? 1 : 0,
+            justifyContent: 'space-between',
+            backgroundColor: 'transparent',
+          }}
         >
           <Row space={4}>
-            <Image style={{ width: 50, height: 50, backgroundColor: '#CDD3D9', borderRadius: 8 }} />
-            <Column >
-              <Text style={{ fontSize: 16, fontWeight: 'bold' }}>{`${item.title} ${index + 1}`}</Text>
-              <Row space={1} style={{ alignItems: 'center' }}><Text style={{ color: '#286FC3', fontSize: 14, fontWeight: "700" }}>{`${item.number}`}</Text><Text>kho</Text></Row>
+            <Image
+              style={{
+                width: 50,
+                height: 50,
+                backgroundColor: '#CDD3D9',
+                borderRadius: 8,
+              }}
+            />
+            <Column>
+              <Text
+                style={{ fontSize: 16, fontWeight: 'bold' }}
+              >{`${item.title} ${index + 1}`}</Text>
+              <Row space={1} style={{ alignItems: 'center' }}>
+                <Text
+                  style={{ color: '#286FC3', fontSize: 14, fontWeight: '700' }}
+                >{`${item.number}`}</Text>
+                <Text>kho</Text>
+              </Row>
             </Column>
           </Row>
           <View>
             <Row style={{ alignSelf: 'center' }} space={2}>
               <Row style={{ alignItems: 'center' }} space={1}>
-                <MaterialCommunityIcons name="eye-outline" size={12} color="#2C384A" />
-                <Text style={{ fontSize: 12, fontWeight: '400' }}>{item.seen}</Text>
+                <MaterialCommunityIcons
+                  name="eye-outline"
+                  size={12}
+                  color="#2C384A"
+                />
+                <Text style={{ fontSize: 12, fontWeight: '400' }}>
+                  {item.seen}
+                </Text>
               </Row>
               <Row style={{ alignItems: 'center' }} space={1}>
                 <AntDesign name="download" size={12} color="#2C384A" />
-                <Text style={{ fontSize: 12, fontWeight: '400' }}>{item.download}</Text>
+                <Text style={{ fontSize: 12, fontWeight: '400' }}>
+                  {item.download}
+                </Text>
               </Row>
             </Row>
           </View>
         </Row>
       </TouchableOpacity>
-    )
-  }
+    );
+  };
 
   const renderSearchIcon = () => {
     return (
-      <View style={{ width: 30, height: 30, borderRadius: 1000, backgroundColor: '#F7F7F7', justifyContent: 'center', alignItems: 'center' }}>
+      <View
+        style={{
+          width: 30,
+          height: 30,
+          borderRadius: 1000,
+          backgroundColor: '#F7F7F7',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}
+      >
         <Icon name={'search-outline'} width={20} height={20} fill={'#286FC3'} />
       </View>
-    )
-  }
+    );
+  };
   const renderFunnelIcon = () => {
     return (
       <TouchableWithoutFeedback onPress={() => setVisible(true)}>
         <Icon name={'funnel-outline'} width={20} height={20} fill={'#286FC3'} />
       </TouchableWithoutFeedback>
-    )
-  }
+    );
+  };
 
   const renderForm = (formik) => (
     <Column space={4} style={[{ flex: 1 }]}>
@@ -87,7 +141,7 @@ export const ResourcesList = ({ route, navigation }) => {
         <View>
           <FormikSelect
             name="truong_du_lieu"
-            variant='outlined'
+            variant="outlined"
             containerStyle={tw.mB4}
             required={true}
             uniqueKey="value"
@@ -100,7 +154,7 @@ export const ResourcesList = ({ route, navigation }) => {
           />
           <FormikSelect
             name="dieu_kien"
-            variant='outlined'
+            variant="outlined"
             containerStyle={tw.mB4}
             required={true}
             uniqueKey="value"
@@ -114,7 +168,7 @@ export const ResourcesList = ({ route, navigation }) => {
           />
           <FormikSelect
             name="tu_khoa"
-            variant='outlined'
+            variant="outlined"
             containerStyle={tw.mB4}
             required={true}
             uniqueKey="value"
@@ -127,7 +181,7 @@ export const ResourcesList = ({ route, navigation }) => {
           />
           <FormikSelect
             name="linh_vuc"
-            variant='outlined'
+            variant="outlined"
             containerStyle={tw.mB4}
             required={true}
             uniqueKey="value"
@@ -140,7 +194,7 @@ export const ResourcesList = ({ route, navigation }) => {
           />
           <FormikSelect
             name="kho_du_lieu"
-            variant='outlined'
+            variant="outlined"
             containerStyle={tw.mB4}
             required={true}
             uniqueKey="value"
@@ -157,28 +211,30 @@ export const ResourcesList = ({ route, navigation }) => {
             size="tiny"
             onPress={formik.handleSubmit}
             style={{ borderRadius: 100, width: 106, height: 28 }}
-            accessoryLeft={<Icon name={'search-outline'} width={15} height={15} />}
+            accessoryLeft={
+              <Icon name={'search-outline'} width={15} height={15} />
+            }
           >
             Tìm kiếm
           </Button>
         </View>
       </Column>
     </Column>
-  )
+  );
   // ---------------------------------------
   // --------------Action----------------
   const onFormSubmit = (values) => {
     console.log(values);
-  }
+  };
   // ---------------------------------------
 
   return (
     <Container>
       <Header
         style={{ backgroundColor: '#286FC3' }}
-        color='#FFFFFF'
-        status='primary'
-        title='Danh sách dữ liệu'
+        color="#FFFFFF"
+        status="primary"
+        title="Danh sách dữ liệu"
         hideLeftIcon={false}
       />
       <Content scrollEnabled={false} safeAreaEnabled={false}>
@@ -202,14 +258,22 @@ export const ResourcesList = ({ route, navigation }) => {
           animationType={'slide'}
           shouldUseContainer={true}
           hardwareAccelerated={true}
-          style={{ width: '100%', position: 'absolute', top: '53%', height: '47%' }}
+          style={{
+            width: '100%',
+            position: 'absolute',
+            top: '53%',
+            height: '47%',
+          }}
         >
-          <Card style={{ borderTopRightRadius: 25, borderTopLeftRadius: 25, height: '100%' }}>
+          <Card
+            style={{
+              borderTopRightRadius: 25,
+              borderTopLeftRadius: 25,
+              height: '100%',
+            }}
+          >
             <ScrollView>
-              <Formik
-                initialValues={formValues}
-                onSubmit={onFormSubmit}
-              >
+              <Formik initialValues={formValues} onSubmit={onFormSubmit}>
                 {renderForm}
               </Formik>
             </ScrollView>
@@ -217,5 +281,5 @@ export const ResourcesList = ({ route, navigation }) => {
         </Modal>
       </Content>
     </Container>
-  )
-}
+  );
+};

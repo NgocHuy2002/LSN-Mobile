@@ -1,18 +1,20 @@
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 
-import Toast from '@modules/Toast/Toast';
+// import { authActions } from '@containers/Auth/slice';
+import LoadingService from '@components/Loading/LoadingService';
 
 import { API_URL_35 } from '@constants/api';
 import { ROUTER } from '@constants/router';
 
-// import { authActions } from '@containers/Auth/slice';
-
-import LoadingService from '@components/Loading/LoadingService';
-import * as navigationService from '@services/navigationService';
-import { getStore } from '../store';
-import { authActions } from '@containers/Auth/saga/slice';
 import { userLogoutRoutine } from '@containers/Auth/saga/routines';
-import { useDispatch } from 'react-redux';
+import { authActions } from '@containers/Auth/saga/slice';
+
+import Toast from '@modules/Toast/Toast';
+
+import * as navigationService from '@services/navigationService';
+
+import { getStore } from '../store';
 
 let requestsCount = 0;
 
@@ -25,7 +27,7 @@ axios.interceptors.request.use(
     console.log('--- request ---');
     requestsCount = requestsCount + 1;
     if (!config?.hideLoading) {
-      startActivityLoading()
+      startActivityLoading();
     }
     return config;
   },
@@ -63,7 +65,7 @@ axios.interceptors.response.use(
         getStore().dispatch(authActions.clear());
         navigationService.replace(ROUTER.AUTH_NAVIGATOR);
       }
-      
+
       if (error.response.data?.message) {
         errorText = error.response.data.message;
       }

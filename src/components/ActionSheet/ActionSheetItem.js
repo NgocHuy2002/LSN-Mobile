@@ -1,10 +1,8 @@
-import React from 'react';
+import { Icon, MenuItem, Text } from '@ui-kitten/components';
 import PropTypes from 'prop-types';
-
+import React from 'react';
+import { StyleSheet, View } from 'react-native';
 import { tw } from 'react-native-tailwindcss';
-
-import { View, StyleSheet } from 'react-native';
-import { Icon, Text, MenuItem } from '@ui-kitten/components';
 
 import renderNode from '@helpers/renderNode';
 
@@ -21,19 +19,20 @@ export default function ActionSheetItem(props) {
   );
 
   const renderText = React.useCallback(
-    (text) => ({ style, ...textProps }) => {
-      const { color, ...textStyle } = StyleSheet.flatten(style);
+    (text) =>
+      ({ style, ...textProps }) => {
+        const { color, ...textStyle } = StyleSheet.flatten(style);
 
-      return (
-        <Text
-          {...textProps}
-          style={[textStyle, tw.pY1, tw.textCenter]}
-          status="primary"
-        >
-          {text}
-        </Text>
-      );
-    },
+        return (
+          <Text
+            {...textProps}
+            style={[textStyle, tw.pY1, tw.textCenter]}
+            status="primary"
+          >
+            {text}
+          </Text>
+        );
+      },
     [],
   );
 

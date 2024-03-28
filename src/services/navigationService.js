@@ -1,6 +1,5 @@
-import * as React from 'react';
-
 import { StackActions } from '@react-navigation/routers';
+import * as React from 'react';
 
 export const navigationRef = React.createRef();
 

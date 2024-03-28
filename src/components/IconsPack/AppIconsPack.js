@@ -1,35 +1,34 @@
 import React from 'react';
-
 import { Image, StyleSheet } from 'react-native';
+
+import Bars from '@assets/icons/bars.svg';
+import Database from '@assets/icons/database.svg';
+import News from '@assets/icons/news.svg';
+import TrangChuIcon from '@assets/icons/trang_chu.svg';
 
 import ArrowLeftIcon from '../../assets/icons/arrow-left.svg';
 import ArrowRightIcon from '../../assets/icons/arrow-right.svg';
 import ClockIcon from '../../assets/icons/clock.svg';
-import CommnetIcon from '../../assets/icons/comment.svg'
+import CommnetIcon from '../../assets/icons/comment.svg';
 import DoctorIcon from '../../assets/icons/doctor.svg';
 import EmailIcon from '../../assets/icons/email.svg';
 import EventIcon from '../../assets/icons/event.svg';
-import EyeIcon from '../../assets/icons/eye.svg';
-import MapIcon from '../../assets/icons/map.svg';
 import EyeCloseIcon from '../../assets/icons/eye-close.svg';
+import EyeIcon from '../../assets/icons/eye.svg';
 import HelpIcon from '../../assets/icons/help.svg';
 import HomeIcon from '../../assets/icons/home.svg';
 import LocationIcon from '../../assets/icons/local.svg';
+import ManageIcon from '../../assets/icons/manager.svg';
+import MapIcon from '../../assets/icons/map.svg';
 import MedicalHistoryIcon from '../../assets/icons/medical-history.svg';
-import PhoneCallIcon from '../../assets/icons/phone-call.svg';
+import NotifitionIcon from '../../assets/icons/notification.svg';
 import PhoneCallOutlineIcon from '../../assets/icons/phone-call-outline.svg';
+import PhoneCallIcon from '../../assets/icons/phone-call.svg';
 import PillIcon from '../../assets/icons/pill.svg';
 import RecordsIcon from '../../assets/icons/records.svg';
 import SalineIcon from '../../assets/icons/saline.svg';
 import SearchIcon from '../../assets/icons/search.svg';
 import StatisticsIcon from '../../assets/icons/statistics.svg';
-import TrangChuIcon from '@assets/icons/trang_chu.svg'
-import Bars from '@assets/icons/bars.svg'
-import Database from '@assets/icons/database.svg'
-import News from '@assets/icons/news.svg'
-
-import ManageIcon from '../../assets/icons/manager.svg';
-import NotifitionIcon from '../../assets/icons/notification.svg';
 
 const SvgProvider = (SvgIcon) => ({
   toReactElement: (props) => {

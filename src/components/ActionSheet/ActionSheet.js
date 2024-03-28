@@ -1,15 +1,11 @@
-import React from 'react';
+import { Divider, Layout, Text } from '@ui-kitten/components';
 import PropTypes from 'prop-types';
-
-import { tw } from 'react-native-tailwindcss';
-
-import { Portal } from 'react-native-portalize';
-import { Modalize } from 'react-native-modalize';
-
-import { useSafeArea } from 'react-native-safe-area-context';
-
+import React from 'react';
 import { View } from 'react-native';
-import { Text, Layout, Divider } from '@ui-kitten/components';
+import { Modalize } from 'react-native-modalize';
+import { Portal } from 'react-native-portalize';
+import { useSafeArea } from 'react-native-safe-area-context';
+import { tw } from 'react-native-tailwindcss';
 
 import ActionSheetItem from './ActionSheetItem';
 

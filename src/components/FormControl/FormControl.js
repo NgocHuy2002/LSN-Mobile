@@ -1,9 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
-
-import { tw } from 'react-native-tailwindcss';
-
+import React from 'react';
 import { View } from 'react-native';
+import { tw } from 'react-native-tailwindcss';
 
 import FormControlContext from './FormControlContext';
 

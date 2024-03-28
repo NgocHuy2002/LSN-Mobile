@@ -1,24 +1,32 @@
-import { Button, CheckBox, Icon, Input, Text } from "@ui-kitten/components";
-import { Alert, SafeAreaView, TouchableWithoutFeedback, View } from "react-native";
-import TopNavigationCustom from "../../../components/TopNavigation";
-import React, { useEffect } from "react";
-import { CustomForm } from "@components/Form/form";
-import * as Yup from 'yup';
-import { Formik, useFormikContext } from "formik";
-import Container from "@components/Container/Container";
-import Header from "@components/Header/Header";
-import Content from '@components/Content/Content';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import { Button, CheckBox, Icon, Input, Text } from '@ui-kitten/components';
+import axios from 'axios';
+import { Formik, useFormikContext } from 'formik';
+import React, { useEffect } from 'react';
+import {
+  Alert,
+  SafeAreaView,
+  TouchableWithoutFeedback,
+  View,
+} from 'react-native';
 import { tw } from 'react-native-tailwindcss';
-import { Column } from "@components/Stack";
-import FormikInput from "@components/FormInput/FormikInput";
-import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import { ROUTER } from "@constants/router";
-import { useDispatch, useSelector } from "react-redux";
-import { userLoginRoutine } from "../saga/routines";
-import axios from "axios";
-import { API } from "@constants/api";
-import { selectToken } from "../saga/selectors";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useDispatch, useSelector } from 'react-redux';
+import * as Yup from 'yup';
+
+import Container from '@components/Container/Container';
+import Content from '@components/Content/Content';
+import { CustomForm } from '@components/Form/form';
+import FormikInput from '@components/FormInput/FormikInput';
+import Header from '@components/Header/Header';
+import { Column } from '@components/Stack';
+
+import { API } from '@constants/api';
+import { ROUTER } from '@constants/router';
+
+import TopNavigationCustom from '../../../components/TopNavigation';
+import { userLoginRoutine } from '../saga/routines';
+import { selectToken } from '../saga/selectors';
 
 export default function LoginScreen({ navigation }) {
   const dispatch = useDispatch();
@@ -34,15 +42,12 @@ export default function LoginScreen({ navigation }) {
 
   const formValues = {
     username: username,
-    password: pass
+    password: pass,
   };
 
   const renderIcon = (props) => (
     <TouchableWithoutFeedback onPress={toggleSecureEntry}>
-      <Icon
-        {...props}
-        name={secureTextEntry ? 'eye-off' : 'eye'}
-      />
+      <Icon {...props} name={secureTextEntry ? 'eye-off' : 'eye'} />
     </TouchableWithoutFeedback>
   );
 
@@ -77,50 +82,71 @@ export default function LoginScreen({ navigation }) {
             containerStyle={tw.mB4}
             placeholder="Nhập mật khẩu"
           />
-          {error ? <Text style={{ fontSize: 12, color: 'red' }}>Tên đăng nhập hoặc mật khẩu không đúng</Text> : null}
-          <CheckBox checked={checked} onChange={nextChecked => setChecked(nextChecked)}>
+          {error ? (
+            <Text style={{ fontSize: 12, color: 'red' }}>
+              Tên đăng nhập hoặc mật khẩu không đúng
+            </Text>
+          ) : null}
+          <CheckBox
+            checked={checked}
+            onChange={(nextChecked) => setChecked(nextChecked)}
+          >
             Ghi nhớ tài khoản
           </CheckBox>
         </View>
         <View style={{ alignItems: 'center' }}>
-          <Button onPress={() => navigation.navigate(ROUTER.FORGET_PASSWORD)} appearance="ghost">Quên mật khẩu ?</Button>
-          <Button onPress={formik.handleSubmit} style={{ borderRadius: 100, width: 343, height: 51 }}>Đăng nhập</Button>
-          <Button onPress={() => navigation.navigate(ROUTER.REGISTER)} appearance="ghost">Đăng ký tài khoản</Button>
+          <Button
+            onPress={() => navigation.navigate(ROUTER.FORGET_PASSWORD)}
+            appearance="ghost"
+          >
+            Quên mật khẩu ?
+          </Button>
+          <Button
+            onPress={formik.handleSubmit}
+            style={{ borderRadius: 100, width: 343, height: 51 }}
+          >
+            Đăng nhập
+          </Button>
+          <Button
+            onPress={() => navigation.navigate(ROUTER.REGISTER)}
+            appearance="ghost"
+          >
+            Đăng ký tài khoản
+          </Button>
         </View>
       </Column>
     </Column>
-  )
-
+  );
 
   // ---------- useEffect ------------
   useFocusEffect(
     React.useCallback(() => {
-      setError(false)
-    }, [])
-  )
+      setError(false);
+    }, []),
+  );
   useEffect(() => {
-    getRememberedUser()
-  }, [])
+    getRememberedUser();
+  }, []);
   // ---------- Action ------------
   const onFormSubmit = async (values) => {
     values = {
       grant_type: 'password',
       username: values.username,
-      password: values.password,//'9876543A@a'
+      password: values.password, //'9876543A@a'
       client_id: 'vilis-mobile-client',
       client_secret: 'n)3b^Q7g]Jd6T&$^',
-    }
+    };
     if (checked) {
       console.log('c');
-      rememberUser(values)
+      rememberUser(values);
     }
-    await dispatch(userLoginRoutine(values))
+    await dispatch(userLoginRoutine(values));
   };
   const rememberUser = async (values) => {
     try {
-      await AsyncStorage.setItem('USERUSERNAMEKEY', values.username)
-      await AsyncStorage.setItem('USERPASSWORDKEY', values.password)
-      await AsyncStorage.setItem('CHECKED', JSON.stringify(checked))
+      await AsyncStorage.setItem('USERUSERNAMEKEY', values.username);
+      await AsyncStorage.setItem('USERPASSWORDKEY', values.password);
+      await AsyncStorage.setItem('CHECKED', JSON.stringify(checked));
     } catch (error) {
       // Error saving data
       console.log(error);
@@ -130,12 +156,12 @@ export default function LoginScreen({ navigation }) {
     try {
       const username = await AsyncStorage.getItem('USERUSERNAMEKEY');
       const password = await AsyncStorage.getItem('USERPASSWORDKEY');
-      const isChecked = await AsyncStorage.getItem('CHECKED')
+      const isChecked = await AsyncStorage.getItem('CHECKED');
       if (username !== null && password !== null) {
         // We have username!!
-        setUserName(username)
-        setPass(password)
-        setChecked(JSON.parse(isChecked))
+        setUserName(username);
+        setPass(password);
+        setChecked(JSON.parse(isChecked));
       }
     } catch (error) {
       // Error retrieving data
@@ -149,18 +175,18 @@ export default function LoginScreen({ navigation }) {
         // status='primary'
         title="Đăng nhập"
         hideLeftIcon={true}
-      // color='#FFFFFF'
+        // color='#FFFFFF'
       />
       <Content scrollEnabled={false} safeAreaEnabled={false}>
         <Formik
           initialValues={formValues}
           onSubmit={onFormSubmit}
           enableReinitialize={true}
-        // validationSchema={Schema}
+          // validationSchema={Schema}
         >
           {renderForm}
         </Formik>
       </Content>
     </Container>
-  )
+  );
 }

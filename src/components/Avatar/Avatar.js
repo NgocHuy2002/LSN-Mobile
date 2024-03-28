@@ -1,11 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-
-import { tw } from 'react-native-tailwindcss';
 import { styled } from '@ui-kitten/components';
-
-import { Text, Icon } from '@ui-kitten/components';
-import { View, Image, TouchableOpacity, StyleSheet } from 'react-native';
+import { Icon, Text } from '@ui-kitten/components';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Image, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { tw } from 'react-native-tailwindcss';
 
 import renderNode from '@helpers/renderNode';
 

@@ -1,9 +1,7 @@
-import React from 'react';
-
-import { tw } from 'react-native-tailwindcss';
-
-import { View } from 'react-native';
 import { Text } from '@ui-kitten/components';
+import React from 'react';
+import { View } from 'react-native';
+import { tw } from 'react-native-tailwindcss';
 
 export default function TableItem(props) {
   const { title, description } = props;
