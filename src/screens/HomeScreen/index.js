@@ -220,7 +220,7 @@ export const HomeScreen = ({ navigation }) => {
                 items={latest?.slice(0, 5) || null}
                 activeSlide={paginationNew}
               />
-            </View> : null
+            </View> : <Text style={{alignSelf: 'center'}}>Không có bài viết</Text>
           }
         </View>
         <View>
@@ -255,7 +255,7 @@ export const HomeScreen = ({ navigation }) => {
                 items={hottest?.slice(0, 5) || null}
                 activeSlide={paginationHot}
               />
-            </View> : null
+            </View> : <Text style={{alignSelf: 'center'}}>Không có bài viết</Text>
           }
         </View>
         <Modal

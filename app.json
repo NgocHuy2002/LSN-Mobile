@@ -4,7 +4,7 @@
   "expo": {
     "name": "Cổng thông tin điện tử tỉnh Lạng Sơn",
     "slug": "LSN-Mobile",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",

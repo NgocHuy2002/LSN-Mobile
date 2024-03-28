@@ -1,20 +1,35 @@
 import Container from "@components/Container/Container";
 import Header from "@components/Header/Header";
-import { View, ImageBackground, Dimensions, StyleSheet } from "react-native";
+import { View, ImageBackground, Dimensions, StyleSheet, useWindowDimensions } from "react-native";
 import Content from '@components/Content/Content';
 import React, { useEffect, useState } from "react";
 import { Avatar, Card, Drawer, DrawerGroup, DrawerItem, Icon, Menu, MenuGroup, MenuItem, Text } from "@ui-kitten/components";
 import { Column, Row } from "@components/Stack";
+import { getAboutApi } from "@services/AboutService/AboutService";
+import RenderHTML from "react-native-render-html";
 
 
 export const AboutScreen = ({ navigation }) => {
+  const [source, setSource] = useState();
+  const { width } = useWindowDimensions();
   const AvatarImageComponentShowcase = () => (
     <Avatar
       source={require('@assets/images/logo.png')}
       ImageComponent={ImageBackground}
-      style={{borderWidth: 1, borderColor: '#E8E8E8'}}
+      style={{ borderWidth: 1, borderColor: '#E8E8E8' }}
     />
   );
+  // --------------------------- useEffect --------------------------
+  useEffect(() => {
+    handleGetAbout('noi-dung-hien-thi-so-1', 'C_TRANGTINH', 1, 10)
+  },[])
+  // ----------------------------------------------------------------
+  // --------------------------- Action -----------------------------
+  const handleGetAbout = async (slug, type, page, size) => {
+    const data = await getAboutApi(slug, type, page, size)
+    setSource({ html: data?.noidung })
+  }
+  // ----------------------------------------------------------------
   return (
     <Container>
       <Header
@@ -24,10 +39,9 @@ export const AboutScreen = ({ navigation }) => {
         title='Giới thiệu'
         hideLeftIcon={false}
       />
-      <Content scrollEnabled={true} safeAreaEnabled={false}>
-        <Card style={styles.card}>
+      <Content scrollEnabled={true} safeAreaEnabled={false} style={{marginHorizontal:10 }}>
+        {/* <Card style={styles.card}>
           <Row space={4}>
-            {/* <Avatar shape='rounded' source={require('@assets/images/logo.png')} /> */}
             {AvatarImageComponentShowcase()}
             <Column space={2}>
               <Text>
@@ -38,7 +52,12 @@ export const AboutScreen = ({ navigation }) => {
               </Text>
             </Column>
           </Row>
-        </Card>
+        </Card> */}
+        <RenderHTML
+          contentWidth={width - 20}
+          source={source ? source : { html: `<div><p>Không có bài viết</p></div>` }}
+          // tagsStyles={tagsStyles}
+        />
       </Content>
     </Container>
   )

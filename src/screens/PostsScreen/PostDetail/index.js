@@ -1,6 +1,6 @@
 import Container from '@components/Container/Container';
 import React, { useEffect, useState } from 'react';
-import { Dimensions, FlatList, ImageBackground, TouchableWithoutFeedback, View, useWindowDimensions } from 'react-native';
+import { Dimensions, FlatList, Image, ImageBackground, TouchableWithoutFeedback, View, useWindowDimensions } from 'react-native';
 import RenderHtml from 'react-native-render-html';
 import Content from '@components/Content/Content';
 import Header from '@components/Header/Header';
@@ -30,7 +30,8 @@ const comments = [
 export const PostDetail = ({ navigation, route }) => {
   const { id, data } = route.params;
   const { width } = useWindowDimensions();
-  const [source, setSource] = useState()
+  const [source, setSource] = useState();
+  const [content, setContent] = useState();
   const formValues = {
     comment: '',
   };
@@ -47,6 +48,12 @@ export const PostDetail = ({ navigation, route }) => {
     comment: noSpacesValidation,
   });
   // ---------- Render ----------------
+  const tagsStyles = {
+    img: {
+      width: 200,
+      height: 200
+    }
+  }
   const RenderIcon = (props) => {
     return (
       <TouchableWithoutFeedback onPress={props?.formik}>
@@ -104,7 +111,8 @@ export const PostDetail = ({ navigation, route }) => {
   const handleGetBaiViet = async () => {
     const data = await getBaiVietTheoIdApi(id)
     // console.log(data.noidung);
-    setSource({ html: data.noidung })
+    setSource({ html: data?.noidung })
+    setContent(data)
   }
   // --------------- Action -----------------------
   const onFormSubmit = (values) => {
@@ -140,9 +148,21 @@ export const PostDetail = ({ navigation, route }) => {
       </View> */}
       <Content scrollEnabled={true} safeAreaEnabled={true}>
         <Column space={4} style={{ paddingBottom: 25, paddingHorizontal: 10 }}>
+          <Text style={{fontSize: 16, fontWeight: 'bold'}}>{content?.tieude}</Text>
+          <Row space={4}>
+            <Row space={2}>
+              <Icon name={'person-outline'} width={15} height={15}/>
+              <Text style={{fontSize: 12}}>{content?.tacgia}</Text>
+            </Row>
+            <Row space={2}>
+              <Icon name={'calendar-outline'} width={15} height={15}/>
+              <Text style={{fontSize: 12}}>{moment(content?.thoigianxuatban).format('DD/MM/YYYY')}</Text>
+            </Row>
+          </Row>
           <RenderHtml
             contentWidth={width}
             source={source ? source : { html: `<div>${data}</div>` }}
+            tagsStyles={tagsStyles}
           />
         </Column>
         {/* Comment */}
