@@ -5,19 +5,21 @@ import Alert from '@modules/Alert/Alert';
 import * as navigationService from '@services/navigationService';
 
 import {
+  userInfo,
   userLoginRoutine,
   userLogoutRoutine,
   userRegisterRoutine,
 } from './routines';
-import { requestLogin, requestRegister, sendOtpForEmail } from '@services/AuthService/authService';
+import { requestLogin, requestLogout, requestRegister, sendOtpForEmail } from '@services/AuthService/authService';
 import { ROUTER } from '@constants/router';
+import { requestGetUserInfo } from '@services/UserService/UserService';
 
 export function* userLogin(action) {
   try {
     const data = yield call(requestLogin, action.payload); // Call to api
     if (data) {
       yield put(userLoginRoutine.success(data));
-      console.info('Token: >>>', data);
+      // yield call(getUserInfo);
       navigationService.replace(ROUTER.MAIN_NAVIGATOR);
     } else {
       Alert.showAlert(data.message);
@@ -26,6 +28,13 @@ export function* userLogin(action) {
     yield put(userLoginRoutine.failure(error));
   }
 }
+
+// export function* getUserInfo() {
+//   const data = yield call(requestGetUserInfo);
+//   if (data) {
+//     yield put(userInfo.success(data));
+//   }
+// }
 
 export function* userRegister(action) {
   try {
@@ -59,6 +68,7 @@ export function* userRegister(action) {
 
 export function* userLogout(action) {
   console.log('Logout saga');
+  yield call(requestLogout); // Call to api
   yield put(userLogoutRoutine.success());
   navigationService.replace(ROUTER.AUTH_NAVIGATOR);
 }

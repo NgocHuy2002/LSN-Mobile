@@ -10,6 +10,7 @@ import DoctorIcon from '../../assets/icons/doctor.svg';
 import EmailIcon from '../../assets/icons/email.svg';
 import EventIcon from '../../assets/icons/event.svg';
 import EyeIcon from '../../assets/icons/eye.svg';
+import MapIcon from '../../assets/icons/map.svg';
 import EyeCloseIcon from '../../assets/icons/eye-close.svg';
 import HelpIcon from '../../assets/icons/help.svg';
 import HomeIcon from '../../assets/icons/home.svg';
@@ -65,6 +66,7 @@ const AppIconsPack = {
     doctor: SvgProvider(DoctorIcon),
     event: SvgProvider(EventIcon),
     eye: SvgProvider(EyeIcon),
+    map: SvgProvider(MapIcon),
     'eye-close': SvgProvider(EyeCloseIcon),
     help: SvgProvider(HelpIcon),
     home: SvgProvider(HomeIcon),

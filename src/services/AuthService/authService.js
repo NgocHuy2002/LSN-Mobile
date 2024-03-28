@@ -22,7 +22,6 @@ export function requestLogin(data) {
 }
 
 export function requestRegister(data) {
-  console.log('here >>>', data);
   axios.post(API.REGISTER, data).then((response) => {
     if (response) {
       console.log(response, '- requestRegister');
@@ -32,6 +31,15 @@ export function requestRegister(data) {
   });
 }
 
+export function requestLogout() {
+  return axios.get(API.LOGOUT).then((response) => {
+    if (response) {
+      return response;
+    }
+    return null;
+  });
+}
+// ---------------- OTP API -------------------
 export function sendOtpForEmail(data) {
   console.log('here >>>', data);
   axios.post(API.SEND_OTP_EMAIL, data).then((response) => {
@@ -53,3 +61,4 @@ export function verifyOtpForEmail(data) {
     return null;
   });
 }
+// ----------------------------------------------------

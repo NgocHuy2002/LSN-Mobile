@@ -1,21 +1,25 @@
 import Container from "@components/Container/Container";
 import Header from "@components/Header/Header";
 import Content from '@components/Content/Content';
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button, Icon, List, ListItem, Text } from "@ui-kitten/components";
 import { Row } from "@components/Stack";
-import { View } from "react-native";
+import { FlatList, Image, TouchableOpacity, View } from "react-native";
 import { ROUTER } from "@constants/router";
 
+import TrafficIcon from '@assets/icons/traffic.svg'
+import EnviromentIcon from '@assets/icons/enviroment.svg'
+import InfoIcon from '@assets/icons/info.svg'
+import NoiVuIcon from '@assets/icons/noi_vu.svg'
+import NgongNghiepIcon from '@assets/icons/nong_nghiep.svg'
+import XayDungIcon from '@assets/icons/xay_dung.svg'
+import { getLinhVucApi } from "@services/PostsService/PostsService";
+import { formatString } from "@helpers/formatString";
+import { API } from "@constants/api";
+
 export const ResourcesScreen = ({ route, navigation }) => {
-  const data = [
-    { title: 'Tài nguyên nước', number: 113 },
-    { title: 'Khoáng sản', number: 123 },
-    { title: 'Đa dạng sinh học', number: 123 },
-    { title: 'Khí tượng thuỷ văn', number: 13 },
-    { title: 'Hoạt động môi trường', number: 123 },
-    { title: 'Quản lý đất đai', number: 123 },
-  ]
+  const numCol = 2
+  const [nganh, setNganh] = useState([])
 
   // ----------- Render --------------------
   const ItemAccessory = props => {
@@ -28,30 +32,49 @@ export const ResourcesScreen = ({ route, navigation }) => {
       </Row>
     );
   };
-  const renderItem = ({ item, index }) => (
-    <ListItem
-      title={item.title}
-      accessoryRight={<ItemAccessory number={item.number} />}
-      style={{ borderBottomWidth: 1, borderColor: '#CDD3D9', backgroundColor: 'transparent' }}
-      onPress={() => navigation.navigate(ROUTER.RESOURCES_DETAIL, {title: item.title})}
-    />
+  const Item = ({ title, icon, id }) => (
+    <TouchableOpacity onPress={() => navigation.navigate(ROUTER.RESOURCES_BY, { id_nganh: id })} style={{ flex: 1, marginTop: 15 }}>
+      <View style={{ flex: 1, alignItems: 'center', marginRight: 5, gap: 10 }}>
+        <Image
+          source={
+            icon ? { uri: formatString(API.GET_IMAGE, icon) } : require('@assets/images/product-no-image.png')
+          }
+          style={{ resizeMode: 'cover', width: 100, height: 100 }}
+        />
+        <Text style={{ fontSize: 15, marginTop: 5, textAlign: 'center', display: 'flex', flexWrap: 'wrap' }}>{title}</Text>
+      </View>
+    </TouchableOpacity>
   );
   // ---------------------------------------
+  // ---------- useEffect --------------
+  useEffect(() => {
+    handleCallLinhVucApi('C_LINHVUC', 1, 10)
+  }, [])
+  // ------------------------------------
+  // --------------- Action --------------
+  const handleCallLinhVucApi = async (type, page, size) => {
+    const data = await getLinhVucApi(type, page, size)
+    setNganh(data)
+  }
   return (
     <Container>
       <Header
         style={{ backgroundColor: '#286FC3' }}
         color='#FFFFFF'
         status='primary'
-        title='Danh sách kho'
+        title='Tài nguyên'
         hideLeftIcon={false}
       />
       <Content scrollEnabled={false} safeAreaEnabled={false}>
-        <List
-          style={{ paddingHorizontal: 15 }}
-          data={data}
-          renderItem={renderItem}
-        />
+        <View style={{ flex: 1 }}>
+          <FlatList
+            horizontal={false}
+            data={nganh}
+            numColumns={numCol}
+            renderItem={({ item }) => <Item title={item.name} icon={item.imgLink} id={item.id} />}
+            keyExtractor={item => item.id}
+          />
+        </View>
       </Content>
     </Container>
   )

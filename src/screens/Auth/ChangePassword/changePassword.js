@@ -1,8 +1,7 @@
 import { Button, CheckBox, Icon, Input, Text } from "@ui-kitten/components";
 import { SafeAreaView, TouchableWithoutFeedback, View } from "react-native";
-import TopNavigationCustom from "../../../components/TopNavigation";
 import React from "react";
-import { CustomForm } from "@components/Form/form";
+import request from '@services/request';
 import * as Yup from 'yup';
 import { Formik } from "formik";
 import Container from "@components/Container/Container";
@@ -13,6 +12,7 @@ import { Column } from "@components/Stack";
 import FormikInput from "@components/FormInput/FormikInput";
 import { useFocusEffect } from "@react-navigation/native";
 import { ROUTER } from "@constants/router";
+import { API } from "@constants/api";
 
 export default function ChangeOldPassword({ navigation, route }) {
 
@@ -104,12 +104,26 @@ export default function ChangeOldPassword({ navigation, route }) {
     )
     // ---------- Action ------------
     const onFormSubmit = async (pass) => {
-        if (pass.old_password != 'a') {
-            setError(true)
+        // if (pass.old_password != 'a') {
+        //     setError(true)
+        // }
+        // else {
+        //     navigation.navigate(ROUTER.SUCCESS, { content: 'Đổi mật khẩu thành công' })
+        // }
+        let data = {
+            'oldPassword': pass.old_password,
+            'newPassword': pass.new_password,
         }
-        else {
-            navigation.navigate(ROUTER.SUCCESS, { content: 'Đổi mật khẩu thành công' })
-        }
+        request.post(API.CHANGE_PASSWORD, data).then((response) => {
+            if (response.data) {
+                if (response.data.data) {
+                    console.log(response.data.data);
+                    navigation.navigate(ROUTER.SUCCESS, { content: 'Đổi mật khẩu thành công', subContent: 'Đăng nhập lại để tiếp tục ' })
+                }
+            }
+            return null;
+        })
+            .catch((error) => { console.log(error) });
     };
     return (
         <Container>
