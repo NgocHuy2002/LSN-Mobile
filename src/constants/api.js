@@ -39,4 +39,7 @@ export const API = {
   // ---------- KHO API -----------------------------
   GET_KHO_BY_LINH_VUC: 'http://10.168.4.231:5023/api/MobileAPI/get-list-kho-theo-linh-vuc?LinhVuc={0}&PageNumber={1}&PageSize={2}',
   GET_DOI_TUONG_BY_KHO_ID: 'http://10.168.4.231:5023/api/MobileAPI/get-list-doi-tuong-theo-kho?IdKho={0}&PageNumber={1}&PageSize={2}',
+
+  // --------- ABOUT API ----------------------------
+  GET_ABOUT: 'http://10.168.4.231:5023/api/PublicAPI/get-cterm-by-slug?Slug={0}&Type={1}&PageNumber={2}&PageSize={3}'
 };

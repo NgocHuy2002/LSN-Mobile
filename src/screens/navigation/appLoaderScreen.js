@@ -12,7 +12,6 @@ import { selectToken } from '@containers/Auth/saga/selectors';
 export default function AppLoaderScreen(props) {
   const { navigation } = props;
   const route = useRoute();
-  console.log(route.name);
 
   // Assuming selectToken is a selector from Redux
   const token = useSelector(selectToken);
